@@ -53,10 +53,10 @@ public class DataAddWaikeController {
 
 
     @PostMapping(value = "/{id}/medicalHistory")
-    public ResultVO addMedicalHistory(@PathVariable("id") String personId,@RequestBody MedicalHistory medicalHistory) {
+    public ResponseEntity addMedicalHistory(@PathVariable("id") String personId,@RequestBody MedicalHistory medicalHistory) {
         medicalHistory.setPersonId(personId);
-        MedicalHistory content = medicalHistoryService.save(medicalHistory);
-        return ResultVOUtil.success(content);
+        medicalHistoryService.save(medicalHistory);
+        return RestfulResult.createSuccess();
     }
 
     @PostMapping(value = "/{id}/healthInfo")
