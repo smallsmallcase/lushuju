@@ -3,15 +3,14 @@ package com.smallcase.lushuju.controller;
 import com.smallcase.lushuju.pojo.entity.*;
 import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.service.*;
+import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -48,17 +47,15 @@ public class ZhenjiDataAddController {
     @Autowired
     private AnalysisService analysisService;
 
-    @PostMapping(value = "/zjkMedicalHistory")
-    public ResultVO<ZjkMedicalHistory> addZjkMedicalHistory(@RequestBody ZjkMedicalHistory zjkMedicalHistory, HttpSession session) {
-        String personId = (String)session.getAttribute("personId");
+    @PostMapping(value = "/{id}/zjkMedicalHistory")
+    public ResponseEntity addZjkMedicalHistory(@PathVariable("id") String personId,@RequestBody ZjkMedicalHistory zjkMedicalHistory, HttpSession session) {
         zjkMedicalHistory.setPersonId(personId);
-        ZjkMedicalHistory content = zjkMedicalHistoryService.save(zjkMedicalHistory);
-        return ResultVOUtil.success(content);
+        zjkMedicalHistoryService.save(zjkMedicalHistory);
+        return RestfulResult.ok();
     }
 
-    @PostMapping(value = "/faceBedCheck")
-    public ResultVO<FaceBedCheckup> addfaceBedCheck(@RequestBody FaceBedCheckup faceBedCheckup, HttpSession session) {
-        String personId = (String)session.getAttribute("personId");
+    @PostMapping(value = "/{id}/faceBedCheck")
+    public ResponseEntity addfaceBedCheck(@PathVariable("id") String personId,@RequestBody FaceBedCheckup faceBedCheckup, HttpSession session) {
         faceBedCheckup.setPersonId(personId);
 //        if (result.hasErrors()) {
 //            List<ObjectError> errorList = result.getAllErrors();
@@ -66,18 +63,18 @@ public class ZhenjiDataAddController {
 //            errBody.forEach(string -> System.out.println(string));
 //            return null;
 //        }
-        FaceBedCheckup content = faceBedCheckupService.save(faceBedCheckup);
-        return ResultVOUtil.success(content);
+        faceBedCheckupService.save(faceBedCheckup);
+        return RestfulResult.ok();
     }
 
-    @PostMapping(value = "/clinicalExamination")
-    public ResultVO<ClinicalExamination> addClinicalExamination(@RequestBody ClinicalExamination clinicalExamination, HttpSession session) {
-        String personId = (String)session.getAttribute("personId");
+    @PostMapping(value = "/{id}/clinicalExamination")
+    public ResponseEntity addClinicalExamination(@PathVariable("id") String personId,@RequestBody ClinicalExamination clinicalExamination, HttpSession session) {
         clinicalExamination.setPersonId(personId);
-        ClinicalExamination content = clinicalExaminationService.save(clinicalExamination);
-        return ResultVOUtil.success(content);
+        clinicalExaminationService.save(clinicalExamination);
+        return RestfulResult.ok();
     }
 
+    @Deprecated
     @PostMapping(value = "/figCheck")
     public ResultVO<FigCheck> addFigCheck(@RequestBody FigCheck figCheck, HttpSession session) {
         String personId = (String)session.getAttribute("personId");
@@ -86,6 +83,8 @@ public class ZhenjiDataAddController {
         return ResultVOUtil.success(content);
     }
 
+
+    @Deprecated
     @PostMapping(value = "/detail")
     public ResultVO<Detail> addDetail(@RequestBody Detail detail, HttpSession session) {
         String personId = (String)session.getAttribute("personId");
@@ -94,6 +93,8 @@ public class ZhenjiDataAddController {
         return ResultVOUtil.success(content);
     }
 
+
+    @Deprecated
     @PostMapping(value = "/analysis")
     public ResultVO<Analysis> addAnalysis(@RequestBody Analysis analysis, HttpSession session) {
         String personId = (String)session.getAttribute("personId");

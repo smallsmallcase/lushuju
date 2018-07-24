@@ -19,6 +19,10 @@ public class RestfulResult {
         return new ResponseEntity(o, HttpStatus.OK);
     }
 
+    public static ResponseEntity ok() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
     /**
      * 201状态码。CREATED - [POST/PUT/PATCH]：用户新建或修改数据成功。

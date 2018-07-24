@@ -44,11 +44,11 @@ public class DataAddWaikeController {
 
 
     @PostMapping(value = "/personInfo")
-    public ResponseEntity addPersonInfo(@RequestBody PersonInfoForm form) throws MyException {
-        PersonInfo personInfo = new PersonInfo();
-        BeanUtils.copyProperties(form, personInfo);
+    public ResponseEntity addPersonInfo(@RequestBody PersonInfo personInfo) throws MyException {
+//        PersonInfo personInfo = new PersonInfo();
+//        BeanUtils.copyProperties(form, personInfo);
         personInfoService.save(personInfo);
-        return RestfulResult.createSuccess();
+        return RestfulResult.ok();
     }
 
 
@@ -56,30 +56,27 @@ public class DataAddWaikeController {
     public ResponseEntity addMedicalHistory(@PathVariable("id") String personId,@RequestBody MedicalHistory medicalHistory) {
         medicalHistory.setPersonId(personId);
         medicalHistoryService.save(medicalHistory);
-        return RestfulResult.createSuccess();
+        return RestfulResult.ok();
     }
 
     @PostMapping(value = "/{id}/healthInfo")
-    public ResultVO<HealthInfo> addHealthInfo(@RequestBody HealthInfo healthInfo, HttpSession session) {
-        String personId = (String)session.getAttribute("personId");
+    public ResponseEntity addHealthInfo(@PathVariable("id") String personId, @RequestBody HealthInfo healthInfo) {
         healthInfo.setPersonId(personId);
-        HealthInfo content = healthInfoService.save(healthInfo);
-        return ResultVOUtil.success(content);
+        healthInfoService.save(healthInfo);
+        return RestfulResult.ok();
     }
 
-    @PostMapping(value = "/specialityCheckup")
-    public ResultVO<SpecialityCheckup> addSpecialityCheckup(@RequestBody SpecialityCheckup specialityCheckup, HttpSession session) {
-        String personId = (String)session.getAttribute("personId");
+    @PostMapping(value = "/{id}/specialityCheckup")
+    public ResponseEntity addSpecialityCheckup(@PathVariable("id") String personId, @RequestBody SpecialityCheckup specialityCheckup) {
         specialityCheckup.setPersonId(personId);
-        SpecialityCheckup content = specialityCheckupService.save(specialityCheckup);
-        return ResultVOUtil.success(content);
+        specialityCheckupService.save(specialityCheckup);
+        return RestfulResult.ok();
     }
 
-    @PostMapping(value = "/laboraryCheckup")
-    public ResultVO<LaboraryCheckup> addLaboraryCheckup(@RequestBody LaboraryCheckup laboraryCheckup, HttpSession session) {
-        String personId = (String)session.getAttribute("personId");
+    @PostMapping(value = "/{id}/laboraryCheckup")
+    public ResponseEntity addLaboraryCheckup(@PathVariable("id") String personId,@RequestBody LaboraryCheckup laboraryCheckup, HttpSession session) {
         laboraryCheckup.setPersonId(personId);
-        LaboraryCheckup content = laboraryCheckupService.save(laboraryCheckup);
-        return ResultVOUtil.success(content);
+        laboraryCheckupService.save(laboraryCheckup);
+        return RestfulResult.ok();
     }
 }
