@@ -48,14 +48,14 @@ public class ZhenjiDataAddController {
     private AnalysisService analysisService;
 
     @PostMapping(value = "/{id}/zjkMedicalHistory")
-    public ResponseEntity addZjkMedicalHistory(@PathVariable("id") String personId,@RequestBody ZjkMedicalHistory zjkMedicalHistory, HttpSession session) {
+    public ResponseEntity addZjkMedicalHistory(@PathVariable("id") String personId,@RequestBody ZjkMedicalHistory zjkMedicalHistory) {
         zjkMedicalHistory.setPersonId(personId);
         zjkMedicalHistoryService.save(zjkMedicalHistory);
         return RestfulResult.ok();
     }
 
     @PostMapping(value = "/{id}/faceBedCheck")
-    public ResponseEntity addfaceBedCheck(@PathVariable("id") String personId,@RequestBody FaceBedCheckup faceBedCheckup, HttpSession session) {
+    public ResponseEntity addfaceBedCheck(@PathVariable("id") String personId,@RequestBody FaceBedCheckup faceBedCheckup) {
         faceBedCheckup.setPersonId(personId);
 //        if (result.hasErrors()) {
 //            List<ObjectError> errorList = result.getAllErrors();
@@ -68,7 +68,7 @@ public class ZhenjiDataAddController {
     }
 
     @PostMapping(value = "/{id}/clinicalExamination")
-    public ResponseEntity addClinicalExamination(@PathVariable("id") String personId,@RequestBody ClinicalExamination clinicalExamination, HttpSession session) {
+    public ResponseEntity addClinicalExamination(@PathVariable("id") String personId,@RequestBody ClinicalExamination clinicalExamination) {
         clinicalExamination.setPersonId(personId);
         clinicalExaminationService.save(clinicalExamination);
         return RestfulResult.ok();
