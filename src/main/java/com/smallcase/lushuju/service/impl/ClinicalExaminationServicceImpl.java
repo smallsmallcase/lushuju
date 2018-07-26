@@ -3,8 +3,12 @@ package com.smallcase.lushuju.service.impl;
 import com.smallcase.lushuju.pojo.entity.ClinicalExamination;
 import com.smallcase.lushuju.repository.ClinicalExaminationRepository;
 import com.smallcase.lushuju.service.ClinicalExaminationService;
+import com.smallcase.lushuju.utils.BeanUtil;
+import com.smallcase.lushuju.utils.MyException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +19,7 @@ import java.util.List;
  */
 
 @Service
+@Slf4j
 public class ClinicalExaminationServicceImpl implements ClinicalExaminationService {
 
     @Autowired
@@ -32,5 +37,26 @@ public class ClinicalExaminationServicceImpl implements ClinicalExaminationServi
     @Override
     public ClinicalExamination save(ClinicalExamination clinicalExamination) {
         return repository.save(clinicalExamination);
+    }
+
+    @Override
+    public ClinicalExamination findByPersonId(String personId) {
+        return repository.findByPersonId(personId);
+    }
+
+    @Override
+    @Transactional
+    public void edit(ClinicalExamination form, String personId) throws MyException {
+        ClinicalExamination clinicalExamination = repository.findByPersonId(personId);
+        if (clinicalExamination == null) {
+            log.error("【修改面部检查和关节检查】：数据找不到");
+            throw new MyException("数据找不到");
+        }
+        BeanUtil.copyPropertiesIgnoreNull(form, clinicalExamination);
+        ClinicalExamination result = repository.save(clinicalExamination);
+        if (result == null) {
+            log.error("【修改数据】:ClinicalExamination，出错");
+            throw new MyException("修改数据出错");
+        }
     }
 }

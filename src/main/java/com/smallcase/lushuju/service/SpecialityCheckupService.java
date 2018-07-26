@@ -1,6 +1,7 @@
 package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.SpecialityCheckup;
+import com.smallcase.lushuju.utils.MyException;
 
 import java.util.List;
 
@@ -15,5 +16,9 @@ public interface SpecialityCheckupService {
     List<SpecialityCheckup> findAll();
 
     SpecialityCheckup save(SpecialityCheckup specialityCheckup);
+
+    SpecialityCheckup findByPersonId(String personId);
+
+    void edit(SpecialityCheckup specialityCheckup, String personId) throws MyException;
 
 }

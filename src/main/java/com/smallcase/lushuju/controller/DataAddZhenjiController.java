@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/zhenji/add")
 @Slf4j
-public class ZhenjiDataAddController {
+public class DataAddZhenjiController {
 
     @Autowired
     private ZjkMedicalHistoryService zjkMedicalHistoryService;

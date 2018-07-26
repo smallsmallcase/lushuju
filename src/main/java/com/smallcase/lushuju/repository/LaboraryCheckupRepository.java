@@ -9,6 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Date: Created in 2018/6/28 22:37
  */
 public interface LaboraryCheckupRepository extends JpaRepository<LaboraryCheckup,Integer> {
-
-
+    LaboraryCheckup findByPersonId(String personId);
 }

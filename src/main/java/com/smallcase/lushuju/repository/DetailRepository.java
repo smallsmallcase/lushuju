@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Author: smallcase
  * Date: Created in 2018/7/1 18:45
  */
+@Deprecated
 public interface DetailRepository extends JpaRepository<Detail, Integer> {
 
 }

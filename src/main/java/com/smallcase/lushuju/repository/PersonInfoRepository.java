@@ -9,5 +9,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Date: Created in 2018/6/18 16:54
  */
 public interface PersonInfoRepository extends JpaRepository<PersonInfo, String> {
-
 }

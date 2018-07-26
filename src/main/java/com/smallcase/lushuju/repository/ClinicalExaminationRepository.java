@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Date: Created in 2018/6/30 11:20
  */
 public interface ClinicalExaminationRepository extends JpaRepository<ClinicalExamination, Integer> {
-
+    ClinicalExamination findByPersonId(String personId);
 }

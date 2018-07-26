@@ -3,8 +3,12 @@ package com.smallcase.lushuju.service.impl;
 import com.smallcase.lushuju.pojo.entity.FaceBedCheckup;
 import com.smallcase.lushuju.repository.FaceBedCheckupRepository;
 import com.smallcase.lushuju.service.FaceBedCheckupService;
+import com.smallcase.lushuju.utils.BeanUtil;
+import com.smallcase.lushuju.utils.MyException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
@@ -17,6 +21,7 @@ import java.util.List;
  */
 
 @Service
+@Slf4j
 public class FaceBedCheckupServiceImpl implements FaceBedCheckupService {
 
     @Autowired
@@ -35,6 +40,38 @@ public class FaceBedCheckupServiceImpl implements FaceBedCheckupService {
     @Override
     public FaceBedCheckup save(FaceBedCheckup faceBedCheckup) {
         return repository.save(faceBedCheckup);
+    }
+
+    /**
+     * 查询临床检查数据
+     * @param personId
+     * @return
+     */
+    @Override
+    public FaceBedCheckup findByPersonId(String personId) {
+        return repository.findByPersonId(personId);
+    }
+
+    /**
+     * 修改临床检查数据
+     * @param form
+     * @param personId
+     * @throws MyException
+     */
+    @Override
+    @Transactional
+    public void edit(FaceBedCheckup form, String personId) throws MyException{
+        FaceBedCheckup faceBedCheckup = repository.findByPersonId(personId);
+        if (faceBedCheckup == null) {
+            log.error("【修改临床检查】：数据找不到");
+            throw new MyException("数据找不到");
+        }
+        BeanUtil.copyPropertiesIgnoreNull(form, faceBedCheckup);
+        FaceBedCheckup result = repository.save(faceBedCheckup);
+        if (result == null) {
+            log.error("【修改数据】:FaceBedCheckup，出错");
+            throw new MyException("修改数据出错");
+        }
     }
 
 }

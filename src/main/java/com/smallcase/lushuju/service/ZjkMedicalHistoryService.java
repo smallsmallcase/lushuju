@@ -1,6 +1,7 @@
 package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.ZjkMedicalHistory;
+import com.smallcase.lushuju.utils.MyException;
 
 import java.util.List;
 
@@ -15,5 +16,10 @@ public interface ZjkMedicalHistoryService {
     List<ZjkMedicalHistory> findAll();
 
     ZjkMedicalHistory save(ZjkMedicalHistory zjkMedicalHistory);
+
+    ZjkMedicalHistory findByPersonId(String personId);
+
+    void edit(ZjkMedicalHistory zjkMedicalHistory, String personId) throws MyException;
+
 
 }
