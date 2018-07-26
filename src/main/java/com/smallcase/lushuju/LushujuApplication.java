@@ -6,7 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class LushujuApplication extends SpringBootServletInitializer{
+public class LushujuApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(LushujuApplication.class, args);
