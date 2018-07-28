@@ -1,7 +1,6 @@
 package com.smallcase.lushuju.repository;
 
 import com.smallcase.lushuju.pojo.entity.UserEntity;
-import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

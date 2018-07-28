@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="lushuju:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="lushuju-0.0.1-SNAPSHOT.war">
+    <root id="archive" name="smallcase.war">
       <element id="artifact" artifact-name="lushuju:war exploded" />
     </root>
   </artifact>
