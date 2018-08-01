@@ -34,22 +34,29 @@ public class MedicalHistory implements Serializable{
     /**系统回顾*/
     private String systemIndex;
 
+    @Column(name = "system_index_a")
     private String systemIndexA;
 
+    @Column(name = "system_index_b")
     private String systemIndexB;
 
+    @Column(name = "system_index_c")
     private String systemIndexC;
 
+    @Column(name = "system_index_d")
     private String systemIndexD;
 
+    @Column(name = "system_index_e")
     private String systemIndexE;
 
+    @Column(name = "system_index_f")
     private String systemIndexF;
 
+    @Column(name = "system_index_g")
     private String systemIndexG;
 
+    @Column(name = "system_index_h")
     private String systemIndexH;
-
 
     /**个人史*/
     private String personalHistory;
