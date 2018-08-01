@@ -34,6 +34,22 @@ public class MedicalHistory implements Serializable{
     /**系统回顾*/
     private String systemIndex;
 
+    private String systemIndexA;
+
+    private String systemIndexB;
+
+    private String systemIndexC;
+
+    private String systemIndexD;
+
+    private String systemIndexE;
+
+    private String systemIndexF;
+
+    private String systemIndexG;
+
+    private String systemIndexH;
+
     /**个人史*/
     private String personalHistory;
 
