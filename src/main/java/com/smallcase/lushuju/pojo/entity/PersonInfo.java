@@ -71,13 +71,13 @@ public class PersonInfo implements Serializable {
     private String personIn;
 
     /**记录时间*/
-    private String personOut;
+    private String personRecord;
 
-    /**身份证*/
-    private String personIdcard;
-
-    /**联系方式*/
-    private String personPhone;
+//    /**身份证*/
+//    private String personIdcard;
+//
+//    /**联系方式*/
+//    private String personPhone;
 
     /**主诉*/
     private String personText;
