@@ -42,12 +42,13 @@ public class PersonInfoServiceImpl implements PersonInfoService {
 
     @Transactional
     @Override
-    public void save(PersonInfo personInfo) throws MyException {
+    public PersonInfo save(PersonInfo personInfo) throws MyException {
         PersonInfo result = repository.save(personInfo);
         if (result == null) {
             log.error("【录入数据】:PersonInfo，出错");
             throw new MyException("录入数据出错");
         }
+        return result;
     }
 
 

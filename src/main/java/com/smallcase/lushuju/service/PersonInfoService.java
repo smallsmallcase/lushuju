@@ -17,7 +17,7 @@ public interface PersonInfoService {
 
     List<PersonInfo> findAll();
 
-    void save(PersonInfo personInfo) throws MyException;
+    PersonInfo save(PersonInfo personInfo) throws MyException;
 
     void edit(PersonInfoForm form, String personId) throws MyException;
 }

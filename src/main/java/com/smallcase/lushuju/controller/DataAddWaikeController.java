@@ -47,8 +47,8 @@ public class DataAddWaikeController {
     public ResponseEntity addPersonInfo(@RequestBody PersonInfo personInfo) throws MyException {
 //        PersonInfo personInfo = new PersonInfo();
 //        BeanUtils.copyProperties(form, personInfo);
-        personInfoService.save(personInfo);
-        return RestfulResult.ok();
+        PersonInfo personInfo1 = personInfoService.save(personInfo);
+        return RestfulResult.ok(personInfo1);
     }
 
 
