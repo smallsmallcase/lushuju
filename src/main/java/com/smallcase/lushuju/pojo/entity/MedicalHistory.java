@@ -21,6 +21,7 @@ import java.util.Date;
 @DynamicUpdate
 @Entity(name = "medical_history")
 public class MedicalHistory implements Serializable{
+    private static final long serialVersionUID = 997904126747035384L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

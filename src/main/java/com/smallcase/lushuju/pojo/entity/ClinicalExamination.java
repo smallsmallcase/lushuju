@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -24,8 +25,9 @@ import java.util.Date;
 /**
  * 面部检查和关节检查
  */
-public class ClinicalExamination {
+public class ClinicalExamination implements Serializable{
 
+    private static final long serialVersionUID = -236106222008316636L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

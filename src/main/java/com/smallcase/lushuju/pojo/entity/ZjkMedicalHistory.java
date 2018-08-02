@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,8 +26,9 @@ import java.util.Date;
 /**
  * 正畸科病史
  */
-public class ZjkMedicalHistory {
+public class ZjkMedicalHistory implements Serializable{
 
+    private static final long serialVersionUID = -407888547944953187L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

@@ -27,6 +27,7 @@ import java.util.Date;
 @DynamicUpdate
 public class PersonInfo implements Serializable {
 
+    private static final long serialVersionUID = -713320137148990258L;
     /**
      * 主键
      */

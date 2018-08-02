@@ -27,6 +27,7 @@ import java.util.Date;
  */
 public class LaboraryCheckup implements Serializable {
 
+    private static final long serialVersionUID = -7206967798503381386L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

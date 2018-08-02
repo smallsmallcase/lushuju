@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -21,7 +22,8 @@ import java.util.Date;
  */
 @Data
 @Entity(name = "face_bed_check")
-public class FaceBedCheckup {
+public class FaceBedCheckup implements Serializable{
+    private static final long serialVersionUID = 4766921875022843568L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

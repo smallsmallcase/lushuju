@@ -22,6 +22,7 @@ import java.util.Date;
 @Entity(name = "speciality_checkup")
 @DynamicUpdate
 public class SpecialityCheckup implements Serializable{
+    private static final long serialVersionUID = 3402584509090872739L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

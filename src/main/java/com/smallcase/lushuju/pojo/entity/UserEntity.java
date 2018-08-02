@@ -22,6 +22,7 @@ import java.util.List;
 @DynamicUpdate
 public class UserEntity implements Serializable{
 
+    private static final long serialVersionUID = 5438203234016412830L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id; //用户ID

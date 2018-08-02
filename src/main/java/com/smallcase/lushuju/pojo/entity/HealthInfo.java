@@ -20,8 +20,9 @@ import java.util.Date;
 @Data
 @Entity(name = "health_info")
 @DynamicUpdate
-public class HealthInfo{
+public class HealthInfo implements Serializable{
 
+    private static final long serialVersionUID = 3947842114616309209L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
