@@ -71,6 +71,37 @@ public class HealthInfo{
     /**颈部*/
     private String neck;
 
+    /**胸部*/
+    private String chest;
+
+    /**肺部*/
+    private String lung;
+
+    /**心脏*/
+    private String heart;
+
+    /**桡动脉*/
+    private String artery;
+
+    /**周围血管症*/
+    private String around;
+
+    /**腹部*/
+    private String belly;
+
+    /**肛门*/
+    private String door;
+
+    /**脊椎*/
+    private String spine;
+
+    /**四肢*/
+    private String limbs;
+
+    /**神经反射*/
+    private String reflect;
+
+
     /**外键*/
 //    @OneToOne(targetEntity = PersonInfo.class)
 //    @JoinColumn(name = "fkey",referencedColumnName = "id")
