@@ -23,7 +23,9 @@ public class CrosFilter implements Filter{
         HttpServletResponse response = (HttpServletResponse) resp;
         String origin = request.getHeader("Origin");
         String header = request.getHeader("Access-Control-Request-Headers");
+//        String contentType = request.getHeader("Content-Type");
 
+//        response.addHeader("Access-Control-Allow-Headers", contentType);
         response.addHeader("Access-Control-Request-Headers", header);
         response.addHeader("Access-Control-Allow-origin", origin);
         response.addHeader("Access-Control-Allow-Methods", "*");
