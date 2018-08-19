@@ -5,8 +5,11 @@ import com.smallcase.lushuju.repository.SpecialityCheckupRepository;
 import com.smallcase.lushuju.service.SpecialityCheckupService;
 import com.smallcase.lushuju.utils.BeanUtil;
 import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.RestfulResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +37,15 @@ public class SpecialityServiceImpl implements SpecialityCheckupService {
     }
 
     @Override
-    public SpecialityCheckup save(SpecialityCheckup specialityCheckup) {
-        return repository.save(specialityCheckup);
+    public ResponseEntity save(SpecialityCheckup specialityCheckup){
+        try {
+            SpecialityCheckup result = repository.save(specialityCheckup);
+            return RestfulResult.ok(result.getPersonId());
+
+
+        } catch (DataIntegrityViolationException e) {
+            return RestfulResult.serviceErr(0);
+        }
     }
 
     @Override

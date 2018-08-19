@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.SpecialityCheckup;
 import com.smallcase.lushuju.utils.MyException;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface SpecialityCheckupService {
 
     List<SpecialityCheckup> findAll();
 
-    SpecialityCheckup save(SpecialityCheckup specialityCheckup);
+    ResponseEntity save(SpecialityCheckup specialityCheckup);
 
     SpecialityCheckup findByPersonId(String personId);
 

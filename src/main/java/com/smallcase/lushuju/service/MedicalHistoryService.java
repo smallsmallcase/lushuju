@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.MedicalHistory;
 import com.smallcase.lushuju.utils.MyException;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface MedicalHistoryService  {
 
     List<MedicalHistory> findAll();
 
-    MedicalHistory save(MedicalHistory medicalHistory);
+    ResponseEntity save(MedicalHistory medicalHistory);
 
     void edit(MedicalHistory medicalHistory, String personId) throws MyException;
 

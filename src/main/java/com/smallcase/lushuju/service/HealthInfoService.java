@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.HealthInfo;
 import com.smallcase.lushuju.utils.MyException;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface HealthInfoService {
 
     List<HealthInfo> findAll();
 
-    HealthInfo save(HealthInfo healthInfo);
+    ResponseEntity save(HealthInfo healthInfo);
 
     HealthInfo findByPersonId(String personId);
 

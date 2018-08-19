@@ -5,11 +5,16 @@ import com.smallcase.lushuju.repository.MedicalHistoryRepository;
 import com.smallcase.lushuju.service.MedicalHistoryService;
 import com.smallcase.lushuju.utils.BeanUtil;
 import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.RestfulResult;
+import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.RollbackException;
 import java.util.List;
 
 /**
@@ -41,9 +46,15 @@ public class MedicalHistoryServiceImpl implements MedicalHistoryService {
     }
 
     @Override
-    @Transactional
-    public MedicalHistory save(MedicalHistory medicalHistory) {
-        return repository.save(medicalHistory);
+    public ResponseEntity save(MedicalHistory medicalHistory){
+        try {
+            MedicalHistory result = repository.save(medicalHistory);
+            return RestfulResult.ok(result.getPersonId());
+
+
+        } catch (DataIntegrityViolationException e) {
+            return RestfulResult.serviceErr(0);
+        }
     }
 
     /**修改数据*/

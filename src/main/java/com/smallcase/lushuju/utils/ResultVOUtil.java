@@ -8,12 +8,11 @@ import com.smallcase.lushuju.pojo.view.ResultVO;
  * Date: Created in 2018/7/14 17:19
  */
 
-@Deprecated
 public class ResultVOUtil {
     public static ResultVO success(Object object) {
         ResultVO<Object> resultVO = new ResultVO<>();
         resultVO.setContent(object);
-        resultVO.setCode(0);
+        resultVO.setCode(1);
         resultVO.setMsg("成功");
         return resultVO;
 
@@ -27,7 +26,7 @@ public class ResultVOUtil {
     public static ResultVO error(String msg) {
         ResultVO<Object> resultVO = new ResultVO<>();
         resultVO.setMsg(msg);
-        resultVO.setCode(1);
+        resultVO.setCode(0);
         return resultVO;
     }
 

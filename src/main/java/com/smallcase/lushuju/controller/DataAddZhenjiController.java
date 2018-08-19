@@ -50,8 +50,10 @@ public class DataAddZhenjiController {
     @PostMapping(value = "/{id}/zjkMedicalHistory")
     public ResponseEntity addZjkMedicalHistory(@PathVariable("id") String personId,@RequestBody ZjkMedicalHistory zjkMedicalHistory) {
         zjkMedicalHistory.setPersonId(personId);
-        zjkMedicalHistoryService.save(zjkMedicalHistory);
-        return RestfulResult.ok();
+//        zjkMedicalHistoryService.save(zjkMedicalHistory);
+//        return RestfulResult.ok();
+
+        return zjkMedicalHistoryService.save(zjkMedicalHistory);
     }
 
     @PostMapping(value = "/{id}/faceBedCheck")
@@ -70,8 +72,7 @@ public class DataAddZhenjiController {
     @PostMapping(value = "/{id}/clinicalExamination")
     public ResponseEntity addClinicalExamination(@PathVariable("id") String personId,@RequestBody ClinicalExamination clinicalExamination) {
         clinicalExamination.setPersonId(personId);
-        clinicalExaminationService.save(clinicalExamination);
-        return RestfulResult.ok();
+        return clinicalExaminationService.save(clinicalExamination);
     }
 
     @Deprecated

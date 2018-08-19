@@ -9,8 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Date: Created in 2018/7/2 16:57
  */
 public interface UserEntityRepository extends JpaRepository<UserEntity, Integer> {
+
     /**
      * 通过username和password查找用户信息
+     * @param username
+     * @param password
+     * @return
      */
     public UserEntity findByUsernameAndPassword(String username, String password);
 }

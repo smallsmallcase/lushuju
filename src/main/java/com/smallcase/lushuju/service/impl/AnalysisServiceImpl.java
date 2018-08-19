@@ -14,6 +14,8 @@ import java.util.List;
  * Date: Created in 2018/7/1 19:07
  */
 
+
+@Deprecated
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
 

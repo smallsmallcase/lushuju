@@ -3,6 +3,7 @@ package com.smallcase.lushuju.service;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.form.PersonInfoForm;
 import com.smallcase.lushuju.utils.MyException;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface PersonInfoService {
 
     List<PersonInfo> findAll();
 
-    void save(PersonInfo personInfo) throws MyException;
+    ResponseEntity save(PersonInfo personInfo);
 
     void edit(PersonInfoForm form, String personId) throws MyException;
 }

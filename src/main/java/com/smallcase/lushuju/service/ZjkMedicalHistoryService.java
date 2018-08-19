@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.ZjkMedicalHistory;
 import com.smallcase.lushuju.utils.MyException;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ZjkMedicalHistoryService {
 
     List<ZjkMedicalHistory> findAll();
 
-    ZjkMedicalHistory save(ZjkMedicalHistory zjkMedicalHistory);
+    ResponseEntity save(ZjkMedicalHistory zjkMedicalHistory);
 
     ZjkMedicalHistory findByPersonId(String personId);
 

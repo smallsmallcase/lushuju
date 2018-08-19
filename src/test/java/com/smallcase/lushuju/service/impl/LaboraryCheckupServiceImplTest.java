@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -43,7 +44,7 @@ public class LaboraryCheckupServiceImplTest {
         laboraryCheckup.setMrc("MRC111");
         laboraryCheckup.setUltrasound("挥发发");
 
-        LaboraryCheckup result = service.save(laboraryCheckup);
+        ResponseEntity result = service.save(laboraryCheckup);
         Assert.assertNotNull(result);
 
         log.info(result.toString());

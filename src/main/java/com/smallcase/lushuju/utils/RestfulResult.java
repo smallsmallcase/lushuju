@@ -50,4 +50,8 @@ public class RestfulResult {
         return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
     }
 
+    public static ResponseEntity serviceErr(Object o) {
+        return new ResponseEntity(o,HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
 }

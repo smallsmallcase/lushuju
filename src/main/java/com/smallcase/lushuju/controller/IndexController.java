@@ -2,6 +2,7 @@ package com.smallcase.lushuju.controller;
 
 import com.smallcase.lushuju.pojo.entity.UserEntity;
 import com.smallcase.lushuju.pojo.form.LoginParam;
+import com.smallcase.lushuju.pojo.form.RegisterParam;
 import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.repository.UserEntityRepository;
 import com.smallcase.lushuju.utils.ResultVOUtil;
@@ -61,12 +62,9 @@ public class IndexController {
 
 
     @PostMapping(value = "/login")
-    public ResultVO login(HttpServletRequest request) {
-//        System.out.println(request.getParameterNames());
-        String username = request.getParameter("userName");
-        String password = request.getParameter("passWord");
-//        String username = loginParam.getUserName().trim();
-//        String password = loginParam.getPassWord().trim();
+    public ResultVO login(@RequestBody LoginParam param) {
+        String username = param.getUserName().trim();
+        String password = param.getPassWord().trim();
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         token.setRememberMe(true);
@@ -129,19 +127,19 @@ public class IndexController {
      * 注册方法
      */
 
-    @RequestMapping(name = "/addregister",method = RequestMethod.POST)
-    public String register(HttpServletRequest request) {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String password2 = request.getParameter("password2");
+    @RequestMapping(name = "/addregister", method = RequestMethod.POST)
+    public ResultVO register(@RequestBody RegisterParam param) {
+        String username = param.getUserName().trim();
+        String password = param.getPassWord().trim();
+        String password2 = param.getPassWord2().trim();
         if (password.equals(password2)) {
             UserEntity userEntity = new UserEntity();
             userEntity.setUsername(username);
             userEntity.setPassword(password);
             repository.save(userEntity);
-            return "index";
+            return ResultVOUtil.success(userEntity);
         } else {
-            return "register";
+            return ResultVOUtil.error("注册失败");
         }
 
     }

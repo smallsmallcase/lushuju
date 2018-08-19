@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -43,7 +44,7 @@ public class ZjkMedicalHistoryServiceImplTest {
         zjkMedicalHistory.setFeedPattern("这么喂养的");
         zjkMedicalHistory.setTreatHistory("以前治疗过");
         zjkMedicalHistory.setFamilyIsTreat("家人被治疗过");
-        ZjkMedicalHistory result = service.save(zjkMedicalHistory);
+        ResponseEntity result = service.save(zjkMedicalHistory);
         Assert.assertNotNull(result);
         log.info(result.toString());
     }

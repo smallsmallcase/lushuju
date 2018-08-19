@@ -2,11 +2,13 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.HealthInfo;
 import com.smallcase.lushuju.service.HealthInfoService;
+import com.smallcase.lushuju.utils.MyException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
@@ -33,10 +35,10 @@ public class HealthInfoServiceImplTest {
     }
 
     @Test
-    public void save() {
+    public void save() throws MyException {
         HealthInfo healthInfo = new HealthInfo();
         healthInfo.setHeight("167");
-        HealthInfo result = service.save(healthInfo);
+        ResponseEntity result = service.save(healthInfo);
         Assert.assertNotNull(result);
     }
 }

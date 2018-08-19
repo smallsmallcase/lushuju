@@ -1,12 +1,16 @@
 package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.ClinicalExamination;
+import com.smallcase.lushuju.pojo.entity.MedicalHistory;
 import com.smallcase.lushuju.repository.ClinicalExaminationRepository;
 import com.smallcase.lushuju.service.ClinicalExaminationService;
 import com.smallcase.lushuju.utils.BeanUtil;
 import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.RestfulResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +39,15 @@ public class ClinicalExaminationServicceImpl implements ClinicalExaminationServi
     }
 
     @Override
-    public ClinicalExamination save(ClinicalExamination clinicalExamination) {
-        return repository.save(clinicalExamination);
+    public ResponseEntity save(ClinicalExamination clinicalExamination) {
+        try {
+            ClinicalExamination result = repository.save(clinicalExamination);
+            return RestfulResult.ok(result.getPersonId());
+
+
+        } catch (DataIntegrityViolationException e) {
+            return RestfulResult.serviceErr(0);
+        }
     }
 
     @Override

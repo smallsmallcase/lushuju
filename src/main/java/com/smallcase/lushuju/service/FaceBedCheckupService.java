@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.FaceBedCheckup;
 import com.smallcase.lushuju.utils.MyException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
@@ -17,7 +18,7 @@ public interface FaceBedCheckupService {
 
     List<FaceBedCheckup> findAll();
 
-    FaceBedCheckup save(FaceBedCheckup faceBedCheckup);
+    ResponseEntity save(FaceBedCheckup faceBedCheckup);
 
     FaceBedCheckup findByPersonId(String personId);
 

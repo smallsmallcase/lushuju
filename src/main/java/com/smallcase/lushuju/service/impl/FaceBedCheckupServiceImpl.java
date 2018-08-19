@@ -1,12 +1,16 @@
 package com.smallcase.lushuju.service.impl;
 
+import com.smallcase.lushuju.pojo.entity.ClinicalExamination;
 import com.smallcase.lushuju.pojo.entity.FaceBedCheckup;
 import com.smallcase.lushuju.repository.FaceBedCheckupRepository;
 import com.smallcase.lushuju.service.FaceBedCheckupService;
 import com.smallcase.lushuju.utils.BeanUtil;
 import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.RestfulResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -38,8 +42,15 @@ public class FaceBedCheckupServiceImpl implements FaceBedCheckupService {
     }
 
     @Override
-    public FaceBedCheckup save(FaceBedCheckup faceBedCheckup) {
-        return repository.save(faceBedCheckup);
+    public ResponseEntity save(FaceBedCheckup faceBedCheckup) {
+        try {
+            FaceBedCheckup result = repository.save(faceBedCheckup);
+            return RestfulResult.ok(result.getPersonId());
+
+
+        } catch (DataIntegrityViolationException e) {
+            return RestfulResult.serviceErr(0);
+        }
     }
 
     /**

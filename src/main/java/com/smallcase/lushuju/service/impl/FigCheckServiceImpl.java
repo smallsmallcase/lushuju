@@ -14,6 +14,8 @@ import java.util.List;
  * Date: Created in 2018/7/1 18:29
  */
 
+
+@Deprecated
 @Service
 public class FigCheckServiceImpl implements FigCheckService{
 

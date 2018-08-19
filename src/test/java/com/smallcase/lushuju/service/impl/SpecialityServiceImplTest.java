@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.SpecialityCheckup;
 import com.smallcase.lushuju.service.SpecialityCheckupService;
+import com.smallcase.lushuju.utils.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,12 +42,12 @@ public class SpecialityServiceImplTest {
     }
 
     @Test
-    public void save() {
+    public void save() throws MyException {
 
         SpecialityCheckup specialityCheckup = new SpecialityCheckup();
         specialityCheckup.setMouthInside("嘴巴");
         specialityCheckup.setMouthOutside("外面的嘴巴");
-        SpecialityCheckup result = service.save(specialityCheckup);
+        ResponseEntity result = service.save(specialityCheckup);
         log.info(result.toString());
         Assert.assertNotNull(result);
     }

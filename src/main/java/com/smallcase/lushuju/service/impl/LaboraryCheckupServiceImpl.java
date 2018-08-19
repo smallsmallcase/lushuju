@@ -5,7 +5,10 @@ import com.smallcase.lushuju.repository.LaboraryCheckupRepository;
 import com.smallcase.lushuju.service.LaboraryCheckupService;
 import com.smallcase.lushuju.utils.BeanUtil;
 import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.RestfulResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -38,10 +41,15 @@ public class LaboraryCheckupServiceImpl implements LaboraryCheckupService {
     }
 
     @Override
-    @Transactional
-    public LaboraryCheckup save(LaboraryCheckup laboraryCheckup) {
-        return repository.save(laboraryCheckup);
-    }
+    public ResponseEntity save(LaboraryCheckup laboraryCheckup) {
+        try {
+            LaboraryCheckup result = repository.save(laboraryCheckup);
+            return RestfulResult.ok(result.getPersonId());
+
+
+        } catch (DataIntegrityViolationException e) {
+            return RestfulResult.serviceErr(0);
+        }    }
 
     /**
      * 查询实验室及器械检查

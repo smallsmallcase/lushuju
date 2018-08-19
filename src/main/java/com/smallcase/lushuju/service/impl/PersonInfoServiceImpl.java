@@ -6,8 +6,11 @@ import com.smallcase.lushuju.repository.PersonInfoRepository;
 import com.smallcase.lushuju.service.PersonInfoService;
 import com.smallcase.lushuju.utils.BeanUtil;
 import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.RestfulResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,13 +43,15 @@ public class PersonInfoServiceImpl implements PersonInfoService {
         return repository.findAll();
     }
 
-    @Transactional
     @Override
-    public void save(PersonInfo personInfo) throws MyException {
-        PersonInfo result = repository.save(personInfo);
-        if (result == null) {
-            log.error("【录入数据】:PersonInfo，出错");
-            throw new MyException("录入数据出错");
+    public ResponseEntity save(PersonInfo personInfo){
+        try {
+            PersonInfo result = repository.save(personInfo);
+            return RestfulResult.ok(result.getId());
+
+
+        } catch (DataIntegrityViolationException e) {
+            return RestfulResult.serviceErr(0);
         }
     }
 
