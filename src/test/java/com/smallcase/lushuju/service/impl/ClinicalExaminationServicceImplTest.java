@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.ClinicalExamination;
 import com.smallcase.lushuju.service.ClinicalExaminationService;
+import com.smallcase.lushuju.utils.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -38,9 +39,15 @@ public class ClinicalExaminationServicceImplTest {
     @Test
     public void save() {
         ClinicalExamination clinicalExamination = new ClinicalExamination();
+        clinicalExamination.setPersonId("2c9344c86552320701655232c9930000");
         clinicalExamination.setOpenAngle("okok12vaf");
         clinicalExamination.setFaceShapeSide("face脸");
-        ResponseEntity result = service.save(clinicalExamination);
+        ResponseEntity result = null;
+        try {
+            result = service.save(clinicalExamination);
+        } catch (MyException e) {
+            e.printStackTrace();
+        }
         Assert.assertNotNull(result);
         log.info(result.toString());
     }

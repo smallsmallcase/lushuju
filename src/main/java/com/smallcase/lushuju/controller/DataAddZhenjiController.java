@@ -3,6 +3,7 @@ package com.smallcase.lushuju.controller;
 import com.smallcase.lushuju.pojo.entity.*;
 import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.service.*;
+import com.smallcase.lushuju.utils.MyException;
 import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +73,11 @@ public class DataAddZhenjiController {
     @PostMapping(value = "/{id}/clinicalExamination")
     public ResponseEntity addClinicalExamination(@PathVariable("id") String personId,@RequestBody ClinicalExamination clinicalExamination) {
         clinicalExamination.setPersonId(personId);
-        return clinicalExaminationService.save(clinicalExamination);
+        try {
+            return clinicalExaminationService.save(clinicalExamination);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(e.getMessage());
+        }
     }
 
     @Deprecated

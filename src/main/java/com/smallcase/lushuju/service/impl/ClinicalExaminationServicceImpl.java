@@ -29,45 +29,71 @@ public class ClinicalExaminationServicceImpl implements ClinicalExaminationServi
     @Autowired
     private ClinicalExaminationRepository repository;
     @Override
-    public ClinicalExamination findOne(Integer id) {
-        return repository.findOne(id);
+    public ClinicalExamination findOne(Integer id) throws Exception {
+        ClinicalExamination one = repository.findOne(id);
+        if (one != null && one.getId() != null) {
+            return one;
+        } else {
+            throw new Exception("ClinicalExamination数据访问不到");
+        }
     }
 
     @Override
-    public List<ClinicalExamination> findAll() {
-        return repository.findAll();
+    public List<ClinicalExamination> findAll() throws Exception {
+        List<ClinicalExamination> all = repository.findAll();
+        if (all.size() <= 0) {
+            throw new Exception("ClinicalExamination列表访问不到");
+        } else {
+            return all;
+        }
     }
 
     @Override
-    public ResponseEntity save(ClinicalExamination clinicalExamination) {
+    public ResponseEntity save(ClinicalExamination clinicalExamination) throws MyException {
         try {
             ClinicalExamination result = repository.save(clinicalExamination);
             return RestfulResult.ok(result.getPersonId());
 
 
         } catch (DataIntegrityViolationException e) {
-            return RestfulResult.serviceErr(0);
+            throw new MyException(e.getMessage());
         }
     }
 
     @Override
-    public ClinicalExamination findByPersonId(String personId) {
-        return repository.findByPersonId(personId);
+    public ClinicalExamination findByPersonId(String personId) throws MyException {
+        ClinicalExamination clinicalExamination;
+        try {
+            clinicalExamination = repository.findByPersonId(personId);
+            if (clinicalExamination == null) {
+                throw new MyException("通过personId,ClinicalExamination数据访问不到");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
+        }
+        return clinicalExamination;
+
     }
 
     @Override
     @Transactional
     public void edit(ClinicalExamination form, String personId) throws MyException {
-        ClinicalExamination clinicalExamination = repository.findByPersonId(personId);
-        if (clinicalExamination == null) {
-            log.error("【修改面部检查和关节检查】：数据找不到");
-            throw new MyException("数据找不到");
+        ClinicalExamination clinicalExamination;
+        try {
+            clinicalExamination = repository.findByPersonId(personId);
+            if (clinicalExamination == null) {
+                log.error("【修改面部检查和关节检查】：数据找不到");
+                throw new MyException("数据找不到");
+            }
+            BeanUtil.copyPropertiesIgnoreNull(form, clinicalExamination);
+            ClinicalExamination result = repository.save(clinicalExamination);
+            if (result == null) {
+                log.error("【修改数据】:ClinicalExamination，保存出错");
+                throw new MyException("修改数据出错");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage() + "【修改数据】:ClinicalExamination");
         }
-        BeanUtil.copyPropertiesIgnoreNull(form, clinicalExamination);
-        ClinicalExamination result = repository.save(clinicalExamination);
-        if (result == null) {
-            log.error("【修改数据】:ClinicalExamination，出错");
-            throw new MyException("修改数据出错");
-        }
+
     }
 }

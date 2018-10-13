@@ -8,6 +8,7 @@ import com.smallcase.lushuju.service.FaceBedCheckupService;
 import com.smallcase.lushuju.service.ZjkMedicalHistoryService;
 import com.smallcase.lushuju.utils.MyException;
 import com.smallcase.lushuju.utils.RestfulResult;
+import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -98,8 +99,13 @@ public class DataFindAndEditZhenjiController {
      */
     @GetMapping(value = "search/{id}/clinicalExamination")
     public ResponseEntity findClinicalExamination(@PathVariable("id") String personId) {
-        ClinicalExamination clinicalExamination = clinicalExaminationService.findByPersonId(personId);
-        return RestfulResult.ok(clinicalExamination);
+        ClinicalExamination clinicalExamination = null;
+        try {
+            clinicalExamination = clinicalExaminationService.findByPersonId(personId);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(clinicalExamination));
     }
 
     /**
@@ -114,7 +120,7 @@ public class DataFindAndEditZhenjiController {
             clinicalExaminationService.edit(clinicalExamination, personId);
         } catch (MyException e) {
             e.printStackTrace();
-            return RestfulResult.serviceErr();
+            return RestfulResult.serviceErr(e.getMessage());
         }
         return RestfulResult.ok();
     }
