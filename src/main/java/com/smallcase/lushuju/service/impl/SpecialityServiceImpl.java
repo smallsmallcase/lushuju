@@ -37,34 +37,52 @@ public class SpecialityServiceImpl implements SpecialityCheckupService {
     }
 
     @Override
-    public ResponseEntity save(SpecialityCheckup specialityCheckup){
+    public SpecialityCheckup save(SpecialityCheckup specialityCheckup) throws MyException {
+        SpecialityCheckup result;
         try {
-            SpecialityCheckup result = repository.save(specialityCheckup);
-            return RestfulResult.ok(result.getPersonId());
-
+            result = repository.save(specialityCheckup);
 
         } catch (DataIntegrityViolationException e) {
-            return RestfulResult.serviceErr(0);
+            throw new MyException(e.getMessage());
         }
+
+        return result;
     }
 
     @Override
-    public SpecialityCheckup findByPersonId(String personId) {
-        return repository.findbypid(personId);
+    public SpecialityCheckup findByPersonId(String personId) throws MyException {
+        SpecialityCheckup specialityCheckup;
+        try {
+            specialityCheckup = repository.findbypid(personId);
+            if (specialityCheckup == null) {
+                throw new MyException("专科检查数据找不到");
+            }
+
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
+        }
+        return specialityCheckup;
     }
 
     @Override
-    public void edit(SpecialityCheckup form, String personId) throws MyException{
-        SpecialityCheckup specialityCheckup = repository.findbypid(personId);
-        if (specialityCheckup == null) {
-            log.error("【修改体格检查】：数据找不到");
-            throw new MyException("数据找不到");
+    public SpecialityCheckup edit(SpecialityCheckup form, String personId) throws MyException{
+        SpecialityCheckup specialityCheckup;
+        try {
+            specialityCheckup = repository.findbypid(personId);
+            if (specialityCheckup == null) {
+                log.error("【修改体格检查】：数据找不到");
+                throw new MyException("数据找不到");
+            }
+            BeanUtil.copyPropertiesIgnoreNull(form, specialityCheckup);
+            specialityCheckup = repository.save(specialityCheckup);
+            if (specialityCheckup == null) {
+                log.error("【修改数据】:SpecialityCheckup，出错");
+                throw new MyException("修改数据出错");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
         }
-        BeanUtil.copyPropertiesIgnoreNull(form, specialityCheckup);
-        SpecialityCheckup result = repository.save(specialityCheckup);
-        if (result == null) {
-            log.error("【修改数据】:SpecialityCheckup，出错");
-            throw new MyException("修改数据出错");
-        }
+
+        return specialityCheckup;
     }
 }

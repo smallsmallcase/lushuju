@@ -41,15 +41,16 @@ public class LaboraryCheckupServiceImpl implements LaboraryCheckupService {
     }
 
     @Override
-    public ResponseEntity save(LaboraryCheckup laboraryCheckup) {
+    public LaboraryCheckup save(LaboraryCheckup laboraryCheckup) throws MyException {
+        LaboraryCheckup result;
         try {
-            LaboraryCheckup result = repository.save(laboraryCheckup);
-            return RestfulResult.ok(result.getPersonId());
-
-
+             result = repository.save(laboraryCheckup);
         } catch (DataIntegrityViolationException e) {
-            return RestfulResult.serviceErr(0);
-        }    }
+            throw new MyException(e.getMessage());
+        }
+        return result;
+    }
+
 
     /**
      * 查询实验室及器械检查
@@ -57,8 +58,17 @@ public class LaboraryCheckupServiceImpl implements LaboraryCheckupService {
      * @return
      */
     @Override
-    public LaboraryCheckup findByPersonId(String personId) {
-        return repository.findByPersonId(personId);
+    public LaboraryCheckup findByPersonId(String personId) throws MyException {
+        LaboraryCheckup laboraryCheckup;
+        try {
+            laboraryCheckup = repository.findByPersonId(personId);
+            if (laboraryCheckup == null) {
+                throw new MyException("laboraryCheckup数据找不到");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
+        }
+        return laboraryCheckup;
     }
 
 
@@ -70,18 +80,25 @@ public class LaboraryCheckupServiceImpl implements LaboraryCheckupService {
      */
     @Override
     @Transactional
-    public void edit(LaboraryCheckup form, String personId) throws MyException {
-        LaboraryCheckup laboraryCheckup = repository.findByPersonId(personId);
-        if (laboraryCheckup == null) {
-            log.error("【查询实验室及器械检查】：数据找不到");
-            throw new MyException("查询实验室及器械检查：数据找不到");
-        }
+    public LaboraryCheckup edit(LaboraryCheckup form, String personId) throws MyException {
+        LaboraryCheckup laboraryCheckup;
+        try {
 
-        BeanUtil.copyPropertiesIgnoreNull(form, laboraryCheckup);
-        LaboraryCheckup result = repository.save(laboraryCheckup);
-        if (result == null) {
-            log.error("【修改数据】:LaboraryCheckup，出错");
-            throw new MyException("修改数据出错");
+            laboraryCheckup = repository.findByPersonId(personId);
+            if (laboraryCheckup == null) {
+                log.error("【查询实验室及器械检查】：数据找不到");
+                throw new MyException("查询实验室及器械检查：数据找不到");
+            }
+
+            BeanUtil.copyPropertiesIgnoreNull(form, laboraryCheckup);
+            laboraryCheckup = repository.save(laboraryCheckup);
+            if (laboraryCheckup == null) {
+                log.error("【修改数据】:LaboraryCheckup，出错");
+                throw new MyException("修改数据出错");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
         }
+        return laboraryCheckup;
     }
 }

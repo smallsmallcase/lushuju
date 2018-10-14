@@ -36,8 +36,18 @@ public class MedicalHistoryServiceImpl implements MedicalHistoryService {
     }
 
     @Override
-    public MedicalHistory findByPersonId(String personId) {
-        return repository.findByPersonId(personId);
+    public MedicalHistory findByPersonId(String personId) throws MyException {
+        MedicalHistory medicalHistory;
+        try {
+            medicalHistory = repository.findByPersonId(personId);
+            if (medicalHistory == null) {
+                throw new MyException("MedicalHistory找不到");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
+        }
+        return medicalHistory;
+
     }
 
     @Override
@@ -46,27 +56,35 @@ public class MedicalHistoryServiceImpl implements MedicalHistoryService {
     }
 
     @Override
-    public ResponseEntity save(MedicalHistory medicalHistory){
+    public MedicalHistory save(MedicalHistory medicalHistory) throws MyException {
+        MedicalHistory result;
         try {
-            MedicalHistory result = repository.save(medicalHistory);
-            return RestfulResult.ok(result.getPersonId());
-
+            result = repository.save(medicalHistory);
 
         } catch (DataIntegrityViolationException e) {
-            return RestfulResult.serviceErr(0);
+            throw new MyException(e.getMessage());
         }
+        return result;
     }
 
     /**修改数据*/
     @Override
     @Transactional
-    public void edit(MedicalHistory form, String personId) throws MyException {
-        MedicalHistory medicalHistory = repository.findByPersonId(personId);
-        BeanUtil.copyPropertiesIgnoreNull(form, medicalHistory);
-        MedicalHistory result = repository.save(medicalHistory);
-        if (result == null) {
-            log.error("【修改数据】:MedicalHistory，出错");
-            throw new MyException("修改数据出错");
+    public MedicalHistory edit(MedicalHistory form, String personId) throws MyException {
+        MedicalHistory medicalHistory;
+
+        try {
+            medicalHistory = repository.findByPersonId(personId);
+            BeanUtil.copyPropertiesIgnoreNull(form, medicalHistory);
+            medicalHistory = repository.save(medicalHistory);
+            if (medicalHistory == null) {
+                log.error("【修改数据】:MedicalHistory，出错");
+                throw new MyException("修改数据出错");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
         }
+
+        return medicalHistory;
     }
 }

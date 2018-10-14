@@ -16,10 +16,10 @@ public interface SpecialityCheckupService {
 
     List<SpecialityCheckup> findAll();
 
-    ResponseEntity save(SpecialityCheckup specialityCheckup);
+    SpecialityCheckup save(SpecialityCheckup specialityCheckup) throws MyException;
 
-    SpecialityCheckup findByPersonId(String personId);
+    SpecialityCheckup findByPersonId(String personId) throws MyException;
 
-    void edit(SpecialityCheckup specialityCheckup, String personId) throws MyException;
+    SpecialityCheckup edit(SpecialityCheckup specialityCheckup, String personId) throws MyException;
 
 }

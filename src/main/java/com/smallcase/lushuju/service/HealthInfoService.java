@@ -17,11 +17,11 @@ public interface HealthInfoService {
 
     List<HealthInfo> findAll();
 
-    ResponseEntity save(HealthInfo healthInfo);
+    HealthInfo save(HealthInfo healthInfo) throws MyException;
 
-    HealthInfo findByPersonId(String personId);
+    HealthInfo findByPersonId(String personId) throws MyException;
 
-    void edit(HealthInfo healthInfo, String personId) throws MyException;
+    HealthInfo edit(HealthInfo healthInfo, String personId) throws MyException;
 
 
 }

@@ -18,10 +18,10 @@ public interface FaceBedCheckupService {
 
     List<FaceBedCheckup> findAll();
 
-    ResponseEntity save(FaceBedCheckup faceBedCheckup);
+    FaceBedCheckup save(FaceBedCheckup faceBedCheckup) throws MyException;
 
-    FaceBedCheckup findByPersonId(String personId);
+    FaceBedCheckup findByPersonId(String personId) throws MyException;
 
-    void edit(FaceBedCheckup faceBedCheckup, String personId) throws MyException;
+    FaceBedCheckup edit(FaceBedCheckup faceBedCheckup, String personId) throws MyException;
 
 }

@@ -14,11 +14,11 @@ import java.util.List;
  */
 public interface PersonInfoService {
 
-    PersonInfo findOne(String id);
+    PersonInfo findOne(String id) throws MyException;
 
     List<PersonInfo> findAll();
 
-    ResponseEntity save(PersonInfo personInfo);
+    PersonInfo save(PersonInfo personInfo) throws MyException;
 
-    void edit(PersonInfoForm form, String personId) throws MyException;
+    PersonInfo edit(PersonInfoForm form, String personId) throws MyException;
 }

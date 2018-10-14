@@ -51,33 +51,42 @@ public class DataAddZhenjiController {
     @PostMapping(value = "/{id}/zjkMedicalHistory")
     public ResponseEntity addZjkMedicalHistory(@PathVariable("id") String personId,@RequestBody ZjkMedicalHistory zjkMedicalHistory) {
         zjkMedicalHistory.setPersonId(personId);
-//        zjkMedicalHistoryService.save(zjkMedicalHistory);
-//        return RestfulResult.ok();
 
-        return zjkMedicalHistoryService.save(zjkMedicalHistory);
+        ZjkMedicalHistory result;
+        try {
+            result = zjkMedicalHistoryService.save(zjkMedicalHistory);
+        } catch (MyException e) {
+            e.printStackTrace();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
     @PostMapping(value = "/{id}/faceBedCheck")
     public ResponseEntity addfaceBedCheck(@PathVariable("id") String personId,@RequestBody FaceBedCheckup faceBedCheckup) {
         faceBedCheckup.setPersonId(personId);
-//        if (result.hasErrors()) {
-//            List<ObjectError> errorList = result.getAllErrors();
-//            List<String> errBody = errorList.stream().map(err -> err.getObjectName()).collect(Collectors.toList());
-//            errBody.forEach(string -> System.out.println(string));
-//            return null;
-//        }
-        faceBedCheckupService.save(faceBedCheckup);
-        return RestfulResult.ok();
+        FaceBedCheckup result = null;
+        try {
+             result = faceBedCheckupService.save(faceBedCheckup);
+        } catch (MyException e) {
+            e.printStackTrace();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
     @PostMapping(value = "/{id}/clinicalExamination")
     public ResponseEntity addClinicalExamination(@PathVariable("id") String personId,@RequestBody ClinicalExamination clinicalExamination) {
         clinicalExamination.setPersonId(personId);
+        ClinicalExamination result;
         try {
-            return clinicalExaminationService.save(clinicalExamination);
+             result = clinicalExaminationService.save(clinicalExamination);
+
         } catch (MyException e) {
-            return RestfulResult.serviceErr(e.getMessage());
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
+        return RestfulResult.ok(ResultVOUtil.success(result));
+
     }
 
     @Deprecated

@@ -16,11 +16,11 @@ public interface LaboraryCheckupService {
 
     List<LaboraryCheckup> findAll();
 
-    ResponseEntity save(LaboraryCheckup laboraryCheckup);
+    LaboraryCheckup save(LaboraryCheckup laboraryCheckup) throws MyException;
 
-    LaboraryCheckup findByPersonId(String personId);
+    LaboraryCheckup findByPersonId(String personId) throws MyException;
 
-    void edit(LaboraryCheckup laboraryCheckup, String personId) throws MyException;
+    LaboraryCheckup edit(LaboraryCheckup laboraryCheckup, String personId) throws MyException;
 
 
 }

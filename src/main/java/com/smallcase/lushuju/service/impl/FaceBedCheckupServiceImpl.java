@@ -42,14 +42,18 @@ public class FaceBedCheckupServiceImpl implements FaceBedCheckupService {
     }
 
     @Override
-    public ResponseEntity save(FaceBedCheckup faceBedCheckup) {
+    public FaceBedCheckup save(FaceBedCheckup faceBedCheckup) throws MyException {
         try {
             FaceBedCheckup result = repository.save(faceBedCheckup);
-            return RestfulResult.ok(result.getPersonId());
+            if (result == null) {
+                throw new MyException("FaceBedCheckup录入出错");
+            } else {
+                return result;
 
+            }
 
         } catch (DataIntegrityViolationException e) {
-            return RestfulResult.serviceErr(0);
+            throw new MyException("FaceBedCheckup录入出错");
         }
     }
 
@@ -59,8 +63,18 @@ public class FaceBedCheckupServiceImpl implements FaceBedCheckupService {
      * @return
      */
     @Override
-    public FaceBedCheckup findByPersonId(String personId) {
-        return repository.findByPersonId(personId);
+    public FaceBedCheckup findByPersonId(String personId) throws MyException {
+        try {
+            FaceBedCheckup faceBedCheckup = repository.findByPersonId(personId);
+            if (faceBedCheckup != null) {
+                return faceBedCheckup;
+            } else {
+                throw  new MyException("faceBedCheckup查到的数据为空");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
+        }
+
     }
 
     /**
@@ -71,18 +85,24 @@ public class FaceBedCheckupServiceImpl implements FaceBedCheckupService {
      */
     @Override
     @Transactional
-    public void edit(FaceBedCheckup form, String personId) throws MyException{
-        FaceBedCheckup faceBedCheckup = repository.findByPersonId(personId);
-        if (faceBedCheckup == null) {
-            log.error("【修改临床检查】：数据找不到");
-            throw new MyException("数据找不到");
-        }
-        BeanUtil.copyPropertiesIgnoreNull(form, faceBedCheckup);
-        FaceBedCheckup result = repository.save(faceBedCheckup);
-        if (result == null) {
-            log.error("【修改数据】:FaceBedCheckup，出错");
+    public FaceBedCheckup edit(FaceBedCheckup form, String personId) throws MyException{
+        FaceBedCheckup faceBedCheckup;
+        try {
+            faceBedCheckup = repository.findByPersonId(personId);
+            if (faceBedCheckup == null) {
+                log.error("【修改临床检查】：数据找不到");
+                throw new MyException("数据找不到");
+            }
+            BeanUtil.copyPropertiesIgnoreNull(form, faceBedCheckup);
+            faceBedCheckup = repository.save(faceBedCheckup);
+            if (faceBedCheckup == null) {
+                log.error("【修改数据】:FaceBedCheckup，出错");
+                throw new MyException("修改数据出错");
+            }
+        } catch (Exception e) {
             throw new MyException("修改数据出错");
         }
+        return faceBedCheckup;
     }
 
 }

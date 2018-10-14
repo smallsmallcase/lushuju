@@ -39,8 +39,13 @@ public class DataFindAndEditZhenjiController {
      */
     @GetMapping(value = "search/{id}/zjkMedicalHistory")
     public ResponseEntity findZjkMedicalHistory(@PathVariable("id") String personId) {
-        ZjkMedicalHistory zjkMedicalHistory = zjkMedicalHistoryService.findByPersonId(personId);
-        return RestfulResult.ok(zjkMedicalHistory);
+        ZjkMedicalHistory zjkMedicalHistory = null;
+        try {
+            zjkMedicalHistory = zjkMedicalHistoryService.findByPersonId(personId);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(zjkMedicalHistory));
     }
 
     /**
@@ -52,13 +57,14 @@ public class DataFindAndEditZhenjiController {
      */
     @PatchMapping(value = "edit/{id}/zjkMedicalHistory")
     public ResponseEntity editZjkMedicalHistory(@PathVariable("id") String personId, @RequestBody ZjkMedicalHistory zjkMedicalHistory) {
+        ZjkMedicalHistory result;
         try {
-            zjkMedicalHistoryService.edit(zjkMedicalHistory, personId);
+            result = zjkMedicalHistoryService.edit(zjkMedicalHistory, personId);
         } catch (MyException e) {
             e.printStackTrace();
-            return RestfulResult.serviceErr();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
-        return RestfulResult.ok();
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
     /**
@@ -69,26 +75,32 @@ public class DataFindAndEditZhenjiController {
      */
     @GetMapping(value = "search/{id}/faceBedCheck")
     public ResponseEntity findFaceBedCheck(@PathVariable("id") String personId) {
-        FaceBedCheckup faceBedCheckup = faceBedCheckupService.findByPersonId(personId);
-        return RestfulResult.ok(faceBedCheckup);
+        FaceBedCheckup faceBedCheckup;
+        try {
+            faceBedCheckup = faceBedCheckupService.findByPersonId(personId);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(faceBedCheckup));
     }
 
     /**
      * 修改临床检查
      *
      * @param personId
-     * @param faceBedCheckup
+     * @param form
      * @return
      */
     @PatchMapping(value = "edit/{id}/faceBedCheck")
-    public ResponseEntity editfaceBedCheck(@PathVariable("id") String personId, @RequestBody FaceBedCheckup faceBedCheckup) {
+    public ResponseEntity editfaceBedCheck(@PathVariable("id") String personId, @RequestBody FaceBedCheckup form) {
+        FaceBedCheckup faceBedCheckup;
         try {
-            faceBedCheckupService.edit(faceBedCheckup, personId);
+            faceBedCheckup = faceBedCheckupService.edit(form, personId);
         } catch (MyException e) {
             e.printStackTrace();
-            return RestfulResult.serviceErr();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
-        return RestfulResult.ok();
+        return RestfulResult.ok(ResultVOUtil.success(faceBedCheckup));
     }
 
 
@@ -116,12 +128,14 @@ public class DataFindAndEditZhenjiController {
      */
     @PatchMapping(value = "edit/{id}/clinicalExamination")
     public ResponseEntity editClinicalExamination(@PathVariable("id") String personId, @RequestBody ClinicalExamination clinicalExamination) {
+        ClinicalExamination result;
         try {
-            clinicalExaminationService.edit(clinicalExamination, personId);
+            result = clinicalExaminationService.edit(clinicalExamination, personId);
         } catch (MyException e) {
             e.printStackTrace();
-            return RestfulResult.serviceErr(e.getMessage());
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
-        return RestfulResult.ok();
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
+
 }

@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.LaboraryCheckup;
 import com.smallcase.lushuju.service.LaboraryCheckupService;
+import com.smallcase.lushuju.utils.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,7 +45,12 @@ public class LaboraryCheckupServiceImplTest {
         laboraryCheckup.setMrc("MRC111");
         laboraryCheckup.setUltrasound("挥发发");
 
-        ResponseEntity result = service.save(laboraryCheckup);
+        LaboraryCheckup result = null;
+        try {
+            result = service.save(laboraryCheckup);
+        } catch (MyException e) {
+            e.printStackTrace();
+        }
         Assert.assertNotNull(result);
 
         log.info(result.toString());

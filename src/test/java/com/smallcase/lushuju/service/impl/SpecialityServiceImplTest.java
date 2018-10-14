@@ -47,7 +47,7 @@ public class SpecialityServiceImplTest {
         SpecialityCheckup specialityCheckup = new SpecialityCheckup();
         specialityCheckup.setMouthInside("嘴巴");
         specialityCheckup.setMouthOutside("外面的嘴巴");
-        ResponseEntity result = service.save(specialityCheckup);
+        SpecialityCheckup result = service.save(specialityCheckup);
         log.info(result.toString());
         Assert.assertNotNull(result);
     }

@@ -49,10 +49,10 @@ public class ClinicalExaminationServicceImpl implements ClinicalExaminationServi
     }
 
     @Override
-    public ResponseEntity save(ClinicalExamination clinicalExamination) throws MyException {
+    public ClinicalExamination save(ClinicalExamination clinicalExamination) throws MyException {
         try {
             ClinicalExamination result = repository.save(clinicalExamination);
-            return RestfulResult.ok(result.getPersonId());
+            return result;
 
 
         } catch (DataIntegrityViolationException e) {
@@ -77,7 +77,7 @@ public class ClinicalExaminationServicceImpl implements ClinicalExaminationServi
 
     @Override
     @Transactional
-    public void edit(ClinicalExamination form, String personId) throws MyException {
+    public ClinicalExamination edit(ClinicalExamination form, String personId) throws MyException {
         ClinicalExamination clinicalExamination;
         try {
             clinicalExamination = repository.findByPersonId(personId);
@@ -86,14 +86,16 @@ public class ClinicalExaminationServicceImpl implements ClinicalExaminationServi
                 throw new MyException("数据找不到");
             }
             BeanUtil.copyPropertiesIgnoreNull(form, clinicalExamination);
-            ClinicalExamination result = repository.save(clinicalExamination);
-            if (result == null) {
+            clinicalExamination = repository.save(clinicalExamination);
+            if (clinicalExamination == null) {
                 log.error("【修改数据】:ClinicalExamination，保存出错");
                 throw new MyException("修改数据出错");
             }
         } catch (Exception e) {
             throw new MyException(e.getMessage() + "【修改数据】:ClinicalExamination");
         }
+
+        return clinicalExamination;
 
     }
 }

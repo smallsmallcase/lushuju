@@ -42,7 +42,7 @@ public class ClinicalExaminationServicceImplTest {
         clinicalExamination.setPersonId("2c9344c86552320701655232c9930000");
         clinicalExamination.setOpenAngle("okok12vaf");
         clinicalExamination.setFaceShapeSide("face脸");
-        ResponseEntity result = null;
+        ClinicalExamination result = null;
         try {
             result = service.save(clinicalExamination);
         } catch (MyException e) {

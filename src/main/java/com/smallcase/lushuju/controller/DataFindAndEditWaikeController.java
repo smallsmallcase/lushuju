@@ -39,39 +39,52 @@ public class DataFindAndEditWaikeController {
 
     @GetMapping(value = "/search/{id}/personInfo")
     public ResponseEntity findPersonInfo(@PathVariable String id) {
-        PersonInfo personInfo = personInfoService.findOne(id);
-        return RestfulResult.ok(personInfo);
+        PersonInfo personInfo;
+        try {
+            personInfo = personInfoService.findOne(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+
+        return RestfulResult.ok(ResultVOUtil.success(personInfo));
     }
 
     @PatchMapping(value = "edit/{id}/personInfo")
     public ResponseEntity editPersonInfo(@PathVariable("id") String personId, @RequestBody PersonInfoForm form) {
+        PersonInfo personInfo;
         try {
-            personInfoService.edit(form, personId);
+            personInfo = personInfoService.edit(form, personId);
 
         } catch (MyException e) {
             e.printStackTrace();
-            return RestfulResult.serviceErr();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
-
-        return RestfulResult.ok();
+        return RestfulResult.ok(ResultVOUtil.success(personInfo));
     }
 
     @GetMapping(value = "search/{id}/medicalHistory")
     public ResponseEntity findMedicalHistory(@PathVariable("id") String personId) {
-        MedicalHistory medicalHistory = medicalHistoryService.findByPersonId(personId);
-        return RestfulResult.ok(medicalHistory);
+        MedicalHistory medicalHistory;
+        try {
+            medicalHistory = medicalHistoryService.findByPersonId(personId);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(medicalHistory));
     }
 
     @PatchMapping(value = "edit/{id}/medicalHistory")
     public ResponseEntity editMedicalHistory(@PathVariable("id") String personId, @RequestBody MedicalHistory medicalHistory) {
+        MedicalHistory result;
         try {
-            medicalHistoryService.edit(medicalHistory, personId);
+            result = medicalHistoryService.edit(medicalHistory, personId);
         } catch (MyException e) {
             e.printStackTrace();
-            return RestfulResult.serviceErr();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
 
-        return RestfulResult.ok();
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
     /**
@@ -82,8 +95,13 @@ public class DataFindAndEditWaikeController {
      */
     @GetMapping(value = "search/{id}/healthInfo")
     public ResponseEntity findHealthInfo(@PathVariable("id") String personId) {
-        HealthInfo healthInfo = healthInfoService.findByPersonId(personId);
-        return RestfulResult.ok(healthInfo);
+        HealthInfo healthInfo;
+        try {
+            healthInfo = healthInfoService.findByPersonId(personId);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(healthInfo));
     }
 
     /**
@@ -95,14 +113,14 @@ public class DataFindAndEditWaikeController {
      */
     @PatchMapping(value = "edit/{id}/healthInfo")
     public ResponseEntity editHealthInfo(@PathVariable("id") String personId, @RequestBody HealthInfo healthInfo) {
+        HealthInfo result;
         try {
-            healthInfoService.edit(healthInfo, personId);
+            result = healthInfoService.edit(healthInfo, personId);
         } catch (MyException e) {
             e.printStackTrace();
-            return RestfulResult.serviceErr();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
-
-        return RestfulResult.ok();
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
     /**
@@ -113,8 +131,13 @@ public class DataFindAndEditWaikeController {
      */
     @GetMapping(value = "search/{id}/specialityCheckup")
     public ResponseEntity findSpecial(@PathVariable("id") String personId) {
-        SpecialityCheckup specialityCheckup = specialityCheckupService.findByPersonId(personId);
-        return RestfulResult.ok(specialityCheckup);
+        SpecialityCheckup specialityCheckup = null;
+        try {
+            specialityCheckup = specialityCheckupService.findByPersonId(personId);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(specialityCheckup));
     }
 
     /**
@@ -126,13 +149,15 @@ public class DataFindAndEditWaikeController {
      */
     @PatchMapping(value = "edit/{id}/specialityCheckup")
     public ResponseEntity editSpecialityCheckup(@PathVariable("id") String personId, @RequestBody SpecialityCheckup specialityCheckup) {
+        SpecialityCheckup result;
         try {
-            specialityCheckupService.edit(specialityCheckup, personId);
+            result = specialityCheckupService.edit(specialityCheckup, personId);
         } catch (MyException e) {
             e.printStackTrace();
-            return RestfulResult.serviceErr();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
-        return RestfulResult.ok();
+
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
 
@@ -144,8 +169,13 @@ public class DataFindAndEditWaikeController {
      */
     @GetMapping(value = "search/{id}/laboraryCheckup")
     public ResponseEntity findLaboraryCheckup(@PathVariable("id") String personId) {
-        LaboraryCheckup laboraryCheckup = laboraryCheckupService.findByPersonId(personId);
-        return RestfulResult.ok(laboraryCheckup);
+        LaboraryCheckup laboraryCheckup = null;
+        try {
+            laboraryCheckup = laboraryCheckupService.findByPersonId(personId);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(laboraryCheckup));
     }
 
 
@@ -158,13 +188,14 @@ public class DataFindAndEditWaikeController {
      */
     @PatchMapping(value = "edit/{id}/laboraryCheckup")
     public ResponseEntity editLabotoryCheckup(@PathVariable("id") String personId, @RequestBody LaboraryCheckup laboraryCheckup) {
+        LaboraryCheckup result;
         try {
-            laboraryCheckupService.edit(laboraryCheckup, personId);
+            result = laboraryCheckupService.edit(laboraryCheckup, personId);
         } catch (MyException e) {
             e.printStackTrace();
-            return RestfulResult.serviceErr();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
-        return RestfulResult.ok();
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
 

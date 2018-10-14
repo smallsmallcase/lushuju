@@ -40,15 +40,16 @@ public class HealthInfoServiceImpl implements HealthInfoService {
         return repository.findAll();
     }
 
+
+
     @Override
-    public ResponseEntity save(HealthInfo healthInfo){
+    public HealthInfo save(HealthInfo healthInfo) throws MyException {
         try {
-            HealthInfo result = repository.save(healthInfo);
-            return RestfulResult.ok(result.getPersonId());
+            return repository.save(healthInfo);
 
 
         } catch (DataIntegrityViolationException e) {
-            return RestfulResult.serviceErr(0);
+            throw new MyException(e.getMessage());
         }
     }
 
@@ -59,8 +60,17 @@ public class HealthInfoServiceImpl implements HealthInfoService {
      * @return
      */
     @Override
-    public HealthInfo findByPersonId(String personId) {
-        return repository.findByPersonId(personId);
+    public HealthInfo findByPersonId(String personId) throws MyException {
+        HealthInfo healthInfo;
+        try {
+            healthInfo = repository.findByPersonId(personId);
+            if (healthInfo == null) {
+                throw new MyException("healthInfo信息找不到");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
+        }
+        return healthInfo;
     }
 
     /**
@@ -70,18 +80,25 @@ public class HealthInfoServiceImpl implements HealthInfoService {
      */
     @Override
     @Transactional
-    public void edit(HealthInfo form, String personId) throws MyException {
-        HealthInfo healthInfo = repository.findByPersonId(personId);
-        if (healthInfo == null) {
-            log.error("【修改体格检查】：数据找不到");
-            throw new MyException("数据找不到");
+    public HealthInfo edit(HealthInfo form, String personId) throws MyException {
+        HealthInfo healthInfo;
+        try {
+            healthInfo = repository.findByPersonId(personId);
+            if (healthInfo == null) {
+                log.error("【修改体格检查】：数据找不到");
+                throw new MyException("数据找不到");
+            }
+            BeanUtil.copyPropertiesIgnoreNull(form, healthInfo);
+            healthInfo = repository.save(healthInfo);
+            if (healthInfo == null) {
+                log.error("【修改数据】:HealthInfo，出错");
+                throw new MyException("修改数据出错");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
         }
-        BeanUtil.copyPropertiesIgnoreNull(form, healthInfo);
-        HealthInfo result = repository.save(healthInfo);
-        if (result == null) {
-            log.error("【修改数据】:HealthInfo，出错");
-            throw new MyException("修改数据出错");
-        }
+
+        return healthInfo;
     }
 
     @PostConstruct

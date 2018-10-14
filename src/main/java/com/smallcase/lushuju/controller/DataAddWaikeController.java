@@ -45,66 +45,68 @@ public class DataAddWaikeController {
 
     @PostMapping(value = "/personInfo")
     public ResponseEntity addPersonInfo(@RequestBody PersonInfo personInfo){
-//        PersonInfo result = null;
-//        try {
-//            result = personInfoService.save(personInfo);
-//        } catch (MyException e) {
-//            return RestfulResult.serviceErr(e.getCode());
-//        }
-//        return RestfulResult.ok(result.getId());
+        PersonInfo result = null;
 
-        return personInfoService.save(personInfo);
+
+        try {
+            result = personInfoService.save(personInfo);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("录入personINfo出错，可能缺少字段"));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
     @PostMapping(value = "/{id}/medicalHistory")
     public ResponseEntity addMedicalHistory(@PathVariable("id") String personId,@RequestBody MedicalHistory medicalHistory) {
         medicalHistory.setPersonId(personId);
-//        MedicalHistory result;
-//        try {
-//            result = medicalHistoryService.save(medicalHistory);
-//        } catch (MyException e) {
-//            return RestfulResult.serviceErr(e.getCode());
-//        }
-//        return RestfulResult.ok(result);
-        return medicalHistoryService.save(medicalHistory);
+
+        MedicalHistory result;
+        try {
+             result= medicalHistoryService.save(medicalHistory);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.serviceErr(ResultVOUtil.success(result));
     }
 
     @PostMapping(value = "/{id}/healthInfo")
     public ResponseEntity addHealthInfo(@PathVariable("id") String personId, @RequestBody HealthInfo healthInfo) {
         healthInfo.setPersonId(personId);
-//        HealthInfo result = null;
-//
-//        try {
-//            result = healthInfoService.save(healthInfo);
-//        } catch (MyException e) {
-//            return RestfulResult.serviceErr(e.getMessage());
-//        }
-//        return RestfulResult.ok(result);
+        HealthInfo result;
 
-        return healthInfoService.save(healthInfo);
+
+        try {
+            result = healthInfoService.save(healthInfo);
+        } catch (MyException e) {
+            e.printStackTrace();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
     @PostMapping(value = "/{id}/specialityCheckup")
     public ResponseEntity addSpecialityCheckup(@PathVariable("id") String personId, @RequestBody SpecialityCheckup specialityCheckup) {
         specialityCheckup.setPersonId(personId);
-//
-//        SpecialityCheckup result;
-//        try {
-//            result = specialityCheckupService.save(specialityCheckup);
-//        } catch (MyException e) {
-//            return RestfulResult.serviceErr(e.getMessage());
-//        }
-//        return RestfulResult.ok(result);
 
-        return specialityCheckupService.save(specialityCheckup);
+        SpecialityCheckup result;
+        try {
+            result = specialityCheckupService.save(specialityCheckup);
+        } catch (MyException e) {
+            e.printStackTrace();
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
     @PostMapping(value = "/{id}/laboraryCheckup")
     public ResponseEntity addLaboraryCheckup(@PathVariable("id") String personId,@RequestBody LaboraryCheckup laboraryCheckup, HttpSession session) {
         laboraryCheckup.setPersonId(personId);
-//        laboraryCheckupService.save(laboraryCheckup);
-//        return RestfulResult.ok();
-
-        return laboraryCheckupService.save(laboraryCheckup);
+        LaboraryCheckup result;
+        try {
+             result = laboraryCheckupService.save(laboraryCheckup);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(result));
     }
 }

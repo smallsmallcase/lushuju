@@ -48,7 +48,7 @@ public class MedicalHistoryServiceImplTest {
         medicalHistory.setFamilyHistory("没有任何毛病啊");
         medicalHistory.setHistoryInfo("以前也没有毛病啊");
         medicalHistory.setPresentInfo("现在也没病");
-        ResponseEntity result = service.save(medicalHistory);
+        MedicalHistory result = service.save(medicalHistory);
         Assert.assertNotNull(result);
     }
 }

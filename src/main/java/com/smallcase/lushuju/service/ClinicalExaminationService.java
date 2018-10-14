@@ -16,11 +16,11 @@ public interface ClinicalExaminationService {
 
     List<ClinicalExamination> findAll() throws Exception;
 
-    ResponseEntity save(ClinicalExamination clinicalExamination) throws MyException;
+    ClinicalExamination save(ClinicalExamination clinicalExamination) throws MyException;
 
     ClinicalExamination findByPersonId(String personId) throws MyException;
 
-    void edit(ClinicalExamination clinicalExamination, String personId) throws MyException;
+    ClinicalExamination edit(ClinicalExamination clinicalExamination, String personId) throws MyException;
 
 
 

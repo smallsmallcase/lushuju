@@ -34,8 +34,18 @@ public class PersonInfoServiceImpl implements PersonInfoService {
      * @return
      */
     @Override
-    public PersonInfo findOne(String id) {
-        return repository.findOne(id);
+    public PersonInfo findOne(String id) throws MyException {
+        PersonInfo personInfo;
+        try {
+            personInfo = repository.findOne(id);
+            if (personInfo == null) {
+                throw new MyException("个人信息找不到");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage() + "个人信息找不到");
+        }
+        return personInfo;
+
     }
 
     @Override
@@ -44,27 +54,34 @@ public class PersonInfoServiceImpl implements PersonInfoService {
     }
 
     @Override
-    public ResponseEntity save(PersonInfo personInfo){
+    public PersonInfo save(PersonInfo personInfo) throws MyException {
+        PersonInfo result;
         try {
-            PersonInfo result = repository.save(personInfo);
-            return RestfulResult.ok(result.getId());
-
+             result= repository.save(personInfo);
 
         } catch (DataIntegrityViolationException e) {
-            return RestfulResult.serviceErr(0);
+            throw new MyException(e.getMessage());
         }
+        return result;
     }
 
 
     @Override
     @Transactional
-    public void edit(PersonInfoForm form, String personId) throws MyException {
-        PersonInfo personInfo = repository.findOne(personId);
-        BeanUtil.copyPropertiesIgnoreNull(form,personInfo);
-        PersonInfo result = repository.save(personInfo);
-        if (result == null) {
-            log.error("【修改数据】:PersonInfo，出错");
-            throw new MyException("修改数据出错");
+    public PersonInfo edit(PersonInfoForm form, String personId) throws MyException {
+        PersonInfo personInfo;
+        try {
+            personInfo = repository.findOne(personId);
+            BeanUtil.copyPropertiesIgnoreNull(form, personInfo);
+            personInfo = repository.save(personInfo);
+            if (personInfo == null) {
+                log.error("【修改数据】:PersonInfo，出错");
+                throw new MyException("修改数据出错");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
         }
+
+        return personInfo;
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
  * Created by huangds on 2017/10/28.
  */
 @Service
+@Deprecated
 public class LoginService {
 
     @Autowired

@@ -38,7 +38,7 @@ public class HealthInfoServiceImplTest {
     public void save() throws MyException {
         HealthInfo healthInfo = new HealthInfo();
         healthInfo.setHeight("167");
-        ResponseEntity result = service.save(healthInfo);
+        HealthInfo result = service.save(healthInfo);
         Assert.assertNotNull(result);
     }
 }

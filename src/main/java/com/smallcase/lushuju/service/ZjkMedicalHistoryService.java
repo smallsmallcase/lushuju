@@ -16,11 +16,11 @@ public interface ZjkMedicalHistoryService {
 
     List<ZjkMedicalHistory> findAll();
 
-    ResponseEntity save(ZjkMedicalHistory zjkMedicalHistory);
+    ZjkMedicalHistory save(ZjkMedicalHistory zjkMedicalHistory) throws MyException;
 
-    ZjkMedicalHistory findByPersonId(String personId);
+    ZjkMedicalHistory findByPersonId(String personId) throws MyException;
 
-    void edit(ZjkMedicalHistory zjkMedicalHistory, String personId) throws MyException;
+    ZjkMedicalHistory edit(ZjkMedicalHistory zjkMedicalHistory, String personId) throws MyException;
 
 
 }

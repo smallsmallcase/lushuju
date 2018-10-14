@@ -40,33 +40,48 @@ public class ZjkMedicalHistoryServiceImpl implements ZjkMedicalHistoryService {
     }
 
     @Override
-    public ResponseEntity save(ZjkMedicalHistory zjkMedicalHistory) {
+    public ZjkMedicalHistory save(ZjkMedicalHistory zjkMedicalHistory) throws MyException {
+        ZjkMedicalHistory result;
         try {
-            ZjkMedicalHistory result = repository.save(zjkMedicalHistory);
-            return RestfulResult.ok(result.getPersonId());
-
+            result = repository.save(zjkMedicalHistory);
 
         } catch (DataIntegrityViolationException e) {
-            return RestfulResult.serviceErr(0);
+            throw new MyException(e.getMessage());
         }
+        return result;
     }
 
 
     @Override
-    public ZjkMedicalHistory findByPersonId(String personId) {
-        return repository.findByPersonId(personId);
+    public ZjkMedicalHistory findByPersonId(String personId) throws MyException {
+        ZjkMedicalHistory medicalHistory;
+        try {
+            medicalHistory = repository.findByPersonId(personId);
+            if (medicalHistory == null) {
+                throw new MyException("正畸科数据找不到");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
+        }
+        return medicalHistory;
     }
 
     @Override
     @Transactional
-    public void edit(ZjkMedicalHistory form, String personId) throws MyException{
-        ZjkMedicalHistory zjkMedicalHistory = repository.findByPersonId(personId);
-        BeanUtil.copyPropertiesIgnoreNull(form, zjkMedicalHistory);
-        ZjkMedicalHistory result = repository.save(zjkMedicalHistory);
-        if (result == null) {
-            log.error("【修改数据】:MedicalHistory，出错");
-            throw new MyException("修改数据出错");
+    public ZjkMedicalHistory edit(ZjkMedicalHistory form, String personId) throws MyException{
+        ZjkMedicalHistory zjkMedicalHistory;
+        try {
+            zjkMedicalHistory = repository.findByPersonId(personId);
+            BeanUtil.copyPropertiesIgnoreNull(form, zjkMedicalHistory);
+            zjkMedicalHistory = repository.save(zjkMedicalHistory);
+            if (zjkMedicalHistory == null) {
+                log.error("【修改数据】:ZjkMedicalHistory，出错");
+                throw new MyException("修改数据出错");
+            }
+        } catch (Exception e) {
+            throw new MyException(e.getMessage());
         }
+        return zjkMedicalHistory;
     }
 
 }

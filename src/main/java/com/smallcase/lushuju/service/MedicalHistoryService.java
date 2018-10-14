@@ -15,12 +15,12 @@ public interface MedicalHistoryService  {
 
     MedicalHistory findOne(Integer id);
 
-    MedicalHistory findByPersonId(String personId);
+    MedicalHistory findByPersonId(String personId) throws MyException;
 
     List<MedicalHistory> findAll();
 
-    ResponseEntity save(MedicalHistory medicalHistory);
+    MedicalHistory save(MedicalHistory medicalHistory) throws MyException;
 
-    void edit(MedicalHistory medicalHistory, String personId) throws MyException;
+    MedicalHistory edit(MedicalHistory medicalHistory, String personId) throws MyException;
 
 }
