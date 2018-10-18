@@ -5,6 +5,8 @@ import com.smallcase.lushuju.pojo.form.LoginParam;
 import com.smallcase.lushuju.pojo.form.RegisterParam;
 import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.repository.UserEntityRepository;
+import com.smallcase.lushuju.service.UserEntityService;
+import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -14,6 +16,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,18 +38,19 @@ import java.util.Map;
 @Slf4j
 public class IndexController {
 
+
     @Autowired
-    private UserEntityRepository repository;
+    private UserEntityService service;
+
+//
 
     /**
-     * index页面
-     */
-    @RequestMapping(value = "/index")
-    public String index() {
-        return "index";
-    }
-
-
+     //     * index页面
+     //     */
+//    @RequestMapping(value = "/index")
+//    public String index() {
+//        return "index";
+//    }
 //    /**
 //     * 登陆页面
 //     *
@@ -117,29 +121,30 @@ public class IndexController {
      *
      * @return
      */
-    @RequestMapping(name = "/register")
-    public String register() {
-
-        return "register";
-    }
+//    @RequestMapping(name = "/register")
+//    public String register() {
+//
+//        return "register";
+//    }
 
     /**
      * 注册方法
      */
 
-    @RequestMapping(name = "/addregister", method = RequestMethod.POST)
-    public ResultVO register(@RequestBody RegisterParam param) {
+    @RequestMapping(name = "/register", method = RequestMethod.POST)
+    public ResponseEntity register(@RequestBody RegisterParam param) {
         String username = param.getUserName().trim();
         String password = param.getPassWord().trim();
         String password2 = param.getPassWord2().trim();
         if (password.equals(password2)) {
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUsername(username);
-            userEntity.setPassword(password);
-            repository.save(userEntity);
-            return ResultVOUtil.success(userEntity);
+            try {
+                UserEntity result = service.register(username, password);
+                return RestfulResult.ok(ResultVOUtil.success(result));
+            } catch (Exception e) {
+                return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+            }
         } else {
-            return ResultVOUtil.error("注册失败");
+            return RestfulResult.serviceErr(ResultVOUtil.error("两次输入的密码不一致"));
         }
 
     }

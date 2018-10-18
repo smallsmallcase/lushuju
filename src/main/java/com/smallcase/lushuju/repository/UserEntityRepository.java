@@ -17,4 +17,11 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Integer>
      * @return
      */
     public UserEntity findByUsernameAndPassword(String username, String password);
+
+    /**
+     * 通过用户名查找
+     * @param username
+     * @return
+     */
+    public UserEntity findByUsername(String username);
 }
