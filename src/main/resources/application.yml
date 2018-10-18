@@ -10,7 +10,8 @@ spring:
 
   jpa:
     show-sql: true
-
+  thymeleaf:
+    prefix: classpath:/templates/
 
 #    hibernate:
 #      ddl-auto: update
