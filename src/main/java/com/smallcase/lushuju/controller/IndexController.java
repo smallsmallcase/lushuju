@@ -46,7 +46,7 @@ public class IndexController {
 
 
     @PostMapping(value = "/login")
-    public ResultVO login(@RequestBody LoginParam param) {
+    public ResponseEntity login(@RequestBody LoginParam param) {
         String username = param.getUserName().trim();
         String password = param.getPassWord().trim();
         Subject subject = SecurityUtils.getSubject();
@@ -57,10 +57,10 @@ public class IndexController {
             subject.login(token);
         } catch (AuthenticationException e) {
             log.error("登陆认证失败");
-            return ResultVOUtil.error("登陆出错");
+            return RestfulResult.serviceErr(ResultVOUtil.error("登陆出错"));
         }
         log.info("登陆认证成功");
-        return ResultVOUtil.success();
+        return RestfulResult.serviceErr(ResultVOUtil.success());
 
 
     }
