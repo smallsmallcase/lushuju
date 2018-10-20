@@ -72,7 +72,7 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-aop</artifactId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
 		<!--<dependency>-->
@@ -109,6 +109,10 @@
             <!--</exclusions>-->
         </dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId></artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.alibaba</groupId>

@@ -13,6 +13,15 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
 
+
+  redis:
+    host: 39.108.131.39
+    port: 6379
+    pool:
+      max-active: 8
+
+
+
 #    hibernate:
 #      ddl-auto: update
 #server:
