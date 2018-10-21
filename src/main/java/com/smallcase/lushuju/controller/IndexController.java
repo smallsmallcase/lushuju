@@ -79,7 +79,7 @@ public class IndexController {
             {
 
             personId:xxx,
-            contextPath: xxx.xxx.xxx,
+            requestUrl: xxx.xxx.xxx,
             cacheValue:{x:11,y:22,....}
 
             }

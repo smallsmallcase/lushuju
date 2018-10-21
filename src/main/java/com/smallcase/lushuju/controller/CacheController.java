@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.util.HashMap;
 
 /**
@@ -36,10 +38,9 @@ public class CacheController {
      * @return
      */
     @RequestMapping(value = "/cache", method = RequestMethod.POST)
-    public ResponseEntity cache(HttpServletRequest request, @RequestBody JSONObject cacheData) {
-
+    public ResponseEntity cache(HttpServletRequest request, @RequestBody JSONObject cacheData, HttpServletResponse response) {
         try {
-            String contextPath = request.getContextPath();
+
         /*cacheObj
             {
 
@@ -58,7 +59,7 @@ public class CacheController {
             if (cacheData != null && currentUser != null) {
 
                 HashMap<String, Object> cacheObj = new HashMap<>();
-                cacheObj.put("contextPath", contextPath);
+//                cacheObj.put("requestUrl", requestUrl);
                 cacheObj.put("cacheValue", cacheData);
 
                 //如果缓存的是录入personInfo时候的信息，personId不存在，personId只能在提交personInfo信息后才能从数据库中返回回来d
