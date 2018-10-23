@@ -4,12 +4,11 @@ import com.smallcase.lushuju.pojo.entity.SpecialityCheckup;
 import com.smallcase.lushuju.repository.SpecialityCheckupRepository;
 import com.smallcase.lushuju.service.SpecialityCheckupService;
 import com.smallcase.lushuju.utils.BeanUtil;
-import com.smallcase.lushuju.utils.MyException;
-import com.smallcase.lushuju.utils.RestfulResult;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,16 +49,17 @@ public class SpecialityServiceImpl implements SpecialityCheckupService {
     }
 
     @Override
-    public SpecialityCheckup findByPersonId(String personId) throws MyException {
+    public SpecialityCheckup findByPersonId(String personId) throws MyException, NoDataException {
         SpecialityCheckup specialityCheckup;
         try {
             specialityCheckup = repository.findbypid(personId);
-            if (specialityCheckup == null) {
-                throw new MyException("专科检查数据找不到");
-            }
+
 
         } catch (Exception e) {
             throw new MyException(e.getMessage());
+        }
+        if (specialityCheckup == null) {
+            throw new NoDataException("专科检查数据找不到");
         }
         return specialityCheckup;
     }

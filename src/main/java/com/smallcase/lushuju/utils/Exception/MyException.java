@@ -1,4 +1,4 @@
-package com.smallcase.lushuju.utils;
+package com.smallcase.lushuju.utils.Exception;
 
 import lombok.Data;
 

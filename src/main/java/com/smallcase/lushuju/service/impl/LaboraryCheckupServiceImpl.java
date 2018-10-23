@@ -4,14 +4,12 @@ import com.smallcase.lushuju.pojo.entity.LaboraryCheckup;
 import com.smallcase.lushuju.repository.LaboraryCheckupRepository;
 import com.smallcase.lushuju.service.LaboraryCheckupService;
 import com.smallcase.lushuju.utils.BeanUtil;
-import com.smallcase.lushuju.utils.MyException;
-import com.smallcase.lushuju.utils.RestfulResult;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -58,15 +56,17 @@ public class LaboraryCheckupServiceImpl implements LaboraryCheckupService {
      * @return
      */
     @Override
-    public LaboraryCheckup findByPersonId(String personId) throws MyException {
+    public LaboraryCheckup findByPersonId(String personId) throws MyException, NoDataException {
         LaboraryCheckup laboraryCheckup;
         try {
             laboraryCheckup = repository.findByPersonId(personId);
-            if (laboraryCheckup == null) {
-                throw new MyException("laboraryCheckup数据找不到");
-            }
+
         } catch (Exception e) {
             throw new MyException(e.getMessage());
+        }
+
+        if (laboraryCheckup == null) {
+            throw new NoDataException("laboraryCheckup数据找不到");
         }
         return laboraryCheckup;
     }

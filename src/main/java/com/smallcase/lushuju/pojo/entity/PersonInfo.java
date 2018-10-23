@@ -83,6 +83,9 @@ public class PersonInfo implements Serializable {
     /**主诉*/
     private String personText;
 
+    /**用户（录数据的人）*/
+    private Integer userId;
+
     /**
      * 创建时间
      */

@@ -1,21 +1,16 @@
 package com.smallcase.lushuju.controller;
 
 import com.smallcase.lushuju.pojo.entity.*;
-import com.smallcase.lushuju.pojo.form.PersonInfoForm;
-import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.service.*;
-import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.Exception.MyException;
 import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 /**
  * Package: com.smallcase.lushuju.controller
@@ -26,6 +21,9 @@ import java.util.Date;
 @RestController
 @RequestMapping(path = "/waike/add")
 public class DataAddWaikeController {
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Autowired
     private PersonInfoService personInfoService;
@@ -50,6 +48,10 @@ public class DataAddWaikeController {
 
 
         try {
+            String currentUser = (String) request.getSession().getAttribute("currentUser");
+            UserEntity userEntity = userInfoService.findByUsername(currentUser);
+            //将用户的信息放入病人的主表中
+            personInfo.setUserId(userEntity.getId());
             result = personInfoService.save(personInfo);
         } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error("录入personINfo出错，可能缺少字段"));

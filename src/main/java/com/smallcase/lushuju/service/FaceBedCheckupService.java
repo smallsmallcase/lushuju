@@ -1,11 +1,9 @@
 package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.FaceBedCheckup;
-import com.smallcase.lushuju.utils.MyException;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -20,7 +18,7 @@ public interface FaceBedCheckupService {
 
     FaceBedCheckup save(FaceBedCheckup faceBedCheckup) throws MyException;
 
-    FaceBedCheckup findByPersonId(String personId) throws MyException;
+    FaceBedCheckup findByPersonId(String personId) throws MyException, NoDataException;
 
     FaceBedCheckup edit(FaceBedCheckup faceBedCheckup, String personId) throws MyException;
 

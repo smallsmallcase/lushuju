@@ -4,12 +4,11 @@ import com.smallcase.lushuju.pojo.entity.ZjkMedicalHistory;
 import com.smallcase.lushuju.repository.ZjkMedicalHistoryRepository;
 import com.smallcase.lushuju.service.ZjkMedicalHistoryService;
 import com.smallcase.lushuju.utils.BeanUtil;
-import com.smallcase.lushuju.utils.MyException;
-import com.smallcase.lushuju.utils.RestfulResult;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,15 +52,16 @@ public class ZjkMedicalHistoryServiceImpl implements ZjkMedicalHistoryService {
 
 
     @Override
-    public ZjkMedicalHistory findByPersonId(String personId) throws MyException {
+    public ZjkMedicalHistory findByPersonId(String personId) throws MyException, NoDataException {
         ZjkMedicalHistory medicalHistory;
         try {
             medicalHistory = repository.findByPersonId(personId);
-            if (medicalHistory == null) {
-                throw new MyException("正畸科数据找不到");
-            }
         } catch (Exception e) {
             throw new MyException(e.getMessage());
+        }
+
+        if (medicalHistory == null) {
+            throw new NoDataException("正畸科数据找不到");
         }
         return medicalHistory;
     }

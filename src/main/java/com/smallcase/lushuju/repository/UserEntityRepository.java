@@ -1,7 +1,10 @@
 package com.smallcase.lushuju.repository;
 
+import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * Package: com.smallcase.lushuju.repository
@@ -24,4 +27,6 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Integer>
      * @return
      */
     public UserEntity findByUsername(String username);
+
+
 }

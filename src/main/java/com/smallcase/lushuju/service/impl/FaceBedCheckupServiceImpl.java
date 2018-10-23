@@ -1,21 +1,17 @@
 package com.smallcase.lushuju.service.impl;
 
-import com.smallcase.lushuju.pojo.entity.ClinicalExamination;
 import com.smallcase.lushuju.pojo.entity.FaceBedCheckup;
 import com.smallcase.lushuju.repository.FaceBedCheckupRepository;
 import com.smallcase.lushuju.service.FaceBedCheckupService;
 import com.smallcase.lushuju.utils.BeanUtil;
-import com.smallcase.lushuju.utils.MyException;
-import com.smallcase.lushuju.utils.RestfulResult;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -63,17 +59,19 @@ public class FaceBedCheckupServiceImpl implements FaceBedCheckupService {
      * @return
      */
     @Override
-    public FaceBedCheckup findByPersonId(String personId) throws MyException {
+    public FaceBedCheckup findByPersonId(String personId) throws MyException, NoDataException {
+        FaceBedCheckup faceBedCheckup = null;
         try {
-            FaceBedCheckup faceBedCheckup = repository.findByPersonId(personId);
-            if (faceBedCheckup != null) {
-                return faceBedCheckup;
-            } else {
-                throw  new MyException("faceBedCheckup查到的数据为空");
-            }
+            faceBedCheckup = repository.findByPersonId(personId);
         } catch (Exception e) {
             throw new MyException(e.getMessage());
         }
+
+        if (faceBedCheckup == null) {
+            throw new NoDataException("FaceBedCheckup数据找不到");
+        }
+
+        return faceBedCheckup;
 
     }
 

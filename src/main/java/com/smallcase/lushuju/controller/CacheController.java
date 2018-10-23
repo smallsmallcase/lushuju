@@ -38,7 +38,7 @@ public class CacheController {
      * @return
      */
     @RequestMapping(value = "/cache", method = RequestMethod.POST)
-    public ResponseEntity cache(HttpServletRequest request, @RequestBody JSONObject cacheData, HttpServletResponse response) {
+    public ResponseEntity cache(HttpServletRequest request, @RequestBody JSONObject cacheData) {
         try {
 
         /*cacheObj

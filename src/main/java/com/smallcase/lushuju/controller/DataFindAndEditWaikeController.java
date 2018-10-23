@@ -2,18 +2,14 @@ package com.smallcase.lushuju.controller;
 
 import com.smallcase.lushuju.pojo.entity.*;
 import com.smallcase.lushuju.pojo.form.PersonInfoForm;
-import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.service.*;
-import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.Exception.MyException;
 import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * Package: com.smallcase.lushuju.controller
@@ -68,7 +64,7 @@ public class DataFindAndEditWaikeController {
         MedicalHistory medicalHistory;
         try {
             medicalHistory = medicalHistoryService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(medicalHistory));
@@ -98,7 +94,7 @@ public class DataFindAndEditWaikeController {
         HealthInfo healthInfo;
         try {
             healthInfo = healthInfoService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(healthInfo));
@@ -134,7 +130,7 @@ public class DataFindAndEditWaikeController {
         SpecialityCheckup specialityCheckup = null;
         try {
             specialityCheckup = specialityCheckupService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(specialityCheckup));
@@ -152,7 +148,7 @@ public class DataFindAndEditWaikeController {
         SpecialityCheckup result;
         try {
             result = specialityCheckupService.edit(specialityCheckup, personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
@@ -172,7 +168,7 @@ public class DataFindAndEditWaikeController {
         LaboraryCheckup laboraryCheckup = null;
         try {
             laboraryCheckup = laboraryCheckupService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(laboraryCheckup));
@@ -191,7 +187,7 @@ public class DataFindAndEditWaikeController {
         LaboraryCheckup result;
         try {
             result = laboraryCheckupService.edit(laboraryCheckup, personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }

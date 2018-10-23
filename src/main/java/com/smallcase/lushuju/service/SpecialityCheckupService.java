@@ -1,8 +1,8 @@
 package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.SpecialityCheckup;
-import com.smallcase.lushuju.utils.MyException;
-import org.springframework.http.ResponseEntity;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface SpecialityCheckupService {
 
     SpecialityCheckup save(SpecialityCheckup specialityCheckup) throws MyException;
 
-    SpecialityCheckup findByPersonId(String personId) throws MyException;
+    SpecialityCheckup findByPersonId(String personId) throws MyException, NoDataException;
 
     SpecialityCheckup edit(SpecialityCheckup specialityCheckup, String personId) throws MyException;
 

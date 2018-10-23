@@ -1,16 +1,14 @@
 package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.ClinicalExamination;
-import com.smallcase.lushuju.pojo.entity.MedicalHistory;
 import com.smallcase.lushuju.repository.ClinicalExaminationRepository;
 import com.smallcase.lushuju.service.ClinicalExaminationService;
 import com.smallcase.lushuju.utils.BeanUtil;
-import com.smallcase.lushuju.utils.MyException;
-import com.smallcase.lushuju.utils.RestfulResult;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,20 +27,20 @@ public class ClinicalExaminationServicceImpl implements ClinicalExaminationServi
     @Autowired
     private ClinicalExaminationRepository repository;
     @Override
-    public ClinicalExamination findOne(Integer id) throws Exception {
+    public ClinicalExamination findOne(Integer id) throws NoDataException {
         ClinicalExamination one = repository.findOne(id);
         if (one != null && one.getId() != null) {
             return one;
         } else {
-            throw new Exception("ClinicalExamination数据访问不到");
+            throw new NoDataException("ClinicalExamination数据访问不到");
         }
     }
 
     @Override
-    public List<ClinicalExamination> findAll() throws Exception {
+    public List<ClinicalExamination> findAll() throws NoDataException {
         List<ClinicalExamination> all = repository.findAll();
         if (all.size() <= 0) {
-            throw new Exception("ClinicalExamination列表访问不到");
+            throw new NoDataException("ClinicalExamination列表访问不到");
         } else {
             return all;
         }
@@ -61,15 +59,15 @@ public class ClinicalExaminationServicceImpl implements ClinicalExaminationServi
     }
 
     @Override
-    public ClinicalExamination findByPersonId(String personId) throws MyException {
+    public ClinicalExamination findByPersonId(String personId) throws MyException,NoDataException {
         ClinicalExamination clinicalExamination;
         try {
             clinicalExamination = repository.findByPersonId(personId);
-            if (clinicalExamination == null) {
-                throw new MyException("通过personId,ClinicalExamination数据访问不到");
-            }
         } catch (Exception e) {
             throw new MyException(e.getMessage());
+        }
+        if (clinicalExamination == null) {
+            throw new NoDataException("通过personId,ClinicalExamination数据访问不到");
         }
         return clinicalExamination;
 

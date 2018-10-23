@@ -1,8 +1,8 @@
 package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.LaboraryCheckup;
-import com.smallcase.lushuju.utils.MyException;
-import org.springframework.http.ResponseEntity;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface LaboraryCheckupService {
 
     LaboraryCheckup save(LaboraryCheckup laboraryCheckup) throws MyException;
 
-    LaboraryCheckup findByPersonId(String personId) throws MyException;
+    LaboraryCheckup findByPersonId(String personId) throws MyException, NoDataException;
 
     LaboraryCheckup edit(LaboraryCheckup laboraryCheckup, String personId) throws MyException;
 

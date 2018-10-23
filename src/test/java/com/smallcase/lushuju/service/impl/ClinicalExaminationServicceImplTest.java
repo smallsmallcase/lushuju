@@ -2,17 +2,14 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.ClinicalExamination;
 import com.smallcase.lushuju.service.ClinicalExaminationService;
-import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.Exception.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.Assert.*;
 
 /**
  * Package: com.smallcase.lushuju.service.impl
@@ -50,5 +47,22 @@ public class ClinicalExaminationServicceImplTest {
         }
         Assert.assertNotNull(result);
         log.info(result.toString());
+    }
+
+    @Test
+    public void findByPersonId() {
+        ClinicalExamination clinicalExamination = null;
+
+        try {
+            clinicalExamination = service.findByPersonId("1313131");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        if (clinicalExamination == null) {
+
+        }
+        System.out.println();
+
+
     }
 }

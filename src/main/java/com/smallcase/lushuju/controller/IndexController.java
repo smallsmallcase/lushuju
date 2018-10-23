@@ -2,35 +2,25 @@ package com.smallcase.lushuju.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
 import com.smallcase.lushuju.pojo.form.LoginParam;
 import com.smallcase.lushuju.pojo.form.RegisterParam;
-import com.smallcase.lushuju.pojo.view.ResultVO;
-import com.smallcase.lushuju.repository.UserEntityRepository;
-import com.smallcase.lushuju.service.UserEntityService;
+import com.smallcase.lushuju.service.UserInfoService;
 import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import java.util.Enumeration;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -45,7 +35,7 @@ public class IndexController {
 
 
     @Autowired
-    private UserEntityService service;
+    private UserInfoService service;
     @Autowired
     private StringRedisTemplate redisTemplate;
 
@@ -106,7 +96,7 @@ public class IndexController {
     @RequestMapping(value = "/finish", method = RequestMethod.GET)
     public ResponseEntity finish(HttpServletRequest request) {
 
-        String currentUser = (String)request.getSession().getAttribute("currentUser");
+        String currentUser = (String) request.getSession().getAttribute("currentUser");
         if (currentUser != null) {
 
             //清除redis缓存中的数据
@@ -145,4 +135,31 @@ public class IndexController {
         }
 
     }
+
+    @RequestMapping(value = "/search/patients", method = RequestMethod.GET)
+    public ResponseEntity searchPatients(@RequestParam(value = "userId") Integer userId,
+                                         @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "1") int pageNum) {
+
+        List<PersonInfo> personInfos;
+        try {
+            personInfos = service.listPersonInfoByUser(userId, pageSize, pageNum);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+
+        return RestfulResult.ok(ResultVOUtil.success(personInfos));
+    }
+
+    @RequestMapping(value = "/search/patients_count", method = RequestMethod.GET)
+    public ResponseEntity searchPatientsCount(@RequestParam(value = "userId") Integer userId) {
+        Integer num;
+        try {
+            num = service.listPersonInfoNumByUserId(userId);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+
+        return RestfulResult.ok(ResultVOUtil.success(num));
+    }
 }
+
