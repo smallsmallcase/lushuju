@@ -1,6 +1,6 @@
 package com.smallcase.lushuju.repository;
 
-import com.smallcase.lushuju.pojo.entity.LaboraryCheckup;
+import com.smallcase.lushuju.pojo.entity.LaboratoryCheckup;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Author: smallcase
  * Date: Created in 2018/6/28 22:37
  */
-public interface LaboraryCheckupRepository extends JpaRepository<LaboraryCheckup,Integer> {
-    LaboraryCheckup findByPersonId(String personId);
+public interface LaboraryCheckupRepository extends JpaRepository<LaboratoryCheckup,Integer> {
+    LaboratoryCheckup findByPersonId(String personId);
 }

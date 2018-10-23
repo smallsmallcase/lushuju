@@ -38,7 +38,7 @@ public class DataAddWaikeController {
     private SpecialityCheckupService specialityCheckupService;
 
     @Autowired
-    private LaboraryCheckupService laboraryCheckupService;
+    private LaboratoryCheckupService laboraryCheckupService;
 
 
     @PostMapping(value = "/personInfo")
@@ -104,10 +104,10 @@ public class DataAddWaikeController {
         return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
-    @PostMapping(value = "/{id}/laboraryCheckup")
-    public ResponseEntity addLaboraryCheckup(@PathVariable("id") String personId,@RequestBody LaboraryCheckup laboraryCheckup, HttpSession session) {
+    @PostMapping(value = "/{id}/laboratoryCheckup")
+    public ResponseEntity addLaboraryCheckup(@PathVariable("id") String personId,@RequestBody LaboratoryCheckup laboraryCheckup, HttpSession session) {
         laboraryCheckup.setPersonId(personId);
-        LaboraryCheckup result;
+        LaboratoryCheckup result;
         try {
              result = laboraryCheckupService.save(laboraryCheckup);
         } catch (MyException e) {

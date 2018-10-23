@@ -30,6 +30,7 @@ public class ClinicalExamination implements Serializable{
     private static final long serialVersionUID = -236106222008316636L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer id;
 
     /**正面面型*/

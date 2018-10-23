@@ -26,6 +26,7 @@ public class FaceBedCheckup implements Serializable{
     private static final long serialVersionUID = 4766921875022843568L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer id;
 
     /**乳牙合情况*/

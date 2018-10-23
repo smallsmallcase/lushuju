@@ -20,10 +20,15 @@ import java.util.Date;
 @Data
 @DynamicUpdate
 @Entity(name = "medical_history")
+
+/**
+ * 病史
+ */
 public class MedicalHistory implements Serializable{
     private static final long serialVersionUID = 997904126747035384L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer id;
 
     /**现病史*/

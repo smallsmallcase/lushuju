@@ -36,7 +36,7 @@ public class PersonInfoServiceImpl implements PersonInfoService {
      * @return
      */
     @Override
-    public PersonInfo findOne(String id) throws MyException, NoDataException {
+    public PersonInfo findOne(String id) throws Exception {
         PersonInfo personInfo;
         try {
             personInfo = repository.findOne(id);
@@ -88,12 +88,4 @@ public class PersonInfoServiceImpl implements PersonInfoService {
         return personInfo;
     }
 
-
-
-    @Override
-    public JSONArray findAllInfoByPersonId(String personId) {
-        HashMap<String, JSONObject> map = new HashMap<>();
-        //TODO
-        return null;
-    }
 }

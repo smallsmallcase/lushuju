@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface PersonInfoService {
 
-    PersonInfo findOne(String id) throws MyException, NoDataException;
+    PersonInfo findOne(String id) throws Exception;
 
     List<PersonInfo> findAll();
 
@@ -23,10 +23,5 @@ public interface PersonInfoService {
 
     PersonInfo edit(PersonInfoForm form, String personId) throws MyException;
 
-    /**
-     * 通过病人的personId查询所有的病例信息
-     * @param personId
-     * @return
-     */
-    JSONArray findAllInfoByPersonId(String personId);
+
 }

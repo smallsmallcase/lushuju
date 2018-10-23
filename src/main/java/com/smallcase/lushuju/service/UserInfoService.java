@@ -27,6 +27,10 @@ public interface UserInfoService {
     //通过userid，查询该用户录取的病人个数
     int listPersonInfoNumByUserId(Integer userId);
 
+    //找回密码，更改密码
+    void changepwd(String userName, String newPassword) throws Exception;
+
+
 
 
 }

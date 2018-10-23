@@ -89,6 +89,17 @@ public class UserInfoServiceImpl implements UserInfoService {
         return personInfoRepository.findPersonInfosNumByUserId(userId);
     }
 
+    @Override
+    @Transactional
+    public void changepwd(String userName, String newPassword)throws Exception {
+        try {
+            repository.changepwd(userName, newPassword);
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 
     private int calculatePage(int pageSize, int pageNum) {
         return (pageNum - 1) * pageSize;

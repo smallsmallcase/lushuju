@@ -30,7 +30,7 @@ public class DataFindAndEditWaikeController {
     @Autowired
     private SpecialityCheckupService specialityCheckupService;
     @Autowired
-    private LaboraryCheckupService laboraryCheckupService;
+    private LaboratoryCheckupService laboraryCheckupService;
 
 
     @GetMapping(value = "/search/{id}/personInfo")
@@ -163,9 +163,9 @@ public class DataFindAndEditWaikeController {
      * @param personId
      * @return
      */
-    @GetMapping(value = "search/{id}/laboraryCheckup")
+    @GetMapping(value = "search/{id}/laboratoryCheckup")
     public ResponseEntity findLaboraryCheckup(@PathVariable("id") String personId) {
-        LaboraryCheckup laboraryCheckup = null;
+        LaboratoryCheckup laboraryCheckup = null;
         try {
             laboraryCheckup = laboraryCheckupService.findByPersonId(personId);
         } catch (Exception e) {
@@ -182,9 +182,9 @@ public class DataFindAndEditWaikeController {
      * @param laboraryCheckup
      * @return
      */
-    @PatchMapping(value = "edit/{id}/laboraryCheckup")
-    public ResponseEntity editLabotoryCheckup(@PathVariable("id") String personId, @RequestBody LaboraryCheckup laboraryCheckup) {
-        LaboraryCheckup result;
+    @PatchMapping(value = "edit/{id}/laboratoryCheckup")
+    public ResponseEntity editLabotoryCheckup(@PathVariable("id") String personId, @RequestBody LaboratoryCheckup laboraryCheckup) {
+        LaboratoryCheckup result;
         try {
             result = laboraryCheckupService.edit(laboraryCheckup, personId);
         } catch (Exception e) {

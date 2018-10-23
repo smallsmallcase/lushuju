@@ -1,7 +1,7 @@
 package com.smallcase.lushuju.service.impl;
 
-import com.smallcase.lushuju.pojo.entity.LaboraryCheckup;
-import com.smallcase.lushuju.service.LaboraryCheckupService;
+import com.smallcase.lushuju.pojo.entity.LaboratoryCheckup;
+import com.smallcase.lushuju.service.LaboratoryCheckupService;
 import com.smallcase.lushuju.utils.Exception.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -24,7 +24,7 @@ import javax.annotation.Resource;
 public class LaboraryCheckupServiceImplTest {
 
     @Resource
-    private LaboraryCheckupService service;
+    private LaboratoryCheckupService service;
 
     @Test
     public void findOne() {
@@ -37,12 +37,12 @@ public class LaboraryCheckupServiceImplTest {
     @Test
     public void save() {
 
-        LaboraryCheckup laboraryCheckup = new LaboraryCheckup();
+        LaboratoryCheckup laboraryCheckup = new LaboratoryCheckup();
         laboraryCheckup.setCt("CT111");
         laboraryCheckup.setMrc("MRC111");
         laboraryCheckup.setUltrasound("挥发发");
 
-        LaboraryCheckup result = null;
+        LaboratoryCheckup result = null;
         try {
             result = service.save(laboraryCheckup);
         } catch (MyException e) {

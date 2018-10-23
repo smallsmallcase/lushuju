@@ -1,12 +1,16 @@
 package com.smallcase.lushuju.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
 import com.smallcase.lushuju.pojo.form.LoginParam;
 import com.smallcase.lushuju.pojo.form.RegisterParam;
+import com.smallcase.lushuju.service.AllService;
 import com.smallcase.lushuju.service.UserInfoService;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +40,8 @@ public class IndexController {
 
     @Autowired
     private UserInfoService service;
+    @Autowired
+    private AllService allService;
     @Autowired
     private StringRedisTemplate redisTemplate;
 
@@ -136,6 +142,25 @@ public class IndexController {
 
     }
 
+    @RequestMapping(value = "/changepwd", method = RequestMethod.POST)
+    public ResponseEntity changePwd(@RequestParam String userName, @RequestParam String newPassword) {
+        try {
+            service.changepwd(userName, newPassword);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success("密码修改成功"));
+    }
+
+
+
+    /**
+     * 按照用户，分页查找录入的病例
+     * @param userId
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     @RequestMapping(value = "/search/patients", method = RequestMethod.GET)
     public ResponseEntity searchPatients(@RequestParam(value = "userId") Integer userId,
                                          @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "1") int pageNum) {
@@ -161,5 +186,23 @@ public class IndexController {
 
         return RestfulResult.ok(ResultVOUtil.success(num));
     }
+
+    @RequestMapping(value = "/search/patient/detail", method = RequestMethod.GET)
+    public ResponseEntity searchPatientDetail(@RequestParam String personId) {
+        JSONArray personInfo;
+        try {
+            personInfo = allService.findAllInfoByPersonId(personId);
+
+        } catch (NoDataException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("找不到该数据,personId不存在"));
+        } catch (Exception e) {
+
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+
+        return RestfulResult.ok(ResultVOUtil.success(personInfo));
+
+    }
+
 }
 
