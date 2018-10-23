@@ -1,8 +1,8 @@
 package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.HealthInfo;
-import com.smallcase.lushuju.utils.MyException;
-import org.springframework.http.ResponseEntity;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface HealthInfoService {
 
     HealthInfo save(HealthInfo healthInfo) throws MyException;
 
-    HealthInfo findByPersonId(String personId) throws MyException;
+    HealthInfo findByPersonId(String personId) throws MyException, NoDataException;
 
     HealthInfo edit(HealthInfo healthInfo, String personId) throws MyException;
 

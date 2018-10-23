@@ -2,7 +2,7 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.SpecialityCheckup;
 import com.smallcase.lushuju.service.SpecialityCheckupService;
-import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.Exception.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,13 +10,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-
-import static org.junit.Assert.*;
 
 /**
  * Package: com.smallcase.lushuju.service.impl

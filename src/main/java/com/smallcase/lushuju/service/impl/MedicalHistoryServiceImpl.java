@@ -4,17 +4,14 @@ import com.smallcase.lushuju.pojo.entity.MedicalHistory;
 import com.smallcase.lushuju.repository.MedicalHistoryRepository;
 import com.smallcase.lushuju.service.MedicalHistoryService;
 import com.smallcase.lushuju.utils.BeanUtil;
-import com.smallcase.lushuju.utils.MyException;
-import com.smallcase.lushuju.utils.RestfulResult;
-import com.smallcase.lushuju.utils.ResultVOUtil;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.RollbackException;
 import java.util.List;
 
 /**
@@ -36,15 +33,17 @@ public class MedicalHistoryServiceImpl implements MedicalHistoryService {
     }
 
     @Override
-    public MedicalHistory findByPersonId(String personId) throws MyException {
+    public MedicalHistory findByPersonId(String personId) throws MyException, NoDataException {
         MedicalHistory medicalHistory;
         try {
             medicalHistory = repository.findByPersonId(personId);
-            if (medicalHistory == null) {
-                throw new MyException("MedicalHistory找不到");
-            }
+
         } catch (Exception e) {
             throw new MyException(e.getMessage());
+        }
+
+        if (medicalHistory == null) {
+            throw new NoDataException("MedicalHistory找不到");
         }
         return medicalHistory;
 

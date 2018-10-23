@@ -2,7 +2,7 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.service.PersonInfoService;
-import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.Exception.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,8 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Package: com.smallcase.lushuju.service.impl

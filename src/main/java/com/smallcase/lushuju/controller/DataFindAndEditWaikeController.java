@@ -2,18 +2,14 @@ package com.smallcase.lushuju.controller;
 
 import com.smallcase.lushuju.pojo.entity.*;
 import com.smallcase.lushuju.pojo.form.PersonInfoForm;
-import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.service.*;
-import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.Exception.MyException;
 import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * Package: com.smallcase.lushuju.controller
@@ -34,7 +30,7 @@ public class DataFindAndEditWaikeController {
     @Autowired
     private SpecialityCheckupService specialityCheckupService;
     @Autowired
-    private LaboraryCheckupService laboraryCheckupService;
+    private LaboratoryCheckupService laboraryCheckupService;
 
 
     @GetMapping(value = "/search/{id}/personInfo")
@@ -68,7 +64,7 @@ public class DataFindAndEditWaikeController {
         MedicalHistory medicalHistory;
         try {
             medicalHistory = medicalHistoryService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(medicalHistory));
@@ -98,7 +94,7 @@ public class DataFindAndEditWaikeController {
         HealthInfo healthInfo;
         try {
             healthInfo = healthInfoService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(healthInfo));
@@ -134,7 +130,7 @@ public class DataFindAndEditWaikeController {
         SpecialityCheckup specialityCheckup = null;
         try {
             specialityCheckup = specialityCheckupService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(specialityCheckup));
@@ -152,7 +148,7 @@ public class DataFindAndEditWaikeController {
         SpecialityCheckup result;
         try {
             result = specialityCheckupService.edit(specialityCheckup, personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
@@ -167,12 +163,12 @@ public class DataFindAndEditWaikeController {
      * @param personId
      * @return
      */
-    @GetMapping(value = "search/{id}/laboraryCheckup")
+    @GetMapping(value = "search/{id}/laboratoryCheckup")
     public ResponseEntity findLaboraryCheckup(@PathVariable("id") String personId) {
-        LaboraryCheckup laboraryCheckup = null;
+        LaboratoryCheckup laboraryCheckup = null;
         try {
             laboraryCheckup = laboraryCheckupService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(laboraryCheckup));
@@ -186,12 +182,12 @@ public class DataFindAndEditWaikeController {
      * @param laboraryCheckup
      * @return
      */
-    @PatchMapping(value = "edit/{id}/laboraryCheckup")
-    public ResponseEntity editLabotoryCheckup(@PathVariable("id") String personId, @RequestBody LaboraryCheckup laboraryCheckup) {
-        LaboraryCheckup result;
+    @PatchMapping(value = "edit/{id}/laboratoryCheckup")
+    public ResponseEntity editLabotoryCheckup(@PathVariable("id") String personId, @RequestBody LaboratoryCheckup laboraryCheckup) {
+        LaboratoryCheckup result;
         try {
             result = laboraryCheckupService.edit(laboraryCheckup, personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }

@@ -1,8 +1,8 @@
 package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.ClinicalExamination;
-import com.smallcase.lushuju.utils.MyException;
-import org.springframework.http.ResponseEntity;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface ClinicalExaminationService {
 
     ClinicalExamination save(ClinicalExamination clinicalExamination) throws MyException;
 
-    ClinicalExamination findByPersonId(String personId) throws MyException;
+    ClinicalExamination findByPersonId(String personId) throws MyException,NoDataException;
 
     ClinicalExamination edit(ClinicalExamination clinicalExamination, String personId) throws MyException;
 

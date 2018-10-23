@@ -2,18 +2,15 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.MedicalHistory;
 import com.smallcase.lushuju.service.MedicalHistoryService;
-import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.Exception.MyException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Package: com.smallcase.lushuju.service.impl

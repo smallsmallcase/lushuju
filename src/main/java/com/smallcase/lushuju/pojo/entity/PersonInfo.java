@@ -34,6 +34,7 @@ public class PersonInfo implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid32")
     @GenericGenerator(name = "uuid32",strategy ="uuid")
+    @JsonIgnore
     private String id;
 
     /**名字*/
@@ -82,6 +83,9 @@ public class PersonInfo implements Serializable {
 
     /**主诉*/
     private String personText;
+
+    /**用户（录数据的人）*/
+    private Integer userId;
 
     /**
      * 创建时间

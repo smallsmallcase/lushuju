@@ -31,6 +31,7 @@ public class ZjkMedicalHistory implements Serializable{
     private static final long serialVersionUID = -407888547944953187L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer id;
 
     /**正畸治疗史*/

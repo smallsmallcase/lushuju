@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * 实验室及器械检查
  */
-public class LaboraryCheckup implements Serializable {
+public class LaboratoryCheckup implements Serializable {
 
     private static final long serialVersionUID = -7206967798503381386L;
     @Id

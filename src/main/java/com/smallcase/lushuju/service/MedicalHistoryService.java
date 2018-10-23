@@ -1,8 +1,8 @@
 package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.MedicalHistory;
-import com.smallcase.lushuju.utils.MyException;
-import org.springframework.http.ResponseEntity;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface MedicalHistoryService  {
 
     MedicalHistory findOne(Integer id);
 
-    MedicalHistory findByPersonId(String personId) throws MyException;
+    MedicalHistory findByPersonId(String personId) throws MyException, NoDataException;
 
     List<MedicalHistory> findAll();
 

@@ -6,7 +6,7 @@ import com.smallcase.lushuju.pojo.entity.ZjkMedicalHistory;
 import com.smallcase.lushuju.service.ClinicalExaminationService;
 import com.smallcase.lushuju.service.FaceBedCheckupService;
 import com.smallcase.lushuju.service.ZjkMedicalHistoryService;
-import com.smallcase.lushuju.utils.MyException;
+import com.smallcase.lushuju.utils.Exception.MyException;
 import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class DataFindAndEditZhenjiController {
         ZjkMedicalHistory zjkMedicalHistory = null;
         try {
             zjkMedicalHistory = zjkMedicalHistoryService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(zjkMedicalHistory));
@@ -60,7 +60,7 @@ public class DataFindAndEditZhenjiController {
         ZjkMedicalHistory result;
         try {
             result = zjkMedicalHistoryService.edit(zjkMedicalHistory, personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
@@ -78,7 +78,7 @@ public class DataFindAndEditZhenjiController {
         FaceBedCheckup faceBedCheckup;
         try {
             faceBedCheckup = faceBedCheckupService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(faceBedCheckup));
@@ -114,7 +114,7 @@ public class DataFindAndEditZhenjiController {
         ClinicalExamination clinicalExamination = null;
         try {
             clinicalExamination = clinicalExaminationService.findByPersonId(personId);
-        } catch (MyException e) {
+        } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
         return RestfulResult.ok(ResultVOUtil.success(clinicalExamination));

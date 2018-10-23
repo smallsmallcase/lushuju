@@ -1,19 +1,21 @@
 package com.smallcase.lushuju.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.form.PersonInfoForm;
 import com.smallcase.lushuju.repository.PersonInfoRepository;
 import com.smallcase.lushuju.service.PersonInfoService;
 import com.smallcase.lushuju.utils.BeanUtil;
-import com.smallcase.lushuju.utils.MyException;
-import com.smallcase.lushuju.utils.RestfulResult;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,15 +36,16 @@ public class PersonInfoServiceImpl implements PersonInfoService {
      * @return
      */
     @Override
-    public PersonInfo findOne(String id) throws MyException {
+    public PersonInfo findOne(String id) throws Exception {
         PersonInfo personInfo;
         try {
             personInfo = repository.findOne(id);
-            if (personInfo == null) {
-                throw new MyException("个人信息找不到");
-            }
+
         } catch (Exception e) {
             throw new MyException(e.getMessage() + "个人信息找不到");
+        }
+        if (personInfo == null) {
+            throw new NoDataException("个人信息找不到");
         }
         return personInfo;
 
@@ -84,4 +87,5 @@ public class PersonInfoServiceImpl implements PersonInfoService {
 
         return personInfo;
     }
+
 }

@@ -1,17 +1,15 @@
 package com.smallcase.lushuju.service.impl;
 
-import com.smallcase.lushuju.pojo.entity.LaboraryCheckup;
+import com.smallcase.lushuju.pojo.entity.LaboratoryCheckup;
 import com.smallcase.lushuju.repository.LaboraryCheckupRepository;
-import com.smallcase.lushuju.service.LaboraryCheckupService;
+import com.smallcase.lushuju.service.LaboratoryCheckupService;
 import com.smallcase.lushuju.utils.BeanUtil;
-import com.smallcase.lushuju.utils.MyException;
-import com.smallcase.lushuju.utils.RestfulResult;
+import com.smallcase.lushuju.utils.Exception.MyException;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -24,25 +22,25 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class LaboraryCheckupServiceImpl implements LaboraryCheckupService {
+public class LaboraryCheckupServiceImpl implements LaboratoryCheckupService {
 
     @Resource
     private LaboraryCheckupRepository repository;
 
 
     @Override
-    public LaboraryCheckup findOne(Integer id) {
+    public LaboratoryCheckup findOne(Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public List<LaboraryCheckup> findAll() {
+    public List<LaboratoryCheckup> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public LaboraryCheckup save(LaboraryCheckup laboraryCheckup) throws MyException {
-        LaboraryCheckup result;
+    public LaboratoryCheckup save(LaboratoryCheckup laboraryCheckup) throws MyException {
+        LaboratoryCheckup result;
         try {
              result = repository.save(laboraryCheckup);
         } catch (DataIntegrityViolationException e) {
@@ -58,15 +56,17 @@ public class LaboraryCheckupServiceImpl implements LaboraryCheckupService {
      * @return
      */
     @Override
-    public LaboraryCheckup findByPersonId(String personId) throws MyException {
-        LaboraryCheckup laboraryCheckup;
+    public LaboratoryCheckup findByPersonId(String personId) throws MyException, NoDataException {
+        LaboratoryCheckup laboraryCheckup;
         try {
             laboraryCheckup = repository.findByPersonId(personId);
-            if (laboraryCheckup == null) {
-                throw new MyException("laboraryCheckup数据找不到");
-            }
+
         } catch (Exception e) {
             throw new MyException(e.getMessage());
+        }
+
+        if (laboraryCheckup == null) {
+            throw new NoDataException("laboraryCheckup数据找不到");
         }
         return laboraryCheckup;
     }
@@ -80,8 +80,8 @@ public class LaboraryCheckupServiceImpl implements LaboraryCheckupService {
      */
     @Override
     @Transactional
-    public LaboraryCheckup edit(LaboraryCheckup form, String personId) throws MyException {
-        LaboraryCheckup laboraryCheckup;
+    public LaboratoryCheckup edit(LaboratoryCheckup form, String personId) throws MyException {
+        LaboratoryCheckup laboraryCheckup;
         try {
 
             laboraryCheckup = repository.findByPersonId(personId);
