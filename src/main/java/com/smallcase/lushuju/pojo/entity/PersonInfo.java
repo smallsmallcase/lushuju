@@ -87,6 +87,9 @@ public class PersonInfo implements Serializable {
     /**用户（录数据的人）*/
     private Integer userId;
 
+    /**图片地址*/
+    private String imgPath;
+
     /**
      * 创建时间
      */

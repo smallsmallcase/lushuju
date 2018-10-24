@@ -88,4 +88,37 @@ public class PersonInfoServiceImpl implements PersonInfoService {
         return personInfo;
     }
 
+    @Override
+    @Transactional
+    public void insertImg(String imgPath, String fileName,String personId) throws RuntimeException {
+
+        int effectedNum = repository.insertImgPath(imgPath, fileName,personId);
+        if (effectedNum != 1) {
+            throw new RuntimeException("插入图片失败");
+        }
+    }
+
+    @Override
+    public String getImgPath(String personId) throws RuntimeException {
+
+        String imgPath;
+        try {
+            imgPath = repository.getImgPathByPersonId(personId);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("下载图片时，根据personId找不到对应的图片地址");
+        }
+        return imgPath;
+    }
+
+    @Override
+    public String getFileName(String personId) throws RuntimeException {
+        String imgName;
+        try {
+            imgName = repository.getImgNameByPersonId(personId);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("下载图片时，根据personId找不到对应的图片地址");
+        }
+        return imgName;
+    }
+
 }

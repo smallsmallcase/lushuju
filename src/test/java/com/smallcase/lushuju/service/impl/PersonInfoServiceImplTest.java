@@ -48,4 +48,19 @@ public class PersonInfoServiceImplTest {
 
         service.save(personInfo);
     }
+
+    @Test
+    public void getimgPath() {
+        String path = null;
+
+        try {
+            path = service.getImgPath("2c9340e766a57a910166a5c6720000");
+
+        } catch (RuntimeException e) {
+            System.out.println("啊哈哈哈哈");
+            e.printStackTrace();
+        }
+        System.out.println(path);
+
+    }
 }
