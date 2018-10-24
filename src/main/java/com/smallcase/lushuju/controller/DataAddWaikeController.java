@@ -56,7 +56,7 @@ public class DataAddWaikeController {
         } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error("录入personINfo出错，可能缺少字段"));
         }
-        String personId = result.getId();
+        String personId = result.getPersonId();
         //录入personInfo信息，需要将id存入session中
         request.getSession().setAttribute("personId", personId);
         return RestfulResult.ok(ResultVOUtil.success(result));
