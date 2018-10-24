@@ -23,5 +23,17 @@ public interface PersonInfoService {
 
     PersonInfo edit(PersonInfoForm form, String personId) throws MyException;
 
+    /*
+    插入图片地址
+     */
+    void insertImg(String imgPath, String fileName,String personId) throws RuntimeException;
+
+    /*
+    根据personId获取对应的图片子地址
+     */
+    String getImgPath(String personId) throws RuntimeException;
+
+    String getFileName(String personId) throws RuntimeException;
+
 
 }

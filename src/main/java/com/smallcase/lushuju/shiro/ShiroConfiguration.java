@@ -38,6 +38,9 @@ public class ShiroConfiguration {
         filterChainMap.put("/register", "anon");
         filterChainMap.put("/addregister", "anon");
         filterChainMap.put("/login", "anon");
+        filterChainMap.put("/file", "anon");
+//        filterChainMap.put("/upload/**", "anon");
+//        filterChainMap.put("/download/**", "anon");
         filterChainMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainMap);
 
