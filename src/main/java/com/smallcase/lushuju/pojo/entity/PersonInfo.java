@@ -33,9 +33,9 @@ public class PersonInfo implements Serializable {
      */
     @Id
     @GeneratedValue(generator = "uuid32")
-    @GenericGenerator(name = "uuid32",strategy ="uuid")
-    @JsonIgnore
-    private String id;
+    @GenericGenerator(name = "uuid32", strategy = "uuid")
+    @Column(name = "id")
+    private String personId;
 
     /**名字*/
     @NotBlank
@@ -88,7 +88,14 @@ public class PersonInfo implements Serializable {
     private Integer userId;
 
     /**图片地址*/
+    @JsonIgnore
     private String imgPath;
+
+    /**
+     * 图片名字
+     */
+    @JsonIgnore
+    private String imgName;
 
     /**
      * 创建时间
