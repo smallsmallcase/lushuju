@@ -1,6 +1,8 @@
 package com.smallcase.lushuju;
 
 import com.alibaba.fastjson.JSONObject;
+import com.smallcase.lushuju.utils.ResultVOUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +24,8 @@ import java.util.HashMap;
  * 重写shiro的UserFilter，实现通过OPTIONS请求
  * @author MDY
  */
+
+
 public class CrosFilter extends UserFilter {
 
     /**
@@ -47,9 +51,8 @@ public class CrosFilter extends UserFilter {
         saveRequest(request);
         setHeader((HttpServletRequest) request,(HttpServletResponse) response);
         PrintWriter out = response.getWriter();
-        HashMap<String, String> map = new HashMap<>();
-        map.put("失败", "失败");
-        out.println(JSONObject.toJSONString(map));
+
+        out.println(JSONObject.toJSONString(ResultVOUtil.error("登陆验证失败")));
         out.flush();
         out.close();
     }

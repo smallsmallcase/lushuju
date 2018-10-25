@@ -64,33 +64,41 @@ public class IndexController {
         log.info("登陆认证成功");
         //登陆成功就将将用户名放入session中
         request.getSession().setAttribute("currentUser", username);
-
-        //从缓存中读取属于该用户的缓存信息
-        Set<String> users = redisTemplate.keys(username);
-
-        //读取缓存正确，继续录取
-        //只能缓存最近的一条信息，不继续处理就作废
-        if (users.size() == 1) {
-            /*cacheObj
-            {
-
-            personId:xxx,
-            requestUrl: xxx.xxx.xxx,
-            cacheValue:{x:11,y:22,....}
-
-            }
-             */
-            String jsonStr = redisTemplate.opsForValue().get(username);
-            JSONObject cacheObj = JSON.parseObject(jsonStr);
-            //读取缓存数据结束，清空缓存
-            redisTemplate.delete(users);
-            return RestfulResult.ok(ResultVOUtil.success(cacheObj));
-
+        UserEntity userEntity;
+        try {
+            userEntity = service.findByUsername(username);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("登陆用户名找不到"));
         }
 
-        //没有缓存，或者缓存信息不正确，清空该用户的开始新的数据录入
-        redisTemplate.delete(users);
-        return RestfulResult.serviceErr(ResultVOUtil.success());
+        //从缓存中读取属于该用户的缓存信息
+//        Set<String> users = redisTemplate.keys(username);
+//
+//        //读取缓存正确，继续录取
+//        //只能缓存最近的一条信息，不继续处理就作废
+//        if (users.size() == 1) {
+//            /*cacheObj
+//            {
+//
+//            personId:xxx,
+//            requestUrl: xxx.xxx.xxx,
+//            cacheValue:{x:11,y:22,....}
+//
+//            }
+//             */
+//            String jsonStr = redisTemplate.opsForValue().get(username);
+//            JSONObject cacheObj = JSON.parseObject(jsonStr);
+//            //读取缓存数据结束，清空缓存
+//            redisTemplate.delete(users);
+//            return RestfulResult.ok(ResultVOUtil.success(cacheObj));
+//
+//        }
+//
+//        //没有缓存，或者缓存信息不正确，清空该用户的开始新的数据录入
+//        redisTemplate.delete(users);
+
+        log.info("开始返回信息");
+        return RestfulResult.serviceErr(ResultVOUtil.loginSuccess(userEntity.getId()));
 
     }
 

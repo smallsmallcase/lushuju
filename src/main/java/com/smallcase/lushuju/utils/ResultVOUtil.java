@@ -1,6 +1,7 @@
 package com.smallcase.lushuju.utils;
 
 import com.smallcase.lushuju.pojo.view.ResultVO;
+import com.smallcase.lushuju.pojo.view.SimpleVO;
 
 /**
  * Package: com.smallcase.lushuju.utils
@@ -28,6 +29,14 @@ public class ResultVOUtil {
         resultVO.setMsg(msg);
         resultVO.setCode(0);
         return resultVO;
+    }
+
+    public static SimpleVO loginSuccess(int userId) {
+        SimpleVO<Object> simpleVO = new SimpleVO<>();
+        simpleVO.setCode(1);
+        simpleVO.setMsg("登陆成功");
+        simpleVO.setUserId(userId);
+        return simpleVO;
     }
 
 }
