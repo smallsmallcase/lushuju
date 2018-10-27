@@ -47,12 +47,17 @@ public class DataAddWaikeController {
         PersonInfo result;
 
 
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
+        if (userId == null) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("session中数据丢失"));
+        }
+
+        //将用户的信息放入病人的主表中
+        personInfo.setUserId(userId);
+
         try {
-            String currentUser = (String) request.getSession().getAttribute("currentUser");
-            UserEntity userEntity = userInfoService.findByUsername(currentUser);
-            //将用户的信息放入病人的主表中
-            personInfo.setUserId(userEntity.getId());
             result = personInfoService.save(personInfo);
+
         } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error("录入personINfo出错，可能缺少字段"));
         }

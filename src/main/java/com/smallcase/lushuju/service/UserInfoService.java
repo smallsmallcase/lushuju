@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service;
 
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public interface UserInfoService {
 
     //通过用户名查找用户信息
-    public UserEntity findByUsernameAndPassword(String username,String password);
+    public UserEntity findByUsernameAndPassword(String username,String password) throws NoDataException;
 
     //通过用户名查找用户信息
     public UserEntity findByUsername(String userName) throws Exception;

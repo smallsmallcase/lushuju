@@ -1,23 +1,16 @@
 package com.smallcase.lushuju.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
 import com.smallcase.lushuju.pojo.form.LoginParam;
 import com.smallcase.lushuju.pojo.form.RegisterParam;
 import com.smallcase.lushuju.service.AllService;
 import com.smallcase.lushuju.service.UserInfoService;
-import com.smallcase.lushuju.utils.Exception.MyException;
 import com.smallcase.lushuju.utils.Exception.NoDataException;
 import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
@@ -51,29 +44,20 @@ public class IndexController {
 
         String username = param.getUserName().trim();
         String password = param.getPassWord().trim();
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        token.setRememberMe(true);
+        UserEntity entity;
 
         try {
-            subject.login(token);
-        } catch (AuthenticationException e) {
-            log.error("登陆认证失败");
-            return RestfulResult.serviceErr(ResultVOUtil.error("登陆出错"));
+            entity = service.findByUsernameAndPassword(username, password);
+        } catch (NoDataException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
+
         log.info("登陆认证成功");
-        //登陆成功就将将用户名放入session中
-        request.getSession().setAttribute("currentUser", username);
-        UserEntity userEntity;
-        try {
-            userEntity = service.findByUsername(username);
-        } catch (Exception e) {
-            return RestfulResult.serviceErr(ResultVOUtil.error("登陆用户名找不到"));
-        }
+        //登陆成功就将UserId放入session
+        request.getSession().setAttribute("userId", entity.getId());
 
         //从缓存中读取属于该用户的缓存信息
 //        Set<String> users = redisTemplate.keys(username);
-//
 //        //读取缓存正确，继续录取
 //        //只能缓存最近的一条信息，不继续处理就作废
 //        if (users.size() == 1) {
@@ -97,8 +81,7 @@ public class IndexController {
 //        //没有缓存，或者缓存信息不正确，清空该用户的开始新的数据录入
 //        redisTemplate.delete(users);
 
-        log.info("开始返回信息");
-        return RestfulResult.serviceErr(ResultVOUtil.loginSuccess(userEntity.getId()));
+        return RestfulResult.serviceErr(ResultVOUtil.loginSuccess(entity.getId()));
 
     }
 

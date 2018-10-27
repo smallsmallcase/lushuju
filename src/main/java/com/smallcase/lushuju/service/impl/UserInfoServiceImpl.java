@@ -5,6 +5,7 @@ import com.smallcase.lushuju.pojo.entity.UserEntity;
 import com.smallcase.lushuju.repository.PersonInfoRepository;
 import com.smallcase.lushuju.repository.UserEntityRepository;
 import com.smallcase.lushuju.service.UserInfoService;
+import com.smallcase.lushuju.utils.Exception.NoDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,9 +34,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 //    }
 
     @Override
-    public UserEntity findByUsernameAndPassword(String username, String password) {
-
-        return repository.findByUsernameAndPassword(username, password);
+    public UserEntity findByUsernameAndPassword(String username, String password) throws NoDataException {
+        UserEntity userEntity;
+        userEntity = repository.findByUsernameAndPassword(username, password);
+        if (userEntity == null) {
+            throw new NoDataException("用户名或密码找不到");
+        }
+        return userEntity;
     }
 
     @Override
