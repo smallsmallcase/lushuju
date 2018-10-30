@@ -22,9 +22,12 @@ spring:
 
 
 
+
 #    hibernate:
 #      ddl-auto: update
 #server:
 #  context-path: /sell
 
-
+server:
+  session:
+    timeout: 2999

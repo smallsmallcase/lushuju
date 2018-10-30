@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Object userId = request.getSession().getAttribute("userId");
+        Integer userId = (Integer)request.getSession().getAttribute("userId");
 //        System.out.println(12);
 
         return userId != null;

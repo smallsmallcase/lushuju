@@ -19,6 +19,8 @@ public interface UserInfoService {
     //通过用户名查找用户信息
     public UserEntity findByUsername(String userName) throws Exception;
 
+    public UserEntity findById(Integer userId);
+
     //注册
     public UserEntity register(String userName, String password) throws Exception;
 

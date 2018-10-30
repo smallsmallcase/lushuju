@@ -54,6 +54,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    public UserEntity findById(Integer userId) {
+        return repository.findOne(userId);
+    }
+
+    @Override
     @Transactional
     public UserEntity register(String userName, String password) throws Exception {
         UserEntity userEntity;

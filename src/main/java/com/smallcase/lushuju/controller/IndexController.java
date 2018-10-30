@@ -95,29 +95,42 @@ public class IndexController {
 
     }
 
+
+    @RequestMapping(value = "/login_check", method = RequestMethod.GET)
+    public ResponseEntity check(HttpServletRequest request) {
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
+        if (userId == null) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("不在登陆状态"));
+
+        }
+
+        UserEntity userEntity = service.findById(userId);
+        int num = service.listPersonInfoNumByUserId(userId);
+        return RestfulResult.ok(ResultVOUtil.checkStatus(userEntity.getUsername(), userId, num));
+    }
     /**
      * 确认终止或完成一个病例的录入
      *
      * @return
      */
-    @RequestMapping(value = "/finish", method = RequestMethod.GET)
-    public ResponseEntity finish(HttpServletRequest request) {
-
-        String currentUser = (String) request.getSession().getAttribute("currentUser");
-        if (currentUser != null) {
-
-            //清除redis缓存中的数据
-            Set<String> keys = redisTemplate.keys(currentUser);
-            if (keys.size() > 0) {
-                redisTemplate.delete(keys);
-            }
-
-            //清空session中病人的信息
-            request.getSession().removeAttribute("personId");
-
-        }
-        return null;
-    }
+//    @RequestMapping(value = "/finish", method = RequestMethod.GET)
+//    public ResponseEntity finish(HttpServletRequest request) {
+//
+//        String currentUser = (String) request.getSession().getAttribute("currentUser");
+//        if (currentUser != null) {
+//
+//            //清除redis缓存中的数据
+//            Set<String> keys = redisTemplate.keys(currentUser);
+//            if (keys.size() > 0) {
+//                redisTemplate.delete(keys);
+//            }
+//
+//            //清空session中病人的信息
+//            request.getSession().removeAttribute("personId");
+//
+//        }
+//        return null;
+//    }
 
 
     /**

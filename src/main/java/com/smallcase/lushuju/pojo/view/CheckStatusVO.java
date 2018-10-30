@@ -4,22 +4,19 @@ import lombok.Data;
 
 /**
  * package: com.smallcase.lushuju.pojo.view
- * date: 2018/10/25 19:32
+ * date: 2018/10/30 17:01
  *
  * @author smallcase
  * @since JDK 1.8
  */
 
 @Data
-public class SimpleVO<T> {
-    //提示信息
-    private String msg;
-
-    //状态m码
-    private Integer code;
+public class CheckStatusVO {
+    //
+    private String userName;
 
     //具体内容
-    private T userId;
+    private Integer userId;
 
     //录入的病人个数
     private int recordedNumber;

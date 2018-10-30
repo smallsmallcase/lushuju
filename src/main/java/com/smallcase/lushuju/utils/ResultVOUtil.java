@@ -1,5 +1,6 @@
 package com.smallcase.lushuju.utils;
 
+import com.smallcase.lushuju.pojo.view.CheckStatusVO;
 import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.pojo.view.SimpleVO;
 
@@ -36,8 +37,16 @@ public class ResultVOUtil {
         simpleVO.setCode(1);
         simpleVO.setMsg("登陆成功");
         simpleVO.setUserId(userId);
-        simpleVO.setCount(count);
+        simpleVO.setRecordedNumber(count);
         return simpleVO;
+    }
+
+    public static CheckStatusVO checkStatus(String userName, Integer userId, int count) {
+        CheckStatusVO checkStatusVO = new CheckStatusVO();
+        checkStatusVO.setRecordedNumber(count);
+        checkStatusVO.setUserId(userId);
+        checkStatusVO.setUserName(userName);
+        return checkStatusVO;
     }
 
 }
