@@ -52,6 +52,8 @@ public class IndexController {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
 
+
+
         log.info("登陆认证成功");
         //登陆成功就将UserId放入session
         request.getSession().setAttribute("userId", entity.getId());
@@ -81,7 +83,15 @@ public class IndexController {
 //        //没有缓存，或者缓存信息不正确，清空该用户的开始新的数据录入
 //        redisTemplate.delete(users);
 
-        return RestfulResult.serviceErr(ResultVOUtil.loginSuccess(entity.getId()));
+
+        int num;
+        try {
+            num = service.listPersonInfoNumByUserId(entity.getId());
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("获取录入病例数出错"));
+        }
+
+        return RestfulResult.serviceErr(ResultVOUtil.loginSuccess(entity.getId(), num));
 
     }
 
@@ -166,6 +176,12 @@ public class IndexController {
         return RestfulResult.ok(ResultVOUtil.success(personInfos));
     }
 
+
+    /**
+     * 根据userId查询用户录入了多少病例
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "/search/patients_count", method = RequestMethod.GET)
     public ResponseEntity searchPatientsCount(@RequestParam(value = "userId") Integer userId) {
         Integer num;
@@ -178,6 +194,12 @@ public class IndexController {
         return RestfulResult.ok(ResultVOUtil.success(num));
     }
 
+
+    /**
+     * 根据personId查询该病人的详细信息
+     * @param personId
+     * @return
+     */
     @RequestMapping(value = "/search/patient/detail", method = RequestMethod.GET)
     public ResponseEntity searchPatientDetail(@RequestParam String personId) {
         JSONArray personInfo;

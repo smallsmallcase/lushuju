@@ -20,4 +20,7 @@ public class SimpleVO<T> {
 
     //具体内容
     private T userId;
+
+    //录入的病人个数
+    private int count;
 }
