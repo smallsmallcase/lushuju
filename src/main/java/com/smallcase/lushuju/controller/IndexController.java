@@ -204,13 +204,26 @@ public class IndexController {
     @RequestMapping(value = "/search/patients_count", method = RequestMethod.GET)
     public ResponseEntity searchPatientsCount(@RequestParam(value = "userId") Integer userId) {
         Integer num;
+        UserEntity userEntity;
+
         try {
-            num = service.listPersonInfoNumByUserId(userId);
+            userEntity = service.findById(userId);
         } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
 
-        return RestfulResult.ok(ResultVOUtil.success(num));
+        try {
+            num = service.listPersonInfoNumByUserId(userId);
+
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        CheckStatusVO checkStatusVO = new CheckStatusVO();
+        checkStatusVO.setUserId(userId);
+        checkStatusVO.setUserName(userEntity.getUsername());
+        checkStatusVO.setRecordedNumber(num);
+
+        return RestfulResult.ok(ResultVOUtil.success(checkStatusVO));
     }
 
 

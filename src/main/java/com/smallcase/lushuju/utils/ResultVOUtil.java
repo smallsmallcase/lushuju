@@ -32,6 +32,13 @@ public class ResultVOUtil {
         return resultVO;
     }
 
+    public static ResultVO intercept(String msg) {
+        ResultVO<Object> resultVO = new ResultVO<>();
+        resultVO.setMsg(msg);
+        resultVO.setCode(2);
+        return resultVO;
+    }
+
     public static SimpleVO loginSuccess(int userId,int count) {
         SimpleVO<Object> simpleVO = new SimpleVO<>();
         simpleVO.setCode(1);

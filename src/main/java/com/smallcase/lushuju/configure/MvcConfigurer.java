@@ -59,7 +59,9 @@ public class MvcConfigurer implements WebMvcConfigurer {
 //                .excludePathPatterns("/register/**")
 //                .excludePathPatterns("/index/**")
                 .addPathPatterns("/waike/**")
+                .addPathPatterns("/search/**")
                 .addPathPatterns("/zhenji/**");
+
     }
 
     @Override
