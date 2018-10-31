@@ -43,8 +43,9 @@ public class PicController {
     @RequestMapping(value = "/upload/img", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity upf(HttpServletRequest request) {
-        String personId = (String) request.getSession().getAttribute("personId");
+//        String personId = (String) request.getSession().getAttribute("personId");
 
+        String personId = request.getParameter("personId");
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
         if (multipartResolver.isMultipart(request) && personId != null) {
 
