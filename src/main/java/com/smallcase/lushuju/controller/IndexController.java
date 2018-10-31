@@ -5,6 +5,7 @@ import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
 import com.smallcase.lushuju.pojo.form.LoginParam;
 import com.smallcase.lushuju.pojo.form.RegisterParam;
+import com.smallcase.lushuju.pojo.view.CheckStatusVO;
 import com.smallcase.lushuju.service.AllService;
 import com.smallcase.lushuju.service.UserInfoService;
 import com.smallcase.lushuju.utils.Exception.NoDataException;
@@ -106,7 +107,12 @@ public class IndexController {
 
         UserEntity userEntity = service.findById(userId);
         int num = service.listPersonInfoNumByUserId(userId);
-        return RestfulResult.ok(ResultVOUtil.checkStatus(userEntity.getUsername(), userId, num));
+        CheckStatusVO checkStatusVO = new CheckStatusVO();
+        checkStatusVO.setUserId(userId);
+        checkStatusVO.setUserName(userEntity.getUsername());
+        checkStatusVO.setRecordedNumber(num);
+
+        return RestfulResult.ok(ResultVOUtil.success(checkStatusVO));
     }
     /**
      * 确认终止或完成一个病例的录入
