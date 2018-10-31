@@ -3,34 +3,22 @@ package com.smallcase.lushuju.pojo.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smallcase.lushuju.conventer.DateConverter;
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
- * Package: com.smallcase.lushuju.pojo.entity
- * Author: smallcase
- * Date: Created in 2018/6/30 11:04
+ * package: com.smallcase.lushuju.pojo.entity
+ * date: 2018/10/31 20:18
+ *面部检查
+ * @author smallcase
+ * @since JDK 1.8
  */
+
 
 @Data
-@Entity(name = "clinical_examination")
-@DynamicUpdate
-
-
-/**
- * 面部检查和关节检查
- */
-
-
-@Deprecated
-public class ClinicalExamination implements Serializable{
-
-    private static final long serialVersionUID = -236106222008316636L;
+public class FaceCheck implements Serializable {
+    private static final long serialVersionUID = 2162513959435183762L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
@@ -57,25 +45,6 @@ public class ClinicalExamination implements Serializable{
     /**颌骨*/
     private String jaw;
 
-    /**软组织*/
-    private String softTissue;
-
-    /**开口型*/
-    private  String openType;
-
-    /**开口度*/
-    private String openAngle;
-
-    /**弹响*/
-    private String snap;
-
-    /**疼痛*/
-    private String ache;
-
-//    /**外键*/
-//    @OneToOne(targetEntity = PersonInfo.class)
-//    @JoinColumn(name = "fkey",referencedColumnName = "id")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
     private String personId;
 
     /**
@@ -90,4 +59,5 @@ public class ClinicalExamination implements Serializable{
     @JsonIgnore
     @Convert(converter = DateConverter.class)
     private Long updateTime = System.currentTimeMillis();
+
 }

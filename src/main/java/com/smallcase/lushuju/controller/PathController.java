@@ -6,13 +6,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * package: com.smallcase.lushuju.controller
- * date: 2018/10/26 16:48
- *控制路由转发
+ * date: 2018/10/31 20:23
+ *
  * @author smallcase
  * @since JDK 1.8
  */
+
 @Controller
 public class PathController {
+
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
 
@@ -20,13 +22,5 @@ public class PathController {
         return "index";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
-        return "login";
-    }
 
-    @RequestMapping(value = "/personInfo", method = RequestMethod.GET)
-    public String add() {
-        return "personInfo";
-    }
 }

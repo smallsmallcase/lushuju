@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Author: smallcase
  * Date: Created in 2018/6/30 11:20
  */
+
+@Deprecated
 public interface ClinicalExaminationRepository extends JpaRepository<ClinicalExamination, Integer> {
     ClinicalExamination findByPersonId(String personId);
 }
