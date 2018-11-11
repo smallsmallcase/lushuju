@@ -17,6 +17,7 @@ import java.io.Serializable;
 
 
 @Data
+@Entity(name = "joint_check")
 public class JointCheck implements Serializable {
 
     private static final long serialVersionUID = 7020513576533263501L;

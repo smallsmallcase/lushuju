@@ -2,6 +2,7 @@ package com.smallcase.lushuju.repository;
 
 import com.smallcase.lushuju.pojo.entity.JointCheck;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * package: com.smallcase.lushuju.repository
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author smallcase
  * @since JDK 1.8
  */
+
 public interface JointCheckRepository extends JpaRepository<JointCheck, Integer> {
     JointCheck findByPersonId(String personId);
 }

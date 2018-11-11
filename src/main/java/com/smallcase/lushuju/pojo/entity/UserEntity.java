@@ -2,7 +2,6 @@ package com.smallcase.lushuju.pojo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smallcase.lushuju.conventer.DateConverter;
-import javafx.beans.DefaultProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 

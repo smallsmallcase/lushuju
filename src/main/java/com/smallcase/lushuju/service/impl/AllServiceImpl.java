@@ -32,8 +32,14 @@ public class AllServiceImpl implements AllService {
     private ZjkMedicalHistoryService zjkMedicalHistoryService;
     @Autowired
     private FaceBedCheckupService faceBedCheckupService;
+//    @Autowired
+//    private ClinicalExaminationService clinicalExaminationService;
+
     @Autowired
-    private ClinicalExaminationService clinicalExaminationService;
+    private FaceCheckService faceCheckService;
+
+    @Autowired
+    private JointCheckService jointCheckService;
 
 
 
@@ -116,13 +122,30 @@ public class AllServiceImpl implements AllService {
         }
         jsonArray.add(faceBedCheckup);
 
-        ClinicalExamination clinicalExamination;
+
+        FaceCheck faceCheck;
         try {
-            clinicalExamination = clinicalExaminationService.findByPersonId(personId);
+            faceCheck = faceCheckService.findByPersonId(personId);
         } catch (NoDataException e) {
-            clinicalExamination = null;
+            faceCheck = null;
         }
-        jsonArray.add(clinicalExamination);
+        jsonArray.add(faceCheck);
+
+
+        JointCheck jointCheck;
+        try {
+            jointCheck = jointCheckService.findByPersonId(personId);
+        } catch (NoDataException e) {
+            jointCheck = null;
+        }
+        jsonArray.add(jointCheck);
+//        ClinicalExamination clinicalExamination;
+//        try {
+//            clinicalExamination = clinicalExaminationService.findByPersonId(personId);
+//        } catch (NoDataException e) {
+//            clinicalExamination = null;
+//        }
+//        jsonArray.add(clinicalExamination);
 
         return jsonArray;
     }

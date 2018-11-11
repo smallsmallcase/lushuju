@@ -17,6 +17,7 @@ import java.io.Serializable;
 
 
 @Data
+@Entity(name = "face_check")
 public class FaceCheck implements Serializable {
     private static final long serialVersionUID = 2162513959435183762L;
     @Id

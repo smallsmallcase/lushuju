@@ -32,7 +32,14 @@ public class DataAddZhenjiController {
     private FaceBedCheckupService faceBedCheckupService;
 
     @Autowired
-    private ClinicalExaminationService clinicalExaminationService;
+    private FaceCheckService faceCheckService;
+
+    @Autowired
+    private JointCheckService jointCheckService;
+
+
+//    @Autowired
+//    private ClinicalExaminationService clinicalExaminationService;
 
     @Autowired
     private FigCheckService figCheckService;
@@ -70,12 +77,13 @@ public class DataAddZhenjiController {
         return RestfulResult.ok(ResultVOUtil.success(result));
     }
 
-    @PostMapping(value = "/{id}/clinicalExamination")
-    public ResponseEntity addClinicalExamination(@PathVariable("id") String personId,@RequestBody ClinicalExamination clinicalExamination) {
-        clinicalExamination.setPersonId(personId);
-        ClinicalExamination result;
+
+    @PostMapping(value = "/{id}/faceCheck")
+    public ResponseEntity addFaceCheck(@PathVariable("id") String personId,@RequestBody FaceCheck faceCheck) {
+        faceCheck.setPersonId(personId);
+        FaceCheck result;
         try {
-             result = clinicalExaminationService.save(clinicalExamination);
+            result = faceCheckService.save(faceCheck);
 
         } catch (MyException e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
@@ -83,6 +91,37 @@ public class DataAddZhenjiController {
         return RestfulResult.ok(ResultVOUtil.success(result));
 
     }
+
+
+    @PostMapping(value = "/{id}/jointCheck")
+    public ResponseEntity addJoinCheck(@PathVariable("id") String personId,@RequestBody JointCheck jointCheck) {
+        jointCheck.setPersonId(personId);
+        JointCheck result;
+        try {
+            result = jointCheckService.save(jointCheck);
+
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(result));
+
+    }
+
+
+
+//    @PostMapping(value = "/{id}/clinicalExamination")
+//    public ResponseEntity addClinicalExamination(@PathVariable("id") String personId,@RequestBody ClinicalExamination clinicalExamination) {
+//        clinicalExamination.setPersonId(personId);
+//        ClinicalExamination result;
+//        try {
+//             result = clinicalExaminationService.save(clinicalExamination);
+//
+//        } catch (MyException e) {
+//            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+//        }
+//        return RestfulResult.ok(ResultVOUtil.success(result));
+//
+//    }
 
     @Deprecated
     @PostMapping(value = "/figCheck")

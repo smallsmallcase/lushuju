@@ -11,6 +11,8 @@ import java.util.List;
  * Author: smallcase
  * Date: Created in 2018/6/30 11:22
  */
+
+@Deprecated
 public interface ClinicalExaminationService {
     ClinicalExamination findOne(Integer id) throws Exception;
 

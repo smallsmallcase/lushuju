@@ -22,6 +22,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@Deprecated
 public class ClinicalExaminationServicceImpl implements ClinicalExaminationService {
 
     @Autowired
