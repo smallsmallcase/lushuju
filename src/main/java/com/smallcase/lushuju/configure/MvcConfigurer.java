@@ -54,12 +54,27 @@ public class MvcConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
+
+        /*
+        登陆拦截
+         */
         registry.addInterceptor(new UserLoginInterceptor())
 //                .excludePathPatterns("/login/**")
 //                .excludePathPatterns("/register/**")
 //                .excludePathPatterns("/index/**")
                 .addPathPatterns("/waike/**")
                 .addPathPatterns("/search/**")
+                .addPathPatterns("/changestatus")
+                .addPathPatterns("/zhenji/**");
+
+        /*
+        权限拦截
+         */
+        registry.addInterceptor(new UserOauthInterceptor())
+                .addPathPatterns("/waike/**")
+                .addPathPatterns("/search/**")
+                .addPathPatterns("/changestatus")
                 .addPathPatterns("/zhenji/**");
 
     }

@@ -33,6 +33,9 @@ public interface UserInfoService {
     //找回密码，更改密码
     void changepwd(String userName, String newPassword) throws Exception;
 
+    //更改操作状态
+    void changeStatus(Integer targetStatus, Integer userId);
+
 
 
 

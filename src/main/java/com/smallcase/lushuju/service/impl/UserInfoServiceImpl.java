@@ -110,6 +110,21 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
     }
 
+    /**
+     * 更改使能状态
+     * @param targetStatus
+     * @param userId
+     */
+    @Override
+    @Transactional
+    public void changeStatus(Integer targetStatus, Integer userId) {
+        try {
+            repository.changeStatus(targetStatus, userId);
+        } catch (RuntimeException e) {
+            throw e;
+        }
+    }
+
 
     private int calculatePage(int pageSize, int pageNum) {
         return (pageNum - 1) * pageSize;

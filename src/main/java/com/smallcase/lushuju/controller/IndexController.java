@@ -3,6 +3,8 @@ package com.smallcase.lushuju.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
+import com.smallcase.lushuju.pojo.enums.EnableStatusEnum;
+import com.smallcase.lushuju.pojo.enums.RoleEnum;
 import com.smallcase.lushuju.pojo.form.LoginParam;
 import com.smallcase.lushuju.pojo.form.RegisterParam;
 import com.smallcase.lushuju.pojo.view.CheckStatusVO;
@@ -58,6 +60,8 @@ public class IndexController {
         log.info("登陆认证成功");
         //登陆成功就将UserId放入session
         request.getSession().setAttribute("userId", entity.getId());
+        request.getSession().setAttribute("roleId", entity.getRoleId());
+        request.getSession().setAttribute("enableStatus", entity.getEnableStatus());
 
         //从缓存中读取属于该用户的缓存信息
 //        Set<String> users = redisTemplate.keys(username);
@@ -140,7 +144,7 @@ public class IndexController {
 
 
     /**
-     * 注册方法
+     * 账户注册
      */
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -162,6 +166,12 @@ public class IndexController {
 
     }
 
+    /**
+     * 修改密码
+     * @param userName
+     * @param newPassword
+     * @return
+     */
     @RequestMapping(value = "/changepwd", method = RequestMethod.POST)
     public ResponseEntity changePwd(@RequestParam String userName, @RequestParam String newPassword) {
         try {
@@ -173,9 +183,48 @@ public class IndexController {
     }
 
 
+    /**
+     * 管理员更改用户可执行状态
+     * @param request
+     * @param targetStatus
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/changestatus", method = RequestMethod.GET)
+    public ResponseEntity changeStatus(HttpServletRequest request, @RequestParam Integer targetStatus, @RequestParam Integer userId) {
+        Integer roleId = (Integer)request.getSession().getAttribute("roleId");
+
+        //验证是不是管理员
+        if (roleId == null || !roleId.equals(RoleEnum.ADMIN.getRoleId())) {
+            System.out.println(RoleEnum.ADMIN.getRoleId());
+            System.out.println(RoleEnum.ADMIN.getRoleId().equals(roleId));
+            return RestfulResult.serviceErr(ResultVOUtil.error("没有修改权限"));
+        }
+
+        if (targetStatus.equals(EnableStatusEnum.YES.getEnableStatus())) {
+            try {
+                service.changeStatus(targetStatus, userId);
+            } catch (RuntimeException e) {
+                return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+            }
+        } else if (targetStatus.equals(EnableStatusEnum.NO.getEnableStatus())) {
+            try {
+                service.changeStatus(targetStatus, userId);
+            } catch (RuntimeException e) {
+                return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+            }
+        } else {
+            return RestfulResult.serviceErr(ResultVOUtil.error("targetStatus传错"));
+        }
+
+        return RestfulResult.ok(ResultVOUtil.success("修改状态成功"));
+
+    }
+
 
     /**
      * 按照用户，分页查找录入的病例
+     *
      * @param userId
      * @param pageSize
      * @param pageNum
@@ -183,7 +232,12 @@ public class IndexController {
      */
     @RequestMapping(value = "/search/patients", method = RequestMethod.GET)
     public ResponseEntity searchPatients(@RequestParam(value = "userId") Integer userId,
-                                         @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "1") int pageNum) {
+                                         @RequestParam(defaultValue = "10") int pageSize,
+                                         @RequestParam(defaultValue = "1") int pageNum, HttpServletRequest request) {
+        Integer userId1 = (Integer) request.getSession().getAttribute("userId");
+        if (!userId.equals(userId1)) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("传入的userId和登陆的用户不一致"));
+        }
 
         List<PersonInfo> personInfos;
         try {
@@ -202,7 +256,13 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/search/patients_count", method = RequestMethod.GET)
-    public ResponseEntity searchPatientsCount(@RequestParam(value = "userId") Integer userId) {
+    public ResponseEntity searchPatientsCount(@RequestParam(value = "userId") Integer userId,
+                                              HttpServletRequest request) {
+        Integer userId1 = (Integer) request.getSession().getAttribute("userId");
+        if (!userId.equals(userId1)) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("传入的userId和登陆的用户不一致"));
+        }
+
         Integer num;
         UserEntity userEntity;
 

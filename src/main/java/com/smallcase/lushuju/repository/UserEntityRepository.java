@@ -32,9 +32,26 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Integer>
     public UserEntity findByUsername(String username);
 
 
+    /**
+     * 更改密码
+     * @param userName
+     * @param newPassword
+     * @return
+     */
     @Modifying
     @Query(value = "UPDATE user_entity SET password=:password WHERE username=:userName",nativeQuery = true)
     int changepwd(@Param("userName") String userName, @Param("password") String newPassword);
+
+
+    /**
+     * 更改user的使能状态
+     * @param targetStatus
+     * @param userId
+     * @return
+     */
+    @Modifying
+    @Query(value = "UPDATE user_entity SET enable_status=:targetStatus WHERE id=:userId",nativeQuery = true)
+    int changeStatus(@Param("targetStatus") Integer targetStatus, @Param("userId") Integer userId);
 
 
 }
