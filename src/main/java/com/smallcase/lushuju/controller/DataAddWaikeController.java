@@ -116,8 +116,13 @@ public class DataAddWaikeController {
         specialityCheckup.setPersonId(personId);
 
         SpecialityCheckup result;
+
+        boolean existed = specialityCheckupService.checkExisted(personId);
         try {
-            result = specialityCheckupService.save(specialityCheckup);
+            if (existed) result = specialityCheckupService.edit(specialityCheckup, personId);
+            else {
+                result = specialityCheckupService.save(specialityCheckup);
+            }
         } catch (MyException e) {
             e.printStackTrace();
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
@@ -129,8 +134,13 @@ public class DataAddWaikeController {
     public ResponseEntity addLaboraryCheckup(@PathVariable("id") String personId,@RequestBody LaboratoryCheckup laboraryCheckup, HttpSession session) {
         laboraryCheckup.setPersonId(personId);
         LaboratoryCheckup result;
+
+        boolean existed = laboraryCheckupService.checkExisted(personId);
         try {
-             result = laboraryCheckupService.save(laboraryCheckup);
+
+            if (existed) result = laboraryCheckupService.edit(laboraryCheckup, personId);
+            else result = laboraryCheckupService.save(laboraryCheckup);
+
         } catch (MyException e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }

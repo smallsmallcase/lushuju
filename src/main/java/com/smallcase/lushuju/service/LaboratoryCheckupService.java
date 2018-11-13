@@ -16,6 +16,8 @@ public interface LaboratoryCheckupService {
 
     List<LaboratoryCheckup> findAll();
 
+    boolean checkExisted(String personId);
+
     LaboratoryCheckup save(LaboratoryCheckup laboraryCheckup) throws MyException;
 
     LaboratoryCheckup findByPersonId(String personId) throws MyException, NoDataException;

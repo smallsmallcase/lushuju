@@ -16,6 +16,8 @@ public interface SpecialityCheckupService {
 
     List<SpecialityCheckup> findAll();
 
+    boolean checkExisted(String personId);
+
     SpecialityCheckup save(SpecialityCheckup specialityCheckup) throws MyException;
 
     SpecialityCheckup findByPersonId(String personId) throws MyException, NoDataException;

@@ -16,6 +16,8 @@ public interface FaceBedCheckupService {
 
     List<FaceBedCheckup> findAll();
 
+    boolean checkExisted(String personId);
+
     FaceBedCheckup save(FaceBedCheckup faceBedCheckup) throws MyException;
 
     FaceBedCheckup findByPersonId(String personId) throws MyException, NoDataException;

@@ -18,6 +18,8 @@ public interface JointCheckService {
 
     List<JointCheck> findAll();
 
+    boolean checkExisted(String personId);
+
     JointCheck save(JointCheck faceCheck) throws MyException;
 
     JointCheck findByPersonId(String personId) throws MyException, NoDataException;

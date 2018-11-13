@@ -38,6 +38,12 @@ public class FaceBedCheckupServiceImpl implements FaceBedCheckupService {
     }
 
     @Override
+    public boolean checkExisted(String personId) {
+        FaceBedCheckup faceBedCheckup = repository.findByPersonId(personId);
+        return faceBedCheckup != null;
+    }
+
+    @Override
     public FaceBedCheckup save(FaceBedCheckup faceBedCheckup) throws MyException {
         try {
             FaceBedCheckup result = repository.save(faceBedCheckup);

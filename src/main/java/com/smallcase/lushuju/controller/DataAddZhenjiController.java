@@ -55,8 +55,13 @@ public class DataAddZhenjiController {
         zjkMedicalHistory.setPersonId(personId);
 
         ZjkMedicalHistory result;
+
+        boolean existed = zjkMedicalHistoryService.checkExisted(personId);
+
         try {
-            result = zjkMedicalHistoryService.save(zjkMedicalHistory);
+            if (existed) result = zjkMedicalHistoryService.edit(zjkMedicalHistory, personId);
+            else result = zjkMedicalHistoryService.save(zjkMedicalHistory);
+
         } catch (MyException e) {
             e.printStackTrace();
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
@@ -67,9 +72,15 @@ public class DataAddZhenjiController {
     @PostMapping(value = "/{id}/faceBedCheck")
     public ResponseEntity addfaceBedCheck(@PathVariable("id") String personId,@RequestBody FaceBedCheckup faceBedCheckup) {
         faceBedCheckup.setPersonId(personId);
-        FaceBedCheckup result = null;
+        FaceBedCheckup result;
+
+        boolean existed = faceBedCheckupService.checkExisted(personId);
         try {
-             result = faceBedCheckupService.save(faceBedCheckup);
+            if (existed) {
+                result = faceBedCheckupService.edit(faceBedCheckup, personId);
+            } else result = faceBedCheckupService.save(faceBedCheckup);
+
+
         } catch (MyException e) {
             e.printStackTrace();
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
@@ -82,8 +93,13 @@ public class DataAddZhenjiController {
     public ResponseEntity addFaceCheck(@PathVariable("id") String personId,@RequestBody FaceCheck faceCheck) {
         faceCheck.setPersonId(personId);
         FaceCheck result;
+
+        boolean existed = faceCheckService.checkExisted(personId);
+
         try {
-            result = faceCheckService.save(faceCheck);
+            if (existed) result = faceCheckService.edit(faceCheck, personId);
+            else result = faceCheckService.save(faceCheck);
+
 
         } catch (MyException e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
@@ -97,8 +113,16 @@ public class DataAddZhenjiController {
     public ResponseEntity addJoinCheck(@PathVariable("id") String personId,@RequestBody JointCheck jointCheck) {
         jointCheck.setPersonId(personId);
         JointCheck result;
+
+        boolean existed = jointCheckService.checkExisted(personId);
+
         try {
-            result = jointCheckService.save(jointCheck);
+            if (existed) {
+                result = jointCheckService.edit(jointCheck, personId);
+            } else {
+                result = jointCheckService.save(jointCheck);
+            }
+
 
         } catch (MyException e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));

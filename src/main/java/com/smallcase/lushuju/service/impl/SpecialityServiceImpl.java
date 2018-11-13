@@ -36,6 +36,12 @@ public class SpecialityServiceImpl implements SpecialityCheckupService {
     }
 
     @Override
+    public boolean checkExisted(String personId) {
+        SpecialityCheckup specialityCheckup = repository.findbypid(personId);
+        return specialityCheckup != null;
+    }
+
+    @Override
     public SpecialityCheckup save(SpecialityCheckup specialityCheckup) throws MyException {
         SpecialityCheckup result;
         try {

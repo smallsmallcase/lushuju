@@ -46,6 +46,9 @@ public class FaceCheck implements Serializable {
     /**颌骨*/
     private String jaw;
 
+    /**软组织*/
+    private String softTissue;
+
     private String personId;
 
     /**

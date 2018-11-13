@@ -39,6 +39,12 @@ public class ZjkMedicalHistoryServiceImpl implements ZjkMedicalHistoryService {
     }
 
     @Override
+    public boolean checkExisted(String personId) {
+        ZjkMedicalHistory zjkMedicalHistory = repository.findByPersonId(personId);
+        return zjkMedicalHistory != null;
+    }
+
+    @Override
     public ZjkMedicalHistory save(ZjkMedicalHistory zjkMedicalHistory) throws MyException {
         ZjkMedicalHistory result;
         try {

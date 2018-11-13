@@ -16,6 +16,8 @@ public interface ZjkMedicalHistoryService {
 
     List<ZjkMedicalHistory> findAll();
 
+    boolean checkExisted(String personId);
+
     ZjkMedicalHistory save(ZjkMedicalHistory zjkMedicalHistory) throws MyException;
 
     ZjkMedicalHistory findByPersonId(String personId) throws MyException, NoDataException;

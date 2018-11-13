@@ -18,6 +18,8 @@ public interface FaceCheckService {
 
     List<FaceCheck> findAll();
 
+    boolean checkExisted(String personId);
+
     FaceCheck save(FaceCheck faceCheck) throws MyException;
 
     FaceCheck findByPersonId(String personId) throws MyException, NoDataException;

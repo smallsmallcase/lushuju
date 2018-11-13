@@ -39,6 +39,12 @@ public class LaboraryCheckupServiceImpl implements LaboratoryCheckupService {
     }
 
     @Override
+    public boolean checkExisted(String personId) {
+        LaboratoryCheckup laboratoryCheckup = repository.findByPersonId(personId);
+        return laboratoryCheckup != null;
+    }
+
+    @Override
     public LaboratoryCheckup save(LaboratoryCheckup laboraryCheckup) throws MyException {
         LaboratoryCheckup result;
         try {
