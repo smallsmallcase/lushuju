@@ -23,4 +23,7 @@ public class SimpleVO<T> {
 
     //录入的病人个数
     private int recordedNumber;
+
+    //管理员为0，普通用户是1
+    private int roleId;
 }

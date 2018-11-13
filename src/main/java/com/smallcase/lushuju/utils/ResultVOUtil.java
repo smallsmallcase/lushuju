@@ -39,12 +39,13 @@ public class ResultVOUtil {
         return resultVO;
     }
 
-    public static SimpleVO loginSuccess(int userId,int count) {
+    public static SimpleVO loginSuccess(int userId,int count,int roleId) {
         SimpleVO<Object> simpleVO = new SimpleVO<>();
         simpleVO.setCode(1);
         simpleVO.setMsg("登陆成功");
         simpleVO.setUserId(userId);
         simpleVO.setRecordedNumber(count);
+        simpleVO.setRoleId(roleId);
         return simpleVO;
     }
 

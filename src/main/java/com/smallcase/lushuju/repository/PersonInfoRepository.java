@@ -32,4 +32,6 @@ public interface PersonInfoRepository extends JpaRepository<PersonInfo, String> 
 
     @Query(value = "SELECT img_name FROM person_info WHERE id=:id",nativeQuery = true)
     String getImgNameByPersonId(@Param("id") String personId);
+
+    List<PersonInfo> findByPatientId(String patientId);
 }

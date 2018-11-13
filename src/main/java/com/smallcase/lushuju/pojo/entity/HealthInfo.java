@@ -25,6 +25,7 @@ public class HealthInfo implements Serializable{
     private static final long serialVersionUID = 3947842114616309209L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer id;
 
     /**体温*/

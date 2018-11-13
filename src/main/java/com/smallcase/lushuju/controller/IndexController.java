@@ -96,7 +96,7 @@ public class IndexController {
             return RestfulResult.serviceErr(ResultVOUtil.error("获取录入病例数出错"));
         }
 
-        return RestfulResult.serviceErr(ResultVOUtil.loginSuccess(entity.getId(), num));
+        return RestfulResult.serviceErr(ResultVOUtil.loginSuccess(entity.getId(), num, entity.getRoleId()));
 
     }
 

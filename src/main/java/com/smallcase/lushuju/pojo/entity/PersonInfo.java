@@ -87,6 +87,9 @@ public class PersonInfo implements Serializable {
     /**用户（录数据的人）*/
     private Integer userId;
 
+    /**需要录入的病人的ID*/
+    private String patientId;
+
     /**图片地址*/
     @JsonIgnore
     private String imgPath;

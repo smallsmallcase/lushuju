@@ -1,7 +1,6 @@
 package com.smallcase.lushuju.controller;
 
 import com.smallcase.lushuju.pojo.entity.*;
-import com.smallcase.lushuju.pojo.form.PersonInfoForm;
 import com.smallcase.lushuju.service.*;
 import com.smallcase.lushuju.utils.Exception.MyException;
 import com.smallcase.lushuju.utils.RestfulResult;
@@ -47,7 +46,7 @@ public class DataFindAndEditWaikeController {
     }
 
     @PatchMapping(value = "edit/{id}/personInfo")
-    public ResponseEntity editPersonInfo(@PathVariable("id") String personId, @RequestBody PersonInfoForm form) {
+    public ResponseEntity editPersonInfo(@PathVariable("id") String personId, @RequestBody PersonInfo form) {
         PersonInfo personInfo;
         try {
             personInfo = personInfoService.edit(form, personId);

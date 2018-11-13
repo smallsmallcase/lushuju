@@ -3,7 +3,6 @@ package com.smallcase.lushuju.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
-import com.smallcase.lushuju.pojo.form.PersonInfoForm;
 import com.smallcase.lushuju.repository.PersonInfoRepository;
 import com.smallcase.lushuju.service.PersonInfoService;
 import com.smallcase.lushuju.utils.BeanUtil;
@@ -56,6 +55,35 @@ public class PersonInfoServiceImpl implements PersonInfoService {
         return repository.findAll();
     }
 
+
+    /**
+     * 根据病人id检查是否已经录入
+     * @param patientId
+     * @return
+     */
+    @Override
+    public boolean checkExisted(String patientId) {
+        List<PersonInfo> list = repository.findByPatientId(patientId);
+
+        /*
+        如果数量大于等于1，已经录入了，返回false
+         */
+        if (list.size() != 0) {
+            return true;
+        } else return false;
+    }
+
+    @Override
+    public String findPersonIdByPatientId(String patientId) {
+        List<PersonInfo> personInfoList = repository.findByPatientId(patientId);
+        if (personInfoList.size() != 1) {
+            return null;
+        } else {
+            //返回personId
+            return personInfoList.get(0).getPersonId();
+        }
+    }
+
     @Override
     public PersonInfo save(PersonInfo personInfo) throws MyException {
         PersonInfo result;
@@ -71,7 +99,7 @@ public class PersonInfoServiceImpl implements PersonInfoService {
 
     @Override
     @Transactional
-    public PersonInfo edit(PersonInfoForm form, String personId) throws MyException {
+    public PersonInfo edit(PersonInfo form, String personId) throws MyException {
         PersonInfo personInfo;
         try {
             personInfo = repository.findOne(personId);

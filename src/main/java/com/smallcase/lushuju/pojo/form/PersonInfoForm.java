@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
  * Date: Created in 2018/7/8 15:21
  */
 @Data
+@Deprecated
 public class PersonInfoForm {
 
     /**名字*/

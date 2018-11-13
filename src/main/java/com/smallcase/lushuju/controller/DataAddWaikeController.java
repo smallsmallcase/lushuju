@@ -54,9 +54,15 @@ public class DataAddWaikeController {
 
         //将用户的信息放入病人的主表中
         personInfo.setUserId(userId);
+        boolean existed = personInfoService.checkExisted(personInfo.getPatientId());
 
         try {
-            result = personInfoService.save(personInfo);
+            if (existed) {
+                String personId = personInfoService.findPersonIdByPatientId(personInfo.getPatientId());
+                result = personInfoService.edit(personInfo, personId);
+            } else {
+                result = personInfoService.save(personInfo);
+            }
 
         } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error("录入personINfo出错，可能缺少字段"));
@@ -120,4 +126,6 @@ public class DataAddWaikeController {
         }
         return RestfulResult.ok(ResultVOUtil.success(result));
     }
+
+
 }
