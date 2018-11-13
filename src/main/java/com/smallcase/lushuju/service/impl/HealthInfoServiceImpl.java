@@ -100,6 +100,17 @@ public class HealthInfoServiceImpl implements HealthInfoService {
         return healthInfo;
     }
 
+    /**
+     * 检查是否已经录入过数据了
+     * @param personId
+     * @return
+     */
+    @Override
+    public boolean checkExisted(String personId) {
+        HealthInfo healthInfo = repository.findByPersonId(personId);
+        return healthInfo != null;
+    }
+
     @PostConstruct
     public void init() {
         System.out.println("this is service init");

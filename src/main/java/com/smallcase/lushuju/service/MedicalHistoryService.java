@@ -19,6 +19,8 @@ public interface MedicalHistoryService  {
 
     List<MedicalHistory> findAll();
 
+    boolean checkExisted(String personId);
+
     MedicalHistory save(MedicalHistory medicalHistory) throws MyException;
 
     MedicalHistory edit(MedicalHistory medicalHistory, String personId) throws MyException;

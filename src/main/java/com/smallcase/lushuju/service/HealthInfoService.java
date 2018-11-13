@@ -23,5 +23,7 @@ public interface HealthInfoService {
 
     HealthInfo edit(HealthInfo healthInfo, String personId) throws MyException;
 
+    boolean checkExisted(String personId);
+
 
 }

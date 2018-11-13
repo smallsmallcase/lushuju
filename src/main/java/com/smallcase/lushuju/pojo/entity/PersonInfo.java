@@ -67,13 +67,13 @@ public class PersonInfo implements Serializable {
     private String personHome;
 
     /**供史者*/
-    private String personSpeak;
+    private String personSpeaker;
 
     /**入院时间*/
     private String personIn;
 
     /**记录时间*/
-    private String personRecord;
+    private String personOut;
 
 //    /**身份证*/
 //    private String personIdcard;
@@ -84,11 +84,13 @@ public class PersonInfo implements Serializable {
     /**主诉*/
     private String personText;
 
+    /**需要录入的病人的ID*/
+    private String patientId;
+
     /**用户（录数据的人）*/
     private Integer userId;
 
-    /**需要录入的病人的ID*/
-    private String patientId;
+
 
     /**图片地址*/
     @JsonIgnore

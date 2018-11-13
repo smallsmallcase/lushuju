@@ -78,8 +78,13 @@ public class DataAddWaikeController {
         medicalHistory.setPersonId(personId);
 
         MedicalHistory result;
+        boolean existed = medicalHistoryService.checkExisted(personId);
         try {
-             result= medicalHistoryService.save(medicalHistory);
+            if (existed) {
+                result = medicalHistoryService.edit(medicalHistory, personId);
+            } else {
+                result = medicalHistoryService.save(medicalHistory);
+            }
         } catch (MyException e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
@@ -92,8 +97,13 @@ public class DataAddWaikeController {
         HealthInfo result;
 
 
+        boolean existed = healthInfoService.checkExisted(personId);
         try {
-            result = healthInfoService.save(healthInfo);
+            if (existed) {
+                result = healthInfoService.edit(healthInfo, personId);
+            } else {
+                result = healthInfoService.save(healthInfo);
+            }
         } catch (MyException e) {
             e.printStackTrace();
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));

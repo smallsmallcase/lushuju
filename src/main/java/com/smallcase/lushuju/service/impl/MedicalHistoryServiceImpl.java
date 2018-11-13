@@ -54,6 +54,18 @@ public class MedicalHistoryServiceImpl implements MedicalHistoryService {
         return repository.findAll();
     }
 
+
+    /**
+     * 检查是否已经路过该字段了，没有返回false
+     * @param personId
+     * @return
+     */
+    @Override
+    public boolean checkExisted(String personId) {
+        MedicalHistory medicalHistory = repository.findByPersonId(personId);
+        return medicalHistory != null;
+    }
+
     @Override
     public MedicalHistory save(MedicalHistory medicalHistory) throws MyException {
         MedicalHistory result;
