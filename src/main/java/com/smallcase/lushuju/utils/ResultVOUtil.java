@@ -39,6 +39,14 @@ public class ResultVOUtil {
         return resultVO;
     }
 
+    public static ResultVO noOauth(String msg) {
+        ResultVO<Object> resultVO = new ResultVO<>();
+        resultVO.setMsg(msg);
+        resultVO.setCode(3);
+        return resultVO;
+    }
+
+
     public static SimpleVO loginSuccess(int userId,int count,int roleId) {
         SimpleVO<Object> simpleVO = new SimpleVO<>();
         simpleVO.setCode(1);

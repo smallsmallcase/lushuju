@@ -71,6 +71,10 @@ public class UserInfoServiceImpl implements UserInfoService {
                 userEntity.setUsername(userName);
                 userEntity.setPassword(password);
 
+                userEntity.setRoleId(1);
+                //TODO
+                userEntity.setEnableStatus(1);
+
                 userEntity = repository.save(userEntity);
             }
         } catch (Exception e) {

@@ -33,7 +33,7 @@ public class UserOauthInterceptor implements HandlerInterceptor {
          */
         if (enableStatus == null || !enableStatus.equals(EnableStatusEnum.YES.getEnableStatus())) {
 
-            ResultVO resultVO = ResultVOUtil.intercept("没有权限");
+            ResultVO resultVO = ResultVOUtil.noOauth("没有权限");
             String jsonString = JSONObject.toJSONString(resultVO);
             returnJson(response, jsonString);
             return false;
