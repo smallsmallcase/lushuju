@@ -1,6 +1,8 @@
 package com.smallcase.lushuju.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.smallcase.lushuju.pojo.entity.*;
 import com.smallcase.lushuju.service.*;
 import com.smallcase.lushuju.utils.Exception.MyException;
@@ -56,7 +58,6 @@ public class AllServiceImpl implements AllService {
         } catch (NoDataException e) {
             throw e;
         }
-
         jsonArray.add(personInfo);
 
 

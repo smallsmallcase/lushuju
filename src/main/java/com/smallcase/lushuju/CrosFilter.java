@@ -28,7 +28,7 @@ public class CrosFilter implements Filter{
 //        response.addHeader("Access-Control-Allow-Headers", contentType);
         response.addHeader("Access-Control-Allow-Headers", header);
         response.addHeader("Access-Control-Allow-Origin", origin);
-        response.addHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+        response.addHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS,PATCH,HEAD");
         response.addHeader("Access-Control-Allow-Max-Age", "3600");
         response.addHeader("Access-Control-Allow-Credentials", "true");
 //        System.out.println(header + "\n" + origin + "\n" + method);

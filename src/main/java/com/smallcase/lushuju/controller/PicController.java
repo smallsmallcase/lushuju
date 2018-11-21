@@ -52,6 +52,7 @@ public class PicController {
             MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
             CommonsMultipartFile image = (CommonsMultipartFile) multipartHttpServletRequest.getFile("image");
 
+
             //获取上传文件名字
             String filename = image.getOriginalFilename();
             String basePath = PathUtil.getImgBasePath();

@@ -42,6 +42,8 @@ public class IndexController {
     private StringRedisTemplate redisTemplate;
 
 
+
+
     @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody LoginParam param, HttpServletRequest request) {
 
@@ -308,6 +310,8 @@ public class IndexController {
         return RestfulResult.ok(ResultVOUtil.success(personInfo));
 
     }
+
+
 
 }
 
