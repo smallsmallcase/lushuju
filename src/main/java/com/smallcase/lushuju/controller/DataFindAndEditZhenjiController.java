@@ -54,7 +54,7 @@ public class DataFindAndEditZhenjiController {
      * @param zjkMedicalHistory
      * @return
      */
-    @PatchMapping(value = "edit/{id}/zjkMedicalHistory")
+    @PostMapping(value = "edit/{id}/zjkMedicalHistory")
     public ResponseEntity editZjkMedicalHistory(@PathVariable("id") String personId, @RequestBody ZjkMedicalHistory zjkMedicalHistory) {
         ZjkMedicalHistory result;
         try {
@@ -90,7 +90,7 @@ public class DataFindAndEditZhenjiController {
      * @param form
      * @return
      */
-    @PatchMapping(value = "edit/{id}/faceBedCheck")
+    @PostMapping(value = "edit/{id}/faceBedCheck")
     public ResponseEntity editfaceBedCheck(@PathVariable("id") String personId, @RequestBody FaceBedCheckup form) {
         FaceBedCheckup faceBedCheckup;
         try {
@@ -125,7 +125,7 @@ public class DataFindAndEditZhenjiController {
      * @param faceCheck
      * @return
      */
-    @PatchMapping(value = "edit/{id}/faceCheck")
+    @PostMapping(value = "edit/{id}/faceCheck")
     public ResponseEntity editClinicalExamination(@PathVariable("id") String personId, @RequestBody FaceCheck faceCheck) {
         FaceCheck result;
         try {
@@ -153,7 +153,7 @@ public class DataFindAndEditZhenjiController {
         return RestfulResult.ok(ResultVOUtil.success(jointCheck));
     }
 
-    @PatchMapping(value = "edit/{id}/jointCheck")
+    @PostMapping(value = "edit/{id}/jointCheck")
     public ResponseEntity editJointCheck(@PathVariable("id") String personId, @RequestBody JointCheck jointCheck) {
         JointCheck result;
         try {

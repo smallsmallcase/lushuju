@@ -22,13 +22,15 @@ public class CrosFilter implements Filter{
         HttpServletResponse response = (HttpServletResponse) resp;
         String origin = request.getHeader("Origin");
         String header = request.getHeader("Access-Control-Request-Headers");
-//        String method = request.getMethod();
+        String method = request.getMethod();
 //        String contentType = request.getHeader("Content-Type");
 
 //        response.addHeader("Access-Control-Allow-Headers", contentType);
+//        System.out.println("方法名字是：" + method);
         response.addHeader("Access-Control-Allow-Headers", header);
         response.addHeader("Access-Control-Allow-Origin", origin);
-        response.addHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS,PATCH,HEAD");
+        response.addHeader("Access-Control-Allow-Methods", method);
+
         response.addHeader("Access-Control-Allow-Max-Age", "3600");
         response.addHeader("Access-Control-Allow-Credentials", "true");
 //        System.out.println(header + "\n" + origin + "\n" + method);

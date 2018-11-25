@@ -106,7 +106,7 @@ public class DataFindAndEditWaikeController {
      * @param healthInfo
      * @return
      */
-    @PatchMapping(value = "edit/{id}/healthInfo")
+    @PostMapping(value = "edit/{id}/healthInfo")
     public ResponseEntity editHealthInfo(@PathVariable("id") String personId, @RequestBody HealthInfo healthInfo) {
         HealthInfo result;
         try {
@@ -142,7 +142,7 @@ public class DataFindAndEditWaikeController {
      * @param specialityCheckup
      * @return
      */
-    @PatchMapping(value = "edit/{id}/specialityCheckup")
+    @PostMapping(value = "edit/{id}/specialityCheckup")
     public ResponseEntity editSpecialityCheckup(@PathVariable("id") String personId, @RequestBody SpecialityCheckup specialityCheckup) {
         SpecialityCheckup result;
         try {
@@ -181,7 +181,7 @@ public class DataFindAndEditWaikeController {
      * @param laboraryCheckup
      * @return
      */
-    @PatchMapping(value = "edit/{id}/laboratoryCheckup")
+    @PostMapping(value = "edit/{id}/laboratoryCheckup")
     public ResponseEntity editLabotoryCheckup(@PathVariable("id") String personId, @RequestBody LaboratoryCheckup laboraryCheckup) {
         LaboratoryCheckup result;
         try {
