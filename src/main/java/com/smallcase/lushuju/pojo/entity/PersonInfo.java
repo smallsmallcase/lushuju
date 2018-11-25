@@ -92,15 +92,15 @@ public class PersonInfo implements Serializable {
 
 
 
-    /**图片地址*/
-    @JsonIgnore
-    private String imgPath;
-
-    /**
-     * 图片名字
-     */
-    @JsonIgnore
-    private String imgName;
+//    /**图片地址*/
+//    @JsonIgnore
+//    private String imgPath;
+//
+//    /**
+//     * 图片名字
+//     */
+//    @JsonIgnore
+//    private String imgName;
 
     /**
      * 创建时间
