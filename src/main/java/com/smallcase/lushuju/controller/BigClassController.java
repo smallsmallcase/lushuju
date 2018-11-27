@@ -25,7 +25,7 @@ public class BigClassController {
     private BigClassService bigClassService;
 
 
-    @PostMapping(value = "/bigClass")
+    @PostMapping(value = "/addOne")
     public ResponseEntity addBigClass(@RequestBody BigClass bigClass) {
         if (bigClass.getClassName() == null) {
             return RestfulResult.serviceErr(ResultVOUtil.error("传入的类别名字为空"));
