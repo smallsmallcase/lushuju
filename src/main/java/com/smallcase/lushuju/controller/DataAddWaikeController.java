@@ -22,8 +22,6 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(path = "/waike/add")
 public class DataAddWaikeController {
 
-    @Autowired
-    private UserInfoService userInfoService;
 
     @Autowired
     private PersonInfoService personInfoService;
@@ -39,6 +37,7 @@ public class DataAddWaikeController {
 
     @Autowired
     private LaboratoryCheckupService laboraryCheckupService;
+
 
 
     @PostMapping(value = "/personInfo")

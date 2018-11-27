@@ -50,7 +50,7 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Integer>
      * @return
      */
     @Modifying
-    @Query(value = "UPDATE user_entity SET enable_status=:targetStatus WHERE id=:userId",nativeQuery = true)
+    @Query(value = "UPDATE user_entity SET role_id=:targetStatus WHERE id=:userId",nativeQuery = true)
     int changeStatus(@Param("targetStatus") Integer targetStatus, @Param("userId") Integer userId);
 
 

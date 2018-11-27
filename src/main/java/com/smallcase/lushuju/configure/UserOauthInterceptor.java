@@ -26,14 +26,14 @@ import java.io.PrintWriter;
 public class UserOauthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Integer enableStatus = (Integer)request.getSession().getAttribute("enableStatus");
+        Integer roleId = (Integer)request.getSession().getAttribute("roleId");
 
         /*
         权限判断，判断是否有操作的权限,判断enableStatus
          */
-        if (enableStatus == null || !enableStatus.equals(EnableStatusEnum.YES.getEnableStatus())) {
+        if (roleId == null || roleId.equals(RoleEnum.NOOAUTH.getRoleId())) {
 
-            ResultVO resultVO = ResultVOUtil.noOauth("没有权限");
+            ResultVO resultVO = ResultVOUtil.noOauth("没有被管理员授权，没有权限");
             String jsonString = JSONObject.toJSONString(resultVO);
             returnJson(response, jsonString);
             return false;

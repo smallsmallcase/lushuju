@@ -45,7 +45,7 @@ public class DataFindAndEditWaikeController {
         return RestfulResult.ok(ResultVOUtil.success(personInfo));
     }
 
-    @PatchMapping(value = "edit/{id}/personInfo")
+    @PostMapping(value = "edit/{id}/personInfo")
     public ResponseEntity editPersonInfo(@PathVariable("id") String personId, @RequestBody PersonInfo form) {
         PersonInfo personInfo;
         try {
@@ -69,7 +69,7 @@ public class DataFindAndEditWaikeController {
         return RestfulResult.ok(ResultVOUtil.success(medicalHistory));
     }
 
-    @PatchMapping(value = "edit/{id}/medicalHistory")
+    @PostMapping(value = "edit/{id}/medicalHistory")
     public ResponseEntity editMedicalHistory(@PathVariable("id") String personId, @RequestBody MedicalHistory medicalHistory) {
         MedicalHistory result;
         try {

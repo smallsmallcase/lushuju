@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
+import com.smallcase.lushuju.pojo.enums.RoleEnum;
 import com.smallcase.lushuju.repository.PersonInfoRepository;
 import com.smallcase.lushuju.repository.UserEntityRepository;
 import com.smallcase.lushuju.service.UserInfoService;
@@ -71,9 +72,8 @@ public class UserInfoServiceImpl implements UserInfoService {
                 userEntity.setUsername(userName);
                 userEntity.setPassword(password);
 
-                userEntity.setRoleId(1);
-                //TODO
-                userEntity.setEnableStatus(1);
+                //默认申请的账号roleid是2，什么权限都没有
+                userEntity.setRoleId(RoleEnum.NOOAUTH.getRoleId());
 
                 userEntity = repository.save(userEntity);
             }

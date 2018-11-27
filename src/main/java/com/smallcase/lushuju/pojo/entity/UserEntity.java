@@ -35,14 +35,14 @@ public class UserEntity implements Serializable{
     private String password;//密码
 
     /**
-     * 角色的ID，默认是1，普通用户
+     * 角色的ID，默认是2，什么权限都没有
      */
     private Integer roleId;
-
-    /**
-     * 可操作的状态,默认是0，不可操作，需要管理员授权
-     */
-    private Integer enableStatus;
+//
+//    /**
+//     * 可操作的状态,默认是0，不可操作，需要管理员授权
+//     */
+//    private Integer enableStatus;
 
     /**
      * 创建时间

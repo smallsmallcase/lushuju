@@ -14,7 +14,8 @@ import lombok.Getter;
 public enum RoleEnum {
 
     ADMIN(0,"管理员"),
-    GUEST(1,"普通用户");
+    GUEST(1,"普通用户"),
+    NOOAUTH(2,"零权限用户");
 
 
     private Integer roleId;

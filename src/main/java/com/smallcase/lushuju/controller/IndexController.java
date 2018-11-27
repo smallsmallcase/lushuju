@@ -1,6 +1,7 @@
 package com.smallcase.lushuju.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.smallcase.lushuju.pojo.dto.AdminParam;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
 import com.smallcase.lushuju.pojo.enums.EnableStatusEnum;
@@ -63,7 +64,7 @@ public class IndexController {
         //登陆成功就将UserId放入session
         request.getSession().setAttribute("userId", entity.getId());
         request.getSession().setAttribute("roleId", entity.getRoleId());
-        request.getSession().setAttribute("enableStatus", entity.getEnableStatus());
+//        request.getSession().setAttribute("enableStatus", entity.getEnableStatus());
 
         //从缓存中读取属于该用户的缓存信息
 //        Set<String> users = redisTemplate.keys(username);
@@ -152,6 +153,7 @@ public class IndexController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity register(@RequestBody RegisterParam param) {
 
+        /*默认申请的账号enableStatus都是0*/
         String username = param.getUserName().trim();
         String password = param.getPassWord().trim();
         String password2 = param.getPassWord2().trim();
@@ -198,29 +200,48 @@ public class IndexController {
 
         //验证是不是管理员
         if (roleId == null || !roleId.equals(RoleEnum.ADMIN.getRoleId())) {
-            System.out.println(RoleEnum.ADMIN.getRoleId());
-            System.out.println(RoleEnum.ADMIN.getRoleId().equals(roleId));
+//            System.out.println(RoleEnum.ADMIN.getRoleId());
+//            System.out.println(RoleEnum.ADMIN.getRoleId().equals(roleId));
             return RestfulResult.serviceErr(ResultVOUtil.error("没有修改权限"));
         }
 
-        if (targetStatus.equals(EnableStatusEnum.YES.getEnableStatus())) {
-            try {
-                service.changeStatus(targetStatus, userId);
-            } catch (RuntimeException e) {
-                return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
-            }
-        } else if (targetStatus.equals(EnableStatusEnum.NO.getEnableStatus())) {
+        if (targetStatus >= 0 && targetStatus <= 2) {
+
             try {
                 service.changeStatus(targetStatus, userId);
             } catch (RuntimeException e) {
                 return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
             }
         } else {
-            return RestfulResult.serviceErr(ResultVOUtil.error("targetStatus传错"));
+
+            return RestfulResult.serviceErr(ResultVOUtil.error("targetStatus值传错，只能是0,1,2"));
         }
 
         return RestfulResult.ok(ResultVOUtil.success("修改状态成功"));
 
+    }
+
+
+    /**
+     * 根据用户名查找userId和roleId
+     * @param userName
+     * @return
+     */
+    @GetMapping(value = "/search/userInfo")
+    public ResponseEntity searchUserInfoWithUserName(@RequestParam String userName) {
+        UserEntity userEntity;
+        try {
+            userEntity = service.findByUsername(userName);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        AdminParam adminParam = new AdminParam();
+        if (userEntity.getRoleId() != null && userEntity.getId() != null) {
+            adminParam.setRoleId(userEntity.getRoleId());
+            adminParam.setUserId(userEntity.getId());
+        }else return RestfulResult.serviceErr(ResultVOUtil.error("用户信息丢失"));
+
+        return RestfulResult.ok(ResultVOUtil.success(adminParam));
     }
 
 

@@ -1,7 +1,7 @@
 package com.smallcase.lushuju.configure;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.smallcase.lushuju.pojo.enums.RoleEnum;
 import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,26 +15,22 @@ import java.io.PrintWriter;
 
 /**
  * package: com.smallcase.lushuju.configure
- * date: 2018/10/26 15:25
+ * date: 2018/11/26 15:16
  *
  * @author smallcase
  * @since JDK 1.8
  */
-
-
-/**
- * 登陆拦截器
- */
-
 @Slf4j
-public class UserLoginInterceptor implements HandlerInterceptor {
+public class EditOauthIntercepter implements HandlerInterceptor {
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Integer userId = (Integer)request.getSession().getAttribute("userId");
-//        System.out.println(12);
-
-        if (userId == null) {
-            ResultVO resultVO = ResultVOUtil.intercept("用户未登陆，或会话已过期");
+        Integer roleId = (Integer) request.getSession().getAttribute("roleId");
+        /*
+        权限判断，判断是否有编辑的权限,是不是管理员
+         */
+        if (roleId == null || !roleId.equals(RoleEnum.ADMIN.getRoleId())) {
+            ResultVO resultVO = ResultVOUtil.noOauth("不是管理员，修改或删除没有权限");
             String jsonString = JSONObject.toJSONString(resultVO);
             returnJson(response, jsonString);
             return false;
@@ -52,8 +48,6 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
     }
-
-
 
     private void returnJson(HttpServletResponse response, String json) throws Exception{
         PrintWriter writer = null;
