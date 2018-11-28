@@ -12,4 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface BigClassRepository extends JpaRepository<BigClass, Integer> {
     BigClass findByClassName(String className);
+
+//    int deleteBigClassById(Integer id);
 }

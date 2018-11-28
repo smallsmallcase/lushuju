@@ -60,29 +60,33 @@ public class MvcConfigurer implements WebMvcConfigurer {
         登陆拦截
          */
         registry.addInterceptor(new UserLoginInterceptor())
-//                .excludePathPatterns("/login/**")
-//                .excludePathPatterns("/register/**")
-//                .excludePathPatterns("/index/**")
-                .addPathPatterns("/waike/**")
-                .addPathPatterns("/search/**")
-                .addPathPatterns("/changestatus")
-                .addPathPatterns("/zhenji/**");
+                .addPathPatterns("/**")
+                .excludePathPatterns("/login/**")
+                .excludePathPatterns("/register/**")
+                .excludePathPatterns("/index/**");
+//                .addPathPatterns("/waike/**")
+//                .addPathPatterns("/search/**")
+//                .addPathPatterns("/changestatus")
+//                .excludePathPatterns()
+//                .addPathPatterns("/zhenji/**");
 
         /*
-        使能权限拦截
+        低等用户拦截
          */
         registry.addInterceptor(new UserOauthInterceptor())
                 .addPathPatterns("/waike/**")
                 .addPathPatterns("/search/**")
-                .addPathPatterns("/changestatus")
+//                .addPathPatterns("/changestatus")
                 .addPathPatterns("/zhenji/**");
         /*
-        管理员和普通用户权限拦截
+        中等和普通用户拦截
          */
         registry.addInterceptor(new EditOauthIntercepter())
                 .addPathPatterns("/waike/edit/**")
                 .addPathPatterns("/zhenji/edit/**")
                 .addPathPatterns("/search/userInfo")
+                .addPathPatterns("/changestatus")
+                .addPathPatterns("//bigclass/**")
                 .addPathPatterns("/delete");
 
     }

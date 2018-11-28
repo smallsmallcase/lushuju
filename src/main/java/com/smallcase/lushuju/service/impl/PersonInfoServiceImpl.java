@@ -2,7 +2,9 @@ package com.smallcase.lushuju.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.smallcase.lushuju.pojo.entity.ClassToPerson;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
+import com.smallcase.lushuju.repository.ClassToPersonRepository;
 import com.smallcase.lushuju.repository.PersonInfoRepository;
 import com.smallcase.lushuju.service.PersonInfoService;
 import com.smallcase.lushuju.utils.BeanUtil;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,8 +29,15 @@ import java.util.List;
 @Service
 public class PersonInfoServiceImpl implements PersonInfoService {
 
+    private final PersonInfoRepository repository;
+
+    private final ClassToPersonRepository classToPersonRepository;
+
     @Autowired
-    private PersonInfoRepository repository;
+    public PersonInfoServiceImpl(ClassToPersonRepository classToPersonRepository, PersonInfoRepository repository) {
+        this.classToPersonRepository = classToPersonRepository;
+        this.repository = repository;
+    }
 
     /**
      * 根据ID查询
@@ -73,6 +83,18 @@ public class PersonInfoServiceImpl implements PersonInfoService {
         } else return false;
     }
 
+
+    /**
+     * 检查该病人是否有疾病大类相关的信息,有就true，没有就false
+     * @param personId
+     * @return
+     */
+    @Override
+    public boolean checkBigClassExisted(String personId) {
+        List<ClassToPerson> classToPersonList = classToPersonRepository.findByPersonId(personId);
+        return classToPersonList.size() != 0;
+    }
+
     @Override
     public String findPersonIdByPatientId(String patientId) {
         List<PersonInfo> personInfoList = repository.findByPatientId(patientId);
@@ -84,16 +106,70 @@ public class PersonInfoServiceImpl implements PersonInfoService {
         }
     }
 
+    /**
+     * 根据personId查询ClassToPerson列表
+     * @param personId
+     * @return
+     */
+    @Override
+    public List<ClassToPerson> findClassToPersonByPersonId(String personId) {
+        return classToPersonRepository.findByPersonId(personId);
+    }
+
+    /**
+     * 根据classId查询ClassToPerson列表
+     * @param classId
+     * @return
+     */
+    @Override
+    public List<ClassToPerson> findClassToPersonByClassId(Integer classId) {
+        return classToPersonRepository.findByClassId(classId);
+    }
+
+
+    /**
+     * 根据personId,删除一个病人的所有大类信息
+     * @param personId
+     */
+    @Override
+    @Transactional
+    public void deleteAllBigClassByPersonId(String personId) throws MyException {
+
+        try {
+            classToPersonRepository.deleteSomePersonId(personId);
+        } catch (RuntimeException e) {
+            throw new MyException("删除personId为" + personId + "的疾病大类信息时出错");
+        }
+
+
+
+    }
+
     @Override
     public PersonInfo save(PersonInfo personInfo) throws MyException {
+
+        //TODO 录入主表信息需要录入主类信息
         PersonInfo result;
         try {
-             result= repository.save(personInfo);
+            result = repository.save(personInfo);
 
         } catch (DataIntegrityViolationException e) {
             throw new MyException(e.getMessage());
         }
         return result;
+    }
+
+    /**
+     * 给一个病人添加疾病大类
+     * @param classToPersonList
+     */
+    @Override
+    public void insertBigClass(List<ClassToPerson> classToPersonList) throws MyException {
+        try {
+            classToPersonRepository.save(classToPersonList);
+        } catch (IllegalArgumentException e) {
+            throw new MyException("添加疾病出错，保存失败，可能传入的参数不对");
+        }
     }
 
 

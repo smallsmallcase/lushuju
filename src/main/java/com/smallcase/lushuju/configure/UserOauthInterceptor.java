@@ -1,7 +1,7 @@
 package com.smallcase.lushuju.configure;
 
 import com.alibaba.fastjson.JSONObject;
-import com.smallcase.lushuju.pojo.enums.EnableStatusEnum;
+//import com.smallcase.lushuju.pojo.enums.RoleEnum;
 import com.smallcase.lushuju.pojo.enums.RoleEnum;
 import com.smallcase.lushuju.pojo.view.ResultVO;
 import com.smallcase.lushuju.utils.ResultVOUtil;
@@ -32,7 +32,6 @@ public class UserOauthInterceptor implements HandlerInterceptor {
         权限判断，判断是否有操作的权限,判断enableStatus
          */
         if (roleId == null || roleId.equals(RoleEnum.NOOAUTH.getRoleId())) {
-
             ResultVO resultVO = ResultVOUtil.noOauth("没有被管理员授权，没有权限");
             String jsonString = JSONObject.toJSONString(resultVO);
             returnJson(response, jsonString);

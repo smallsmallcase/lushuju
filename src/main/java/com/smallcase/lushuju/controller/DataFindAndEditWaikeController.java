@@ -1,5 +1,6 @@
 package com.smallcase.lushuju.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.smallcase.lushuju.pojo.entity.*;
 import com.smallcase.lushuju.service.*;
 import com.smallcase.lushuju.utils.Exception.MyException;
@@ -9,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Package: com.smallcase.lushuju.controller
@@ -31,6 +35,37 @@ public class DataFindAndEditWaikeController {
     @Autowired
     private LaboratoryCheckupService laboraryCheckupService;
 
+
+    @GetMapping(value = "/search/classIds")
+    public ResponseEntity findClassIdsByPersonId(@RequestParam String personId) {
+        List<ClassToPerson> list = personInfoService.findClassToPersonByPersonId(personId);
+        if (list.size() == 0) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("找不到对应的疾病ID"));
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        Iterator<ClassToPerson> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            jsonArray.add(iterator.next().getClassId());
+        }
+        return RestfulResult.ok(ResultVOUtil.success(jsonArray));
+    }
+
+    @GetMapping(value = "/search/personIds")
+    public ResponseEntity findpersonIdsByClassId(@RequestParam Integer classId) {
+
+        List<ClassToPerson> list = personInfoService.findClassToPersonByClassId(classId);
+        if (list.size() == 0) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("找不到对应的personId"));
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        Iterator<ClassToPerson> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            jsonArray.add(iterator.next().getClassId());
+        }
+        return RestfulResult.ok(ResultVOUtil.success(jsonArray));
+    }
 
     @GetMapping(value = "/search/{id}/personInfo")
     public ResponseEntity findPersonInfo(@PathVariable String id) {

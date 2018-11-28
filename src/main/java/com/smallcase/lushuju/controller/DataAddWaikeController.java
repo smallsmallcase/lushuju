@@ -1,5 +1,7 @@
 package com.smallcase.lushuju.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.smallcase.lushuju.pojo.entity.*;
 import com.smallcase.lushuju.service.*;
 import com.smallcase.lushuju.utils.Exception.MyException;
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Package: com.smallcase.lushuju.controller
@@ -39,7 +44,50 @@ public class DataAddWaikeController {
     private LaboratoryCheckupService laboraryCheckupService;
 
 
+    /**
+     * 根据personId，插入,修改，删除该病人的疾病大类信息
+     * @param array
+     * @param personId
+     * @return
+     */
+    @PostMapping(value = "/personInfo/execBigClass")
+    public ResponseEntity addBigClass(@RequestBody JSONArray array, @RequestParam String personId) {
 
+        /**检查该病人的疾病大类是否存在，存在的话就先删除再修改，或直接删除*/
+        boolean existed = personInfoService.checkBigClassExisted(personId);
+        if (existed) {
+            try {
+                personInfoService.deleteAllBigClassByPersonId(personId);
+            } catch (MyException e) {
+                return RestfulResult.serviceErr(ResultVOUtil.error("删除或覆盖该病人疾病大类信息时出错" +
+                        "原因是：" + "\n" + e.getMessage()));
+            }
+        }
+
+        List<ClassToPerson> list = new ArrayList<>();
+        Iterator<Object> iterator = array.iterator();
+        while (iterator.hasNext()) {
+            ClassToPerson classToPerson = new ClassToPerson();
+            classToPerson.setClassId((int) iterator.next());
+            classToPerson.setPersonId(personId);
+            list.add(classToPerson);
+        }
+        //转换数据
+//        try {
+////            list = JSONObject.parseArray(array.toJSONString(), ArrayList.class);
+//        } catch (Exception e) {
+//            return RestfulResult.serviceErr(ResultVOUtil.error("疾病数组信息转换失败"));
+//        }
+
+        //保存数据
+        try {
+            personInfoService.insertBigClass(list);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success("保存该病人疾病大类信息成功"));
+
+    }
     @PostMapping(value = "/personInfo")
     public ResponseEntity addPersonInfo(@RequestBody PersonInfo personInfo, HttpServletRequest request) {
 

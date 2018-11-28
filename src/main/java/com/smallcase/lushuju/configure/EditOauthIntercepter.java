@@ -30,7 +30,7 @@ public class EditOauthIntercepter implements HandlerInterceptor {
         权限判断，判断是否有编辑的权限,是不是管理员
          */
         if (roleId == null || !roleId.equals(RoleEnum.ADMIN.getRoleId())) {
-            ResultVO resultVO = ResultVOUtil.noOauth("不是管理员，修改或删除没有权限");
+            ResultVO resultVO = ResultVOUtil.noOauth("不是管理员，没有该权限");
             String jsonString = JSONObject.toJSONString(resultVO);
             returnJson(response, jsonString);
             return false;

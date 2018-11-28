@@ -26,4 +26,6 @@ public interface BigClassService {
 
 
     List<BigClass> findAll();
+
+    void deleteOne(Integer id);
 }

@@ -1,7 +1,7 @@
 package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
-import com.smallcase.lushuju.pojo.enums.EnableStatusEnum;
+//import com.smallcase.lushuju.pojo.enums.EnableStatusEnum;
 import com.smallcase.lushuju.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -37,8 +37,8 @@ public class UserInfoServiceImplTest {
 
     }
 
-    @Test
-    public void changeStatus() {
-        service.changeStatus(EnableStatusEnum.YES.getEnableStatus(), 1);
-    }
+//    @Test
+//    public void changeStatus() {
+//        service.changeStatus(EnableStatusEnum.YES.getEnableStatus(), 1);
+//    }
 }

@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.smallcase.lushuju.pojo.dto.AdminParam;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.pojo.entity.UserEntity;
-import com.smallcase.lushuju.pojo.enums.EnableStatusEnum;
-import com.smallcase.lushuju.pojo.enums.RoleEnum;
 import com.smallcase.lushuju.pojo.form.LoginParam;
 import com.smallcase.lushuju.pojo.form.RegisterParam;
 import com.smallcase.lushuju.pojo.view.CheckStatusVO;
@@ -21,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Set;
 
@@ -43,6 +42,18 @@ public class IndexController {
     private StringRedisTemplate redisTemplate;
 
 
+    @GetMapping(value = "/logout")
+    public ResponseEntity logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        try {
+            session.removeAttribute("userId");
+            session.removeAttribute("roleId");
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("退出出错"));
+        }
+        return RestfulResult.serviceErr(ResultVOUtil.success("退出成功"));
+    }
 
 
     @PostMapping(value = "/login")
@@ -198,12 +209,12 @@ public class IndexController {
     public ResponseEntity changeStatus(HttpServletRequest request, @RequestParam Integer targetStatus, @RequestParam Integer userId) {
         Integer roleId = (Integer)request.getSession().getAttribute("roleId");
 
-        //验证是不是管理员
-        if (roleId == null || !roleId.equals(RoleEnum.ADMIN.getRoleId())) {
-//            System.out.println(RoleEnum.ADMIN.getRoleId());
-//            System.out.println(RoleEnum.ADMIN.getRoleId().equals(roleId));
-            return RestfulResult.serviceErr(ResultVOUtil.error("没有修改权限"));
-        }
+        //验证是不是管理员，已在拦截器中进行了处理
+//        if (roleId == null || !roleId.equals(RoleEnum.ADMIN.getRoleId())) {
+////            System.out.println(RoleEnum.ADMIN.getRoleId());
+////            System.out.println(RoleEnum.ADMIN.getRoleId().equals(roleId));
+//            return RestfulResult.serviceErr(ResultVOUtil.error("没有修改别人权限的权限"));
+//        }
 
         if (targetStatus >= 0 && targetStatus <= 2) {
 

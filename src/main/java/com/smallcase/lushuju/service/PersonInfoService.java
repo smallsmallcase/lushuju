@@ -1,6 +1,7 @@
 package com.smallcase.lushuju.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.smallcase.lushuju.pojo.entity.ClassToPerson;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
 import com.smallcase.lushuju.utils.Exception.MyException;
 import com.smallcase.lushuju.utils.Exception.NoDataException;
@@ -20,9 +21,19 @@ public interface PersonInfoService {
 
     boolean checkExisted(String patientId);
 
+    boolean checkBigClassExisted(String personId);
+
     String findPersonIdByPatientId(String patientId);
 
+    List<ClassToPerson> findClassToPersonByPersonId(String personId);
+
+    List<ClassToPerson> findClassToPersonByClassId(Integer classId);
+
+    void deleteAllBigClassByPersonId(String personId) throws MyException;
+
     PersonInfo save(PersonInfo personInfo) throws MyException;
+
+    void insertBigClass(List<ClassToPerson> classToPersonList) throws MyException;
 
     PersonInfo edit(PersonInfo form, String personId) throws MyException;
 

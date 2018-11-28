@@ -99,4 +99,14 @@ public class BigClassServiceImpl implements BigClassService {
         }
         return all;
     }
+
+    @Override
+    public void deleteOne(Integer id) {
+        try {
+            repository.delete(id);
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
+    }
 }
