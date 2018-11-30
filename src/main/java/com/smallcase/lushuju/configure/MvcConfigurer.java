@@ -76,18 +76,20 @@ public class MvcConfigurer implements WebMvcConfigurer {
         registry.addInterceptor(new UserOauthInterceptor())
                 .addPathPatterns("/waike/**")
                 .addPathPatterns("/search/**")
+                .addPathPatterns("/external/**")
 //                .addPathPatterns("/changestatus")
                 .addPathPatterns("/zhenji/**");
         /*
-        中等和普通用户拦截
+        高等和普通用户拦截
          */
         registry.addInterceptor(new EditOauthIntercepter())
                 .addPathPatterns("/waike/edit/**")
                 .addPathPatterns("/zhenji/edit/**")
                 .addPathPatterns("/search/userInfo")
                 .addPathPatterns("/changestatus")
-                .addPathPatterns("//bigclass/**")
-                .addPathPatterns("/delete");
+                .addPathPatterns("/bigclass/**")
+                .addPathPatterns("/delete")
+                .excludePathPatterns("/bigclass/searchAll");
 
     }
 

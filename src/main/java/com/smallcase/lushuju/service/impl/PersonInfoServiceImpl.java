@@ -16,6 +16,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -60,6 +61,26 @@ public class PersonInfoServiceImpl implements PersonInfoService {
 
     }
 
+    /**
+     * 通过personId数组，查询personInfo数组
+     * @param array
+     * @return
+     */
+    @Override
+    public List<PersonInfo> findListByids(JSONArray array) throws MyException {
+        Iterator<Object> iterator = array.iterator();
+        List<PersonInfo> list = new ArrayList<>();
+        while (iterator.hasNext()) {
+            try {
+                list.add(repository.findOne((String) iterator.next()));
+
+            } catch (RuntimeException e) {
+                throw new MyException("查询personInfo数组出错，可能personId在数据库中没有");
+            }
+        }
+        return list;
+    }
+
     @Override
     public List<PersonInfo> findAll() {
         return repository.findAll();
@@ -72,6 +93,7 @@ public class PersonInfoServiceImpl implements PersonInfoService {
      * @return
      */
     @Override
+    @Deprecated
     public boolean checkExisted(String patientId) {
         List<PersonInfo> list = repository.findByPatientId(patientId);
 
@@ -107,6 +129,21 @@ public class PersonInfoServiceImpl implements PersonInfoService {
     }
 
     /**
+     * 根据personId，删除一个病人的全部数据
+     * @param personId
+     * @return
+     */
+    @Override
+    public void deleteOnePersonByPersonId(String personId) {
+
+        try {
+            repository.delete(personId);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
      * 根据personId查询ClassToPerson列表
      * @param personId
      * @return
@@ -118,13 +155,29 @@ public class PersonInfoServiceImpl implements PersonInfoService {
 
     /**
      * 根据classId查询ClassToPerson列表
+     *
      * @param classId
      * @return
      */
     @Override
-    public List<ClassToPerson> findClassToPersonByClassId(Integer classId) {
-        return classToPersonRepository.findByClassId(classId);
+    public List<ClassToPerson> findClassToPersonByClassId(Integer classId, int pageSize, int pageNum) {
+
+        int offsetValue = calculatePage(pageSize, pageNum);
+        return classToPersonRepository.findPagesByClassId(classId, pageSize, offsetValue);
     }
+
+
+    /**
+     * 根据classId查询ClassToPerson列表大小
+     * @param classId
+     * @return
+     */
+    @Override
+    public int findClassToPersonNumByClassId(Integer classId) {
+        return classToPersonRepository.countClassToPersonByClassId(classId);
+    }
+
+
 
 
     /**
@@ -223,6 +276,10 @@ public class PersonInfoServiceImpl implements PersonInfoService {
             throw new RuntimeException("下载图片时，根据personId找不到对应的图片地址");
         }
         return imgName;
+    }
+
+    private int calculatePage(int pageSize, int pageNum) {
+        return (pageNum - 1) * pageSize;
     }
 
 }

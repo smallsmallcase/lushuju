@@ -17,7 +17,12 @@ import java.util.List;
 public interface ClassToPersonRepository extends JpaRepository<ClassToPerson, Integer> {
     List<ClassToPerson> findByPersonId(String personId);
 
-    List<ClassToPerson> findByClassId(Integer classId);
+    @Query(value = "SELECT * FROM class_to_person WHERE class_id=?1 LIMIT ?3,?2", nativeQuery = true)
+    List<ClassToPerson> findPagesByClassId(Integer classId, int limit, int offsetValue);
+
+    int countClassToPersonByClassId(Integer classId);
+
+
 
     @Query(value = "DELETE FROM class_to_person WHERE person_id=?1",nativeQuery = true)
     @Modifying

@@ -90,6 +90,9 @@ public class PersonInfo implements Serializable {
     /**用户（录数据的人）*/
     private Integer userId;
 
+    @JsonIgnore
+    private String filePath;
+
 
 
 //    /**图片地址*/

@@ -95,9 +95,28 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
         int offSetValue = calculatePage(pageSize, pageNum);
-        return personInfoRepository.findPersonInfosByUserId(userId, pageSize, offSetValue);
+        if (userId != null) {
+            return personInfoRepository.findPersonInfosByUserId(userId, pageSize, offSetValue);
+
+        } else {
+            return personInfoRepository.findPersonInfos(pageSize, offSetValue);
+        }
     }
 
+    /**
+     * 查询所有已经录的个数
+     * @return
+     */
+    @Override
+    public int listPersonInfoNum() {
+        return personInfoRepository.countAll();
+    }
+
+    /**
+     * 通过userId查询这个人录的个数
+     * @param userId
+     * @return
+     */
     @Override
     public int listPersonInfoNumByUserId(Integer userId) {
         return personInfoRepository.findPersonInfosNumByUserId(userId);

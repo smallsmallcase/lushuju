@@ -1,5 +1,6 @@
 package com.smallcase.lushuju.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.smallcase.lushuju.pojo.dto.AdminParam;
 import com.smallcase.lushuju.pojo.entity.PersonInfo;
@@ -7,8 +8,11 @@ import com.smallcase.lushuju.pojo.entity.UserEntity;
 import com.smallcase.lushuju.pojo.form.LoginParam;
 import com.smallcase.lushuju.pojo.form.RegisterParam;
 import com.smallcase.lushuju.pojo.view.CheckStatusVO;
+import com.smallcase.lushuju.pojo.view.PersonIdsArray;
 import com.smallcase.lushuju.service.AllService;
+import com.smallcase.lushuju.service.PersonInfoService;
 import com.smallcase.lushuju.service.UserInfoService;
+import com.smallcase.lushuju.utils.Exception.MyException;
 import com.smallcase.lushuju.utils.Exception.NoDataException;
 import com.smallcase.lushuju.utils.RestfulResult;
 import com.smallcase.lushuju.utils.ResultVOUtil;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,6 +44,9 @@ public class IndexController {
     @Autowired
     private AllService allService;
     @Autowired
+    private PersonInfoService personInfoService;
+
+    @Autowired
     private StringRedisTemplate redisTemplate;
 
 
@@ -49,6 +57,8 @@ public class IndexController {
         try {
             session.removeAttribute("userId");
             session.removeAttribute("roleId");
+            session.removeAttribute("personId");
+
         } catch (Exception e) {
             return RestfulResult.serviceErr(ResultVOUtil.error("退出出错"));
         }
@@ -265,12 +275,19 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/search/patients", method = RequestMethod.GET)
-    public ResponseEntity searchPatients(@RequestParam(value = "userId") Integer userId,
+    public ResponseEntity searchPatients(@RequestParam(required = false) Integer userId,
                                          @RequestParam(defaultValue = "10") int pageSize,
                                          @RequestParam(defaultValue = "1") int pageNum, HttpServletRequest request) {
-        Integer userId1 = (Integer) request.getSession().getAttribute("userId");
-        if (!userId.equals(userId1)) {
-            return RestfulResult.serviceErr(ResultVOUtil.error("传入的userId和登陆的用户不一致"));
+
+        int count = 0;
+        if (userId != null) {
+            Integer userId1 = (Integer) request.getSession().getAttribute("userId");
+            if (!userId.equals(userId1)) {
+                return RestfulResult.serviceErr(ResultVOUtil.error("传入的userId和登陆的用户不一致"));
+            }
+            count = service.listPersonInfoNumByUserId(userId);
+        } else {
+            count = service.listPersonInfoNum();
         }
 
         List<PersonInfo> personInfos;
@@ -280,7 +297,12 @@ public class IndexController {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
 
-        return RestfulResult.ok(ResultVOUtil.success(personInfos));
+        JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(personInfos));
+        PersonIdsArray array = new PersonIdsArray();
+        array.setTotalNum(count);
+        array.setPersonIdArray(jsonArray);
+
+        return RestfulResult.ok(ResultVOUtil.success(array));
     }
 
 
@@ -340,6 +362,24 @@ public class IndexController {
         }
 
         return RestfulResult.ok(ResultVOUtil.success(personInfo));
+
+    }
+
+    @PostMapping(value = "search/personInfos")
+    public ResponseEntity searchPersonInfos(@RequestBody JSONArray array) {
+        if (array.size() == 0) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("personId数组大小不能为0"));
+        }
+        List<PersonInfo> listByids;
+
+        try {
+
+            listByids = personInfoService.findListByids(array);
+        } catch (MyException e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success(listByids));
+
 
     }
 

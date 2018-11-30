@@ -34,12 +34,12 @@ public class ClassToPersonRepositoryTest {
         Assert.assertEquals(2, byPersonId.size());
     }
 
-    @Test
-    public void findByClassId() {
-        Integer classId = 2;
-        List<ClassToPerson> byClassId = repository.findByClassId(2);
-        Assert.assertEquals(1, byClassId.size());
-    }
+//    @Test
+//    public void findByClassId() {
+//        Integer classId = 2;
+//        List<ClassToPerson> byClassId = repository.findByClassId(2);
+//        Assert.assertEquals(1, byClassId.size());
+//    }
 
     @Test
     @Transactional

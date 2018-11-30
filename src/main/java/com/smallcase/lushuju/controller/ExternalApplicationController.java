@@ -23,6 +23,7 @@ import java.io.IOException;
  */
 
 @RestController
+@RequestMapping(path = "/external")
 public class ExternalApplicationController {
 
     private final ExternalApplicaitionServlce servlce;
@@ -32,30 +33,55 @@ public class ExternalApplicationController {
         this.servlce = servlce;
     }
 
+
+    @PostMapping(value = "/addFilePath")
+    public ResponseEntity addFilePath(@RequestParam String personId, @RequestBody JSONObject json) {
+
+
+        try {
+            String filePath = (String)json.get("filePath");
+            servlce.addFilePath(personId, filePath);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("添加文件路径出错"));
+        }
+        return RestfulResult.ok(ResultVOUtil.success("添加文件路径成功"));
+
+    }
+
+
     /**
      * 执行外部程序
-     * @param filePath
-     * @param request
+     *
+     * @param personId
      * @return
      */
-    @RequestMapping(value = "/run/external/Application", method = RequestMethod.GET)
-    public ResponseEntity runApplication(@RequestParam String filePath, HttpServletRequest request) {
+    @RequestMapping(value = "/run/Application", method = RequestMethod.POST)
+    public ResponseEntity runApplication(@RequestBody JSONObject appPath, @RequestParam String personId) {
+
 //        Cookie[] cookies = request.getCookies();
 //        String appPath = null;
 //        for (Cookie cookie : cookies) {
-//            if (cookie.getName() == "appPath") {
+//            if (cookie.getName().equals("appPath")) {
 //                appPath = cookie.getValue();
 //            }
 //        }
-//
-//        if (appPath == null) {
-//            return RestfulResult.serviceErr(ResultVOUtil.error("程序路径找不到，或设置路径时间过期，请重新指定路径"));
-//        }
 
-        String appPath = "D:\\program\\dolphin\\DolphinViewer.exe";
+        if (appPath.get("appPath") == null) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("程序路径找不到，或设置路径时间过期，请重新指定路径"));
+        }
 
+//        String appPath = "D:\\program\\dolphin\\DolphinViewer.exe";
+
+        String path = (String) appPath.get("appPath");
+        String filePath;
         try {
-            servlce.runApplication(appPath,filePath);
+            filePath = servlce.readFilePath(personId);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+
+        }
+        try {
+            servlce.runApplication(path, filePath);
         } catch (IOException e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
@@ -71,7 +97,7 @@ public class ExternalApplicationController {
      * @param appPath
      * @return
      */
-//    @RequestMapping(value = "/run/external/addAppPath", method = RequestMethod.POST)
+//    @RequestMapping(value = "/addAppPath", method = RequestMethod.POST)
 //    public ResponseEntity addAppPath(@RequestBody String appPath, HttpServletResponse response) {
 //
 //        Cookie cookie;
@@ -86,7 +112,7 @@ public class ExternalApplicationController {
 //        int maxAge = 3600*24*30;
 //        cookie.setMaxAge(maxAge);
 //        response.addCookie(cookie);
-//        return RestfulResult.ok(ResultVOUtil.success("添加cookie成功"));
-//
+//        return RestfulResult.ok(ResultVOUtil.success("添加程序的路径到cookie成功"));
+
 //    }
 }

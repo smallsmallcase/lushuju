@@ -72,7 +72,7 @@ public class BigClassController {
         return RestfulResult.ok(ResultVOUtil.success(list));
     }
 
-    @DeleteMapping(value = "/deleteOne")
+    @GetMapping(value = "/deleteOne")
     public ResponseEntity deleteOne(@RequestParam Integer classId) {
         try {
             bigClassService.deleteOne(classId);

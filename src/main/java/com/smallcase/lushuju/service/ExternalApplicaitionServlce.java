@@ -12,4 +12,8 @@ import java.io.IOException;
 public interface ExternalApplicaitionServlce {
 
     void runApplication(String appPath, String filePath) throws IOException;
+
+    String readFilePath(String personId) throws Exception;
+
+    void addFilePath(String personId, String filePath);
 }

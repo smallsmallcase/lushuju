@@ -27,6 +27,8 @@ public interface UserInfoService {
     //通过userId，查询该用户录了哪些病人列表
     public List<PersonInfo> listPersonInfoByUser(Integer userId, int pageSize, int pageNum);
 
+    int listPersonInfoNum();
+
     //通过userid，查询该用户录取的病人个数
     int listPersonInfoNumByUserId(Integer userId);
 

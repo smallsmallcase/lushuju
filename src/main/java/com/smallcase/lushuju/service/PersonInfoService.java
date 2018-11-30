@@ -17,6 +17,8 @@ public interface PersonInfoService {
 
     PersonInfo findOne(String id) throws Exception;
 
+    List<PersonInfo> findListByids(JSONArray array) throws MyException;
+
     List<PersonInfo> findAll();
 
     boolean checkExisted(String patientId);
@@ -25,9 +27,13 @@ public interface PersonInfoService {
 
     String findPersonIdByPatientId(String patientId);
 
+    void deleteOnePersonByPersonId(String personId);
+
     List<ClassToPerson> findClassToPersonByPersonId(String personId);
 
-    List<ClassToPerson> findClassToPersonByClassId(Integer classId);
+    List<ClassToPerson> findClassToPersonByClassId(Integer classId, int pageSize, int pageNum);
+
+    int findClassToPersonNumByClassId(Integer classId);
 
     void deleteAllBigClassByPersonId(String personId) throws MyException;
 

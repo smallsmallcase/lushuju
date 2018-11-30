@@ -2,6 +2,7 @@ package com.smallcase.lushuju.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.smallcase.lushuju.pojo.entity.*;
+import com.smallcase.lushuju.pojo.view.PersonIdsArray;
 import com.smallcase.lushuju.service.*;
 import com.smallcase.lushuju.utils.Exception.MyException;
 import com.smallcase.lushuju.utils.RestfulResult;
@@ -36,6 +37,17 @@ public class DataFindAndEditWaikeController {
     private LaboratoryCheckupService laboraryCheckupService;
 
 
+    @GetMapping(value = "/deleteOne")
+    public ResponseEntity deleteOnePersonByPersonId(@RequestParam String personId) {
+
+        try {
+            personInfoService.deleteOnePersonByPersonId(personId);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error("删除此病人出错，可能personId不一致" + e.getMessage()));
+        }
+        return RestfulResult.ok(ResultVOUtil.success("删除成功"));
+
+    }
     @GetMapping(value = "/search/classIds")
     public ResponseEntity findClassIdsByPersonId(@RequestParam String personId) {
         List<ClassToPerson> list = personInfoService.findClassToPersonByPersonId(personId);
@@ -51,20 +63,34 @@ public class DataFindAndEditWaikeController {
         return RestfulResult.ok(ResultVOUtil.success(jsonArray));
     }
 
+    /**
+     * 分页，根据疾病ID查询personId数组
+     * @param classId
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     @GetMapping(value = "/search/personIds")
-    public ResponseEntity findpersonIdsByClassId(@RequestParam Integer classId) {
+    public ResponseEntity findpersonIdsByClassId(@RequestParam Integer classId,
+                                                 @RequestParam(defaultValue = "10") int pageSize,
+                                                 @RequestParam(defaultValue = "1") int pageNum) {
 
-        List<ClassToPerson> list = personInfoService.findClassToPersonByClassId(classId);
+        List<ClassToPerson> list = personInfoService.findClassToPersonByClassId(classId,pageSize,pageNum);
         if (list.size() == 0) {
-            return RestfulResult.serviceErr(ResultVOUtil.error("找不到对应的personId"));
+            return RestfulResult.serviceErr(ResultVOUtil.error("找不到对应的personId，个数为0"));
         }
 
         JSONArray jsonArray = new JSONArray();
         Iterator<ClassToPerson> iterator = list.iterator();
         while (iterator.hasNext()) {
-            jsonArray.add(iterator.next().getClassId());
+            jsonArray.add(iterator.next().getPersonId());
         }
-        return RestfulResult.ok(ResultVOUtil.success(jsonArray));
+
+        PersonIdsArray array = new PersonIdsArray();
+        int count = personInfoService.findClassToPersonNumByClassId(classId);
+        array.setTotalNum(count);
+        array.setPersonIdArray(jsonArray);
+        return RestfulResult.ok(ResultVOUtil.success(array));
     }
 
     @GetMapping(value = "/search/{id}/personInfo")
