@@ -3,6 +3,7 @@ package com.smallcase.lushuju.configure;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.Validator;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -63,7 +64,10 @@ public class MvcConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login/**")
                 .excludePathPatterns("/register/**")
+                .excludePathPatterns("/mmmm")
+                .excludePathPatterns("/aa")
                 .excludePathPatterns("/index/**");
+
 //                .addPathPatterns("/waike/**")
 //                .addPathPatterns("/search/**")
 //                .addPathPatterns("/changestatus")

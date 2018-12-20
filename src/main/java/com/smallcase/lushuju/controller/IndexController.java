@@ -178,7 +178,8 @@ public class IndexController {
         String username = param.getUserName().trim();
         String password = param.getPassWord().trim();
         String password2 = param.getPassWord2().trim();
-        if (password.equals(password2)) {
+        if (password != null && password.equals(password2)) {
+
             try {
                 UserEntity result = service.register(username, password);
                 return RestfulResult.ok(ResultVOUtil.success(result));

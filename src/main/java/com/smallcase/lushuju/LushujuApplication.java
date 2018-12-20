@@ -21,11 +21,11 @@ public class LushujuApplication extends SpringBootServletInitializer{
     }
 
 
-    @Bean
-    public FilterRegistrationBean registrationBean(){
-        FilterRegistrationBean bean = new FilterRegistrationBean();
-        bean.addUrlPatterns("/*");
-        bean.setFilter(new CrosFilter());
-        return bean;
-    }
+//    @Bean
+//    public FilterRegistrationBean registrationBean(){
+//        FilterRegistrationBean bean = new FilterRegistrationBean();
+//        bean.addUrlPatterns("/*");
+//        bean.setFilter(new CrosFilter());
+//        return bean;
+//    }
 }

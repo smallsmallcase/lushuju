@@ -3,8 +3,10 @@ package com.smallcase.lushuju.configure;
 import com.alibaba.fastjson.JSONObject;
 import com.smallcase.lushuju.pojo.enums.RoleEnum;
 import com.smallcase.lushuju.pojo.view.ResultVO;
+import com.smallcase.lushuju.service.BigClassService;
 import com.smallcase.lushuju.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

@@ -24,6 +24,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/external")
+@Deprecated
 public class ExternalApplicationController {
 
     private final ExternalApplicaitionServlce servlce;
@@ -34,29 +35,50 @@ public class ExternalApplicationController {
     }
 
 
+    /**
+     * 添加图片包子路径
+     * @param personId
+     * @param json
+     * @return
+     */
     @PostMapping(value = "/addFilePath")
     public ResponseEntity addFilePath(@RequestParam String personId, @RequestBody JSONObject json) {
-
-
         try {
-            String filePath = (String)json.get("filePath");
+            String filePath = (String)json.get("fileSuffixPath");
+            filePath = filePath.replace("\\", "/");
             servlce.addFilePath(personId, filePath);
         } catch (Exception e) {
-            return RestfulResult.serviceErr(ResultVOUtil.error("添加文件路径出错"));
+            return RestfulResult.serviceErr(ResultVOUtil.error("添加文件子路径出错"));
         }
-        return RestfulResult.ok(ResultVOUtil.success("添加文件路径成功"));
+        return RestfulResult.ok(ResultVOUtil.success("添加文件子路径成功"));
 
     }
 
 
     /**
-     * 执行外部程序
-     *
+     * 根据personId，获取图片文件包的子路径
      * @param personId
      * @return
      */
+    @GetMapping(value = "get/suffix")
+    public ResponseEntity getSuffixPath(@RequestParam String personId) {
+        String filePath;
+        try {
+            filePath = servlce.readFilePath(personId);
+        } catch (Exception e) {
+            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+
+        }
+        return RestfulResult.ok(ResultVOUtil.success(filePath));
+    }
+    /**
+     * 执行外部程序
+     *
+     * @param pathPackage
+     * @return
+     */
     @RequestMapping(value = "/run/Application", method = RequestMethod.POST)
-    public ResponseEntity runApplication(@RequestBody JSONObject appPath, @RequestParam String personId) {
+    public ResponseEntity runApplication(@RequestBody JSONObject pathPackage) {
 
 //        Cookie[] cookies = request.getCookies();
 //        String appPath = null;
@@ -66,22 +88,22 @@ public class ExternalApplicationController {
 //            }
 //        }
 
-        if (appPath.get("appPath") == null) {
+        if (pathPackage.get("appPath") == null) {
             return RestfulResult.serviceErr(ResultVOUtil.error("程序路径找不到，或设置路径时间过期，请重新指定路径"));
         }
 
 //        String appPath = "D:\\program\\dolphin\\DolphinViewer.exe";
 
-        String path = (String) appPath.get("appPath");
-        String filePath;
+        String appPath = (String) pathPackage.get("appPath");
+        String filePath = (String)pathPackage.get("fileFullPath");
+//        try {
+//            filePath = servlce.readFilePath(personId);
+//        } catch (Exception e) {
+//            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+//
+//        }
         try {
-            filePath = servlce.readFilePath(personId);
-        } catch (Exception e) {
-            return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
-
-        }
-        try {
-            servlce.runApplication(path, filePath);
+            servlce.runApplication(appPath, filePath);
         } catch (IOException e) {
             return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
         }
