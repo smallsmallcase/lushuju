@@ -48,4 +48,34 @@ public interface PersonInfoRepository extends JpaRepository<PersonInfo, String> 
     @Query(value = "SELECT file_path FROM person_info WHERE id=?1",nativeQuery = true)
     String getFilePathByPersonId(String personId);
 
+    @Query(value = "SELECT id FROM person_info WHERE" +
+            " CASE ?4 WHEN IS NOT NULL THEN AND patient_id=?4 END " +
+            "CASE ?1 WHEN IS NOT NULL THEN AND person_sex=?1 END " +
+            "CASE ?2 WHEN IS NOT NULL THEN AND person_age>?2 END " +
+            "CASE ?3 WHEN IS NOT NULL THEN AND person_age<?3 ",
+            nativeQuery = true)
+    List<String> findPersonIds(String sex, Integer minAge, Integer maxAge, String patientId);
+
+    @Query(value = "SELECT id FROM person_info ",nativeQuery = true)
+    List<String> findPersonIds();
+
+    @Query(value = "SELECT id FROM person_info WHERE patient_id=?1",nativeQuery = true)
+    List<String> findPersonIdsByPatientId(String patientId);
+
+    @Query(value = "SELECT id FROM person_info WHERE person_age>=?1",nativeQuery = true)
+    List<String> findPersonIdsByAge1(Integer minAge);
+
+    @Query(value = "SELECT id FROM person_info WHERE person_age<=?1 ",nativeQuery = true)
+    List<String> findPersonIdsByAge2(Integer maxAge);
+
+    @Query(value = "SELECT id FROM person_info WHERE person_age>=?1 AND person_age<=?2 ",nativeQuery = true)
+    List<String> findPersonIdsByAge3(Integer minAge,Integer maxAge);
+
+    @Query(value = "SELECT id FROM person_info WHERE person_sex=?1 ",nativeQuery = true)
+    List<String> findPersonIdsBySex(String sex);
+
+
+
+
+
 }

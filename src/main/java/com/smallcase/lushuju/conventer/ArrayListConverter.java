@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ArrayListConverter implements AttributeConverter<List, String>{
 
+
     @Override
     public String convertToDatabaseColumn(List list) {
         if (list == null) {
