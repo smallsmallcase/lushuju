@@ -39,6 +39,7 @@ public class FaceBedCheckup implements Serializable{
     private String up_tooth;
 
     /**下牙弓*/
+
     private String down_tooth;
 
     /**外键*/

@@ -1,8 +1,6 @@
 package com.smallcase.lushuju.utils;
 
 public class PathUtil {
-    //获取文件分割符号
-    private static String separator = System.getProperty("file.separator");
 
     /**
      * 返回图片根路径
@@ -17,12 +15,29 @@ public class PathUtil {
             basePath = "/root/image";
         }
 
-        basePath = basePath.replace("/", separator);
+        basePath = basePath.replace("/", getSeparator());
         return basePath;
     }
 
-    public static String getSeparator() {
-        return separator;
+    /**
+     * 获取解析excel时，上传Excel的根路径
+     * @return
+     */
+    public static String getExcelTempPath(){
+        String os = System.getProperty("os.name");
+        String basePath;
+        if (os.startsWith("Win")){
+            basePath = "D:/workspace/excel/temp";
+        }else{
+            basePath="root/excel/temp";
+        }
+        basePath = basePath.replace("/",getSeparator());
+        return basePath;
+
+    }
+
+    private static String getSeparator() {
+        return System.getProperty("file.separator");
     }
 
 
@@ -33,7 +48,12 @@ public class PathUtil {
      */
     public static String getImageChildPath(String personId) {
         String imagePath = "/file" + "/" + personId + "/";
-        return imagePath.replace("/", separator);
+        return imagePath.replace("/", getSeparator());
+    }
+
+    public static String getExcelChildPath(String userId){
+        String excelPath = "/" + userId;
+        return excelPath.replace("/", getSeparator());
     }
 
 

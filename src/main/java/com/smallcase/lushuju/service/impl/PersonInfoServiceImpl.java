@@ -247,9 +247,9 @@ public class PersonInfoServiceImpl implements PersonInfoService {
 
     @Override
     @Transactional
-    public void insertImg(String imgPath, String fileName,String personId) throws RuntimeException {
+    public void insertImg(String imgPath,String fileName,String personId) throws RuntimeException {
 
-        int effectedNum = repository.insertImgPath(imgPath, fileName,personId);
+        int effectedNum = repository.insertImgPath(imgPath,fileName,personId);
         if (effectedNum != 1) {
             throw new RuntimeException("插入图片失败");
         }
@@ -268,6 +268,7 @@ public class PersonInfoServiceImpl implements PersonInfoService {
     }
 
     @Override
+    @Deprecated
     public String getFileName(String personId) throws RuntimeException {
         String imgName;
         try {

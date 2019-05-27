@@ -1,7 +1,9 @@
 package com.smallcase.lushuju.utils;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 
 /**
  * Package: com.smallcase.lushuju.utils
@@ -16,11 +18,13 @@ public class RestfulResult {
      * @return
      */
     public static ResponseEntity ok(Object o) {
-        return new ResponseEntity(o, HttpStatus.OK);
+//        HttpHeaders headers = new HttpHeaders();
+//        return new ResponseEntity<>(o,headers,HttpStatus.OK);
+        return new ResponseEntity<>(o, HttpStatus.OK);
     }
 
     public static ResponseEntity ok() {
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -51,7 +55,7 @@ public class RestfulResult {
     }
 
     public static ResponseEntity serviceErr(Object o) {
-        return new ResponseEntity(o,HttpStatus.OK);
+        return new ResponseEntity<>(o,HttpStatus.OK);
     }
 
 }

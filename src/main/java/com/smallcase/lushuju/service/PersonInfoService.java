@@ -46,7 +46,7 @@ public interface PersonInfoService {
     /*
     插入图片地址
      */
-    void insertImg(String imgPath, String fileName,String personId) throws RuntimeException;
+    void insertImg(String imgPath,String fileName,String personId) throws RuntimeException;
 
     /*
     根据personId获取对应的图片子地址

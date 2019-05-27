@@ -10,6 +10,8 @@ import com.smallcase.lushuju.utils.Exception.NoDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * package: com.smallcase.lushuju.service.impl
  * date: 2018/10/23 15:37
@@ -42,6 +44,8 @@ public class AllServiceImpl implements AllService {
 
     @Autowired
     private JointCheckService jointCheckService;
+    @Autowired
+    private BigClassService bigClassService;
 
 
 
@@ -54,6 +58,19 @@ public class AllServiceImpl implements AllService {
         PersonInfo personInfo;
 
         try {
+            List<ClassToPerson> classToPersonList = personInfoService.findClassToPersonByPersonId(personId);
+            String name = "";
+            StringBuilder sb = new StringBuilder();
+            for (ClassToPerson one : classToPersonList) {
+                name = bigClassService.findBigClassById(one.getClassId()).getClassName();
+                sb.append(name).append('、');
+
+            }
+            if (sb.length() - 1 < 1) {
+                jsonArray.add(" ");
+            } else {
+                jsonArray.add(sb.toString().substring(0, sb.length() - 1));
+            }
             personInfo = personInfoService.findOne(personId);
         } catch (NoDataException e) {
             throw e;

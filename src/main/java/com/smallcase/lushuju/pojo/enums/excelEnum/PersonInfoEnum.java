@@ -12,6 +12,7 @@ public enum PersonInfoEnum {
     NAME("personName", "姓名"),
     SEX("personSex", "性别"),
     AGE("personAge", "年龄"),
+    PATIENTID("patientId","病人ID"),
     MARRIAGE("personMarriage", "婚姻"),
     BIRTHPLACE("personBirthplace", "出生地"),
     NATION("personNation", "名族"),

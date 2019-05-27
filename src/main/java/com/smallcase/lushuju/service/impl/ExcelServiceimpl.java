@@ -7,6 +7,7 @@ import com.smallcase.lushuju.repository.PersonInfoRepository;
 import com.smallcase.lushuju.service.AllService;
 import com.smallcase.lushuju.service.ExcelService;
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanMap;
@@ -38,6 +39,7 @@ public class ExcelServiceimpl implements ExcelService {
         HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
         HSSFCellStyle cellStyle = hssfWorkbook.createCellStyle();
         cellStyle.setAlignment(HorizontalAlignment.CENTER);//创建居中格式
+        cellStyle.setFillBackgroundColor(HSSFColor.HSSFColorPredefined.GREY_25_PERCENT.getIndex());
 
 
         HSSFSheet sheet = hssfWorkbook.createSheet();//创建sheet
@@ -97,6 +99,13 @@ public class ExcelServiceimpl implements ExcelService {
     private void parseTitie(HSSFRow row,HSSFCellStyle cellStyle) {
         int titleColIndex = 0;
         HSSFCell cell;
+        /*
+        疾病大类第一列标题
+         */
+        cell = row.createCell(titleColIndex++);
+        cell.setCellValue("疾病类别");
+        cell.setCellStyle(cellStyle);
+
         PersonInfoEnum[] personInfoEnums = PersonInfoEnum.values();
         for (PersonInfoEnum anEnum : personInfoEnums) {
             cell = row.createCell(titleColIndex++);
@@ -168,9 +177,17 @@ public class ExcelServiceimpl implements ExcelService {
 
 
 
+        /*
+        处理第一列的疾病大类
+         */
+        String bigclassName = array.getObject(ObjIndex++, String.class);
+        HSSFCell cell = row.createCell(0);
+        cell.setCellValue(bigclassName);
+
+        //处理personInfo表格信息，从第二列开始
         BeanMap beanMap;
-        //处理personInfo表格信息
-        Integer columnIndex = 0;
+
+        Integer columnIndex = 1;
         PersonInfo personInfo = array.getObject(ObjIndex++, PersonInfo.class);
         if (personInfo != null) {
             beanMap = BeanMap.create(personInfo);

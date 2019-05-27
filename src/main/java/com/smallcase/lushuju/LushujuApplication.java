@@ -7,6 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @SpringBootApplication(exclude = {MultipartAutoConfiguration.class})
 public class LushujuApplication extends SpringBootServletInitializer{
@@ -21,11 +22,20 @@ public class LushujuApplication extends SpringBootServletInitializer{
     }
 
 
-//    @Bean
-//    public FilterRegistrationBean registrationBean(){
-//        FilterRegistrationBean bean = new FilterRegistrationBean();
-//        bean.addUrlPatterns("/*");
-//        bean.setFilter(new CrosFilter());
-//        return bean;
-//    }
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(687452395);
+//        multipartResolver.setMaxInMemorySize(687452395);
+        return multipartResolver;
+    }
+
+
+    @Bean
+    public FilterRegistrationBean registrationBean(){
+        FilterRegistrationBean bean = new FilterRegistrationBean();
+        bean.addUrlPatterns("/*");
+        bean.setFilter(new CrosFilter());
+        return bean;
+    }
 }

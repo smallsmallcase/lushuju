@@ -6,12 +6,22 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: lqm2012qq2009
-    url: jdbc:mysql://192.168.137.100:3306/medicine?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    url: jdbc:mysql://localhost:3306/medicine?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
 
   jpa:
     show-sql: true
-  thymeleaf:
-    prefix: classpath:/templates/
+#  thymeleaf:
+#    prefix: classpath:/templates/
+
+
+
+
+
+
+#  mvc:
+#    static-path-pattern: /**
+#  resources:
+#    static-locations: classpath:/static/
 
 
 #  redis:
@@ -28,6 +38,8 @@ spring:
 #server:
 #  context-path: /sell
 
+
 server:
   session:
     timeout: 2999
+

@@ -28,15 +28,15 @@ public interface PersonInfoRepository extends JpaRepository<PersonInfo, String> 
     @Query(value = "SELECT COUNT(*) FROM person_info",nativeQuery = true)
     int countAll();
 
-    @Query(value = "UPDATE person_info SET img_path=:imgPath,img_name=:fileName WHERE id=:id", nativeQuery = true)
+    @Query(value = "UPDATE person_info SET file_path=:imgPath,file_name=:fileName WHERE id=:id", nativeQuery = true)
     @Modifying
-    int insertImgPath(@Param("imgPath") String imgPath,@Param("fileName")String fileName, @Param("id") String personId);
+    int insertImgPath(@Param("imgPath") String imgPath, @Param("fileName")String fileName,@Param("id") String personId);
 
-    @Query(value = "SELECT img_path FROM person_info WHERE id=:id",nativeQuery = true)
+    @Query(value = "SELECT file_path FROM person_info WHERE id=:id",nativeQuery = true)
     String getImgPathByPersonId(@Param("id") String personId);
 
 
-    @Query(value = "SELECT img_name FROM person_info WHERE id=:id",nativeQuery = true)
+    @Query(value = "SELECT file_name FROM person_info WHERE id=:id",nativeQuery = true)
     String getImgNameByPersonId(@Param("id") String personId);
 
     List<PersonInfo> findByPatientId(String patientId);

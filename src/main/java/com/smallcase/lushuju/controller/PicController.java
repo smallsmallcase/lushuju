@@ -39,6 +39,56 @@ public class PicController {
 
 
 
+    @RequestMapping(value = "/upload/excel",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity upexcel(HttpServletRequest request){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+//        String userId = (String) request.getSession().getAttribute("userId");
+        //TODO
+        String userId = "1234567";
+        if (multipartResolver.isMultipart(request)) {
+
+            MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+            CommonsMultipartFile excelFile = (CommonsMultipartFile) multipartHttpServletRequest.getFile("excel");
+
+            //获取上传的Excel文件名字
+            String excelName = excelFile.getOriginalFilename();
+            String basePath = PathUtil.getExcelTempPath();
+            String childPath = PathUtil.getExcelChildPath(userId);
+            File file = new File(basePath + childPath, excelName);
+
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+
+            //上传
+            try {
+                excelFile.transferTo(file);
+            } catch (IOException e) {
+                return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+            }
+            //调用脚本，解析,然后再删除刚上传的Excel文件
+            String[] param = {"python3", "/root/test.py", file.getAbsolutePath()};
+
+            try {
+                Process process = Runtime.getRuntime().exec(param);
+                BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                while ((in.readLine()) != null) {
+//                    System.out.println(line);
+                }
+                in.close();
+                process.waitFor();
+            } catch (Exception e) {
+                return RestfulResult.serviceErr(ResultVOUtil.error(e.getMessage()));
+            }
+            boolean deleted = file.delete();
+            if (deleted) return RestfulResult.ok(ResultVOUtil.success("成功"));
+
+
+        }
+        return RestfulResult.serviceErr(ResultVOUtil.error("出错，可能userId为空"));
+    }
 
     @RequestMapping(value = "/upload/img", method = RequestMethod.POST)
     @ResponseBody
@@ -50,8 +100,7 @@ public class PicController {
         if (multipartResolver.isMultipart(request) && personId != null) {
 
             MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
-            CommonsMultipartFile image = (CommonsMultipartFile) multipartHttpServletRequest.getFile("image");
-
+            CommonsMultipartFile image = (CommonsMultipartFile) multipartHttpServletRequest.getFile("file");
 
             //获取上传文件名字
             String filename = image.getOriginalFilename();
