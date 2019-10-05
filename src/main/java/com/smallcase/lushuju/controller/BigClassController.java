@@ -37,7 +37,6 @@ public class BigClassController {
             return RestfulResult.serviceErr(ResultVOUtil.error("传入的类别名字为空"));
         }
         boolean existed = bigClassService.checkExist(bigClass.getClassName());
-
         BigClass result;
         //如果存在，只能覆盖
         if (existed) {

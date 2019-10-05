@@ -24,6 +24,7 @@ import java.io.*;
  * Author: smallcase
  * Date: Created in 2018/10/18 22:09
  * 由前端解决
+ * @author MI
  */
 @Controller
 
@@ -44,7 +45,7 @@ public class PicController {
     public ResponseEntity upexcel(HttpServletRequest request){
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 //        String userId = (String) request.getSession().getAttribute("userId");
-        //TODO
+        // TODO
         String userId = "1234567";
         if (multipartResolver.isMultipart(request)) {
 

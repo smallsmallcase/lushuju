@@ -20,10 +20,8 @@ public interface BigClassService {
     BigClass findBigClassByName(String className) throws MyException;
 
     boolean checkExist(String className);
-
-
+    
     BigClass edit(BigClass bigClass) throws MyException;
-
 
     List<BigClass> findAll();
 

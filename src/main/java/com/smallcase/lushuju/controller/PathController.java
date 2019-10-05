@@ -21,7 +21,7 @@ public class PathController {
     @RequestMapping(path = "uploadFile")
 
     public String upload() {
-        return "index";
+        return "file";
     }
 
 }
