@@ -42,4 +42,6 @@ spring:
 server:
   session:
     timeout: 2999
-
+#debug: true
+#logging:
+#  config: classpath:springxml/logback-spring.xml

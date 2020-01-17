@@ -59,8 +59,11 @@ public class DataAddZhenjiController {
         boolean existed = zjkMedicalHistoryService.checkExisted(personId);
 
         try {
-            if (existed) result = zjkMedicalHistoryService.edit(zjkMedicalHistory, personId);
-            else result = zjkMedicalHistoryService.save(zjkMedicalHistory);
+            if (existed) {
+                result = zjkMedicalHistoryService.edit(zjkMedicalHistory, personId);
+            } else {
+                result = zjkMedicalHistoryService.save(zjkMedicalHistory);
+            }
 
         } catch (MyException e) {
             e.printStackTrace();
@@ -78,7 +81,9 @@ public class DataAddZhenjiController {
         try {
             if (existed) {
                 result = faceBedCheckupService.edit(faceBedCheckup, personId);
-            } else result = faceBedCheckupService.save(faceBedCheckup);
+            } else {
+                result = faceBedCheckupService.save(faceBedCheckup);
+            }
 
 
         } catch (MyException e) {

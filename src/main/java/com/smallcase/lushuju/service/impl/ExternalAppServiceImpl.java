@@ -2,6 +2,7 @@ package com.smallcase.lushuju.service.impl;
 
 import com.smallcase.lushuju.repository.PersonInfoRepository;
 import com.smallcase.lushuju.service.ExternalApplicaitionServlce;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.io.IOException;
  */
 
 @Service
+@Slf4j
 public class ExternalAppServiceImpl implements ExternalApplicaitionServlce {
     @Autowired
     private PersonInfoRepository personInfoRepository;

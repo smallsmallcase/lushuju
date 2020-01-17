@@ -34,6 +34,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 //        System.out.println(12);
 
         if (userId == null) {
+            log.error("用户没有登陆");
             ResultVO resultVO = ResultVOUtil.intercept("用户未登陆，或会话已过期");
             String jsonString = JSONObject.toJSONString(resultVO);
             returnJson(response, jsonString);
