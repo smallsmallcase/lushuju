@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" scanPeriod="10 seconds">
+    <property name="LOG_HOME" value="D://loger" />
+    <property name="appName" value="inav" />
+
+
+
+    <contextName>hujialin</contextName>
+    <appender name="consoleLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMisMatch>DENY</onMisMatch>-->
+
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${appName}-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </pattern>
+        </layout>
+<!--        <File>${logback.logdir}/info.${logback.appname}.log</File>-->
+
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="consoleLog"/>
+    </root>
+<!--    <encoder>-->
+<!--        <charset>UTF-8</charset>-->
+<!--        <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>-->
+<!--    </encoder>-->
+
+
+</configuration>
